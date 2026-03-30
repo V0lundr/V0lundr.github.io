@@ -1,0 +1,1140 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Threat intelligence and malware analysis research">
+      
+      
+        <meta name="author" content="V0lundr">
+      
+      
+        <link rel="canonical" href="https://v0lundr.github.io/blog/invoice-lure-phantom-stealer-donut-heavens-gate/">
+      
+      
+        <link rel="prev" href="../muddywater-word-macros-ghostfetch/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>From Invoice Lure to In-Memory Injection: Phantom Stealer via Donut and Heaven's Gate - V0lundr</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#from-invoice-lure-to-in-memory-injection" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+<header class="site-header">
+  <div class="site-header__inner">
+
+    <!-- Left: handle -->
+    <a href="https://v0lundr.github.io/" class="site-header__logo">
+      // V0lundr
+    </a>
+
+    <!-- Centre: nav links -->
+    <nav class="site-header__nav">
+      <a href="https://v0lundr.github.io/" class="site-header__link ">Home</a>
+      <a href="https://v0lundr.github.io/about/" class="site-header__link ">About</a>
+    </nav>
+
+    <!-- Right: search -->
+    <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+</header>
+
+<style>
+  /* ── KILL DEFAULT HEADER & TABS ─────────────────────────── */
+  .md-header { display: none !important; }
+  .md-tabs   { display: none !important; }
+
+  /* ── CUSTOM HEADER ──────────────────────────────────────── */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,9,15,0.95);
+    border-bottom: 1px solid #1e2535;
+    backdrop-filter: blur(12px);
+  }
+
+  .site-header__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  /* Handle / logo */
+  .site-header__logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: #e8a84c;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Nav links */
+  .site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  .site-header__link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8898b0;
+    text-decoration: none;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .site-header__link:hover {
+    color: #e8a84c;
+    background: rgba(232,168,76,0.06);
+  }
+
+  .site-header__link.active {
+    color: #e8a84c;
+  }
+
+  /* Search — override Material defaults to fit our bar */
+  .md-search {
+    flex-shrink: 0;
+  }
+
+  .md-search__form {
+    background: #0d1119 !important;
+    border: 1px solid #1e2535 !important;
+    border-radius: 2px !important;
+    height: 32px !important;
+    width: 200px !important;
+  }
+
+  .md-search__form:focus-within {
+    border-color: #e8a84c !important;
+    width: 280px !important;
+    transition: width 0.2s ease;
+  }
+
+  .md-search__input {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.75rem !important;
+    color: #c8d0de !important;
+  }
+
+  .md-search__input::placeholder {
+    color: #5a6478 !important;
+  }
+
+  .md-search__icon {
+    color: #5a6478 !important;
+  }
+
+  /* Offset page content so sticky header doesn't overlap */
+  .md-main {
+    padding-top: 0 !important;
+  }
+
+  @media (max-width: 600px) {
+    .site-header__logo { display: none; }
+    .md-search__form { width: 140px !important; }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("a").forEach(function (link) {
+      if (link.textContent.trim() === "Back to index") {
+        link.setAttribute("href", "/");
+      }
+    });
+  });
+</script>
+
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="V0lundr" class="md-nav__button md-logo" aria-label="V0lundr" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    V0lundr
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-invoice-lure-to-in-memory-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From Invoice Lure to In-Memory Injection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Background
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Highlights
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#campaign-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Campaign Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#first-stage-batch-dropper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        First Stage: Batch Dropper
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#second-stage-powershell-payload-and-in-memory-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Second Stage: PowerShell Payload and In-Memory Injection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#third-stage-donut-shellcode-loader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Third Stage: Donut Shellcode Loader
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phantom-stealer-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phantom Stealer Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phantom Stealer Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#heavens-gate-architectural-mode-switching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Heaven's Gate: Architectural Mode Switching
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-exfiltration-via-telegram-bot-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Exfiltration via Telegram Bot API
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mitre-attck-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MITRE ATT&amp;CK Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/V0lundr.png" alt="V0lundr">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          V0lundr
+                        
+                      </strong>
+                      <br>
+                      Threat Intelligence Researcher
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-03-15 00:00:00+00:00" class="md-ellipsis">2026-03-15</time>
+                      </div>
+                    </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              10 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+
+  <h1>From Invoice Lure to In-Memory Injection: Phantom Stealer via Donut and Heaven's Gate</h1>
+
+<h2 id="from-invoice-lure-to-in-memory-injection">From Invoice Lure to In-Memory Injection<a class="headerlink" href="#from-invoice-lure-to-in-memory-injection" title="Permanent link">&para;</a></h2>
+<p>In January 2026, I identified a phishing campaign leveraging compromised supplier
+mailboxes and a multi-stage infection chain to deploy Phantom Stealer using obfuscated
+batch loaders, in-memory PowerShell decryption, Donut shellcode injection, and
+Heaven's Gate evasion. This post analyses the campaign's tradecraft, persistence
+mechanisms, and data exfiltration methods.</p>
+<!-- more -->
+
+<h2 id="background">Background<a class="headerlink" href="#background" title="Permanent link">&para;</a></h2>
+<p><strong>Phantom Stealer</strong> is a commodity information-stealing malware family marketed
+within underground forums as a stealer-as-a-service (SaaS) offering. Proofpoint
+researchers have documented significant code overlap between Phantom Stealer and
+Stealerium — an open-source stealer project — with Phantom Stealer representing one
+of several derivatives built on that codebase.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> The malware targets browser-stored
+credentials, cryptocurrency wallets, FTP clients, email applications, and session
+tokens from platforms such as Discord and Telegram. HP's December 2025 Threat Insights
+Report identified Phantom Stealer as one of several purchasable malware kits being
+actively weaponised by threat actors to evade detection through regularly updated
+evasion modules.<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></p>
+<p><strong>Donut</strong> is an open-source shellcode generation framework that converts .NET
+assemblies, native executables, and scripts into position-independent shellcode
+executable entirely in memory, without touching disk.<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup> Its legitimate use in red
+team operations has made it a common fixture in commodity malware chains seeking to
+bypass file-based AV detection.</p>
+<p><strong>Heaven's Gate</strong> is an evasion technique that exploits the Windows on Windows 64-bit
+(WoW64) compatibility layer to execute 64-bit code from within a 32-bit process. First
+documented around 2009, it has since been adopted by a range of malware families —
+including FormBook<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup> and ACRStealer<sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup> — to bypass user-mode API hooks that
+endpoint security products place on the 32-bit Windows API layer.</p>
+<h2 id="key-highlights">Key Highlights<a class="headerlink" href="#key-highlights" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Threat actors leveraged previously compromised supplier email accounts to distribute
+  phishing messages, increasing credibility and bypassing trust-based controls</li>
+<li>The campaign employed an obfuscated Batch loader, embedded Base64 PowerShell payload,
+  AES decryption, and in-memory shellcode injection into <code>explorer.exe</code> to avoid
+  disk-based detection</li>
+<li>Phantom Stealer implemented WoW64 architectural mode switching to execute 64-bit
+  code from a 32-bit process, bypassing user-mode API hooks and complicating endpoint
+  monitoring</li>
+<li>Stolen credentials, wallet data, and session artefacts were compressed, transmitted
+  via Telegram or Discord infrastructure, and followed by local artefact cleanup to
+  reduce forensic visibility</li>
+</ul>
+<h2 id="campaign-analysis">Campaign Analysis<a class="headerlink" href="#campaign-analysis" title="Permanent link">&para;</a></h2>
+<p>In January 2026, I observed a phishing campaign targeting companies across multiple
+industry sectors. The campaign uses deceptive procurement-themed lures to trick
+employees into interacting with malicious attachments, delivering Phantom Stealer
+through a multi-stage attachment chain.</p>
+<p>Notably, attackers abused seemingly legitimate supplier accounts as sending
+infrastructure — sender mailboxes were likely compromised prior to the phishing
+activity. The campaign uniquely leveraged compromised accounts originating from the
+United Arab Emirates and Qatar. In some cases, the same company was targeted with
+several different lures, all designed to deliver the same Phantom Stealer payload.</p>
+<p>This campaign is not isolated. In December 2025, security researchers documented
+Operation MoneyMount-ISO — a campaign targeting financial services, accounting,
+procurement, legal, and HR functions — which used fake payment confirmation emails
+with malicious ISO attachments to deploy Phantom Stealer, exfiltrating data via
+Telegram bots and Discord webhooks.<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup></p>
+<p>Recipient domain analysis indicates targeting across industrial manufacturing,
+engineering, agricultural export, chemicals, and energy-related sectors in Europe
+and Asia.</p>
+<figure>
+  <img src="../images/Pasted image 20260217084207.png" alt="Exhibit 1: Phishing Samples" />
+  <figcaption>Exhibit 1: Phishing Samples Observed</figcaption>
+</figure>
+
+<h2 id="first-stage-batch-dropper">First Stage: Batch Dropper<a class="headerlink" href="#first-stage-batch-dropper" title="Permanent link">&para;</a></h2>
+<p>The attached compressed file contains a Windows Batch script executed once the
+archive is opened and the file is launched. The script is heavily padded with
+randomised variable assignments and meaningless arithmetic operations intended to
+obscure the script's true behaviour and delay manual analysis.</p>
+<p>Upon execution, the Batch file relaunches itself in a minimised window to reduce
+user visibility and copies its own contents into a newly created directory under the
+user's roaming AppData path. It then establishes persistence by adding a registry
+value under the current user's Run key, ensuring the malicious Batch file executes
+automatically at each login.</p>
+<p>After establishing persistence, the script prepares a secondary payload embedded
+directly within the Batch file itself — no external retrieval required. The embedded
+payload is located on the final line of the Batch file, prefixed with the distinctive
+marker string <code>::M0SjGsVxEzjdf</code> formatted as a Batch comment, making it invisible
+during normal script execution.</p>
+<figure>
+  <img src="../images/Pasted image 20260217084327.png" alt="Exhibit 2: Attached .bat File" />
+  <figcaption>Exhibit 2: Attached ".bat" File</figcaption>
+</figure>
+
+<p>The script reads its own contents using PowerShell, searches for the marker to
+identify the start of the encoded data, extracts everything following it, and treats
+it as Base64 encoded content. This data is decoded and written to
+<code>%TEMP%\continue.ps1</code> — referenced in the script via the variable <code>UNIVERSE</code>.</p>
+<p>The file is then executed immediately using PowerShell with a hidden window and
+execution policy bypass. Following execution of the decoded PowerShell payload, the
+temporary script file is deleted to minimise residual artefacts on disk.</p>
+<h2 id="second-stage-powershell-payload-and-in-memory-injection">Second Stage: PowerShell Payload and In-Memory Injection<a class="headerlink" href="#second-stage-powershell-payload-and-in-memory-injection" title="Permanent link">&para;</a></h2>
+<p>The PowerShell code is the second-stage loader responsible for decrypting, injecting,
+and executing the primary malicious component entirely in memory. It transitions
+execution from script-based logic into native code by preparing an encrypted payload
+for runtime decryption and remote execution within a legitimate Windows process.</p>
+<p>The script begins by collecting basic host context through environment variables and
+enforcing single-instance execution via a named mutex using <code>System.Threading.Mutex</code>.
+An attempt is made to open an existing mutex named <code>CRACKHONOR_Mtx</code> — if it already
+exists, execution terminates immediately, preventing multiple concurrent instances.
+The script then verifies the presence of a running <code>explorer.exe</code> process and
+retrieves the associated PID, exiting if a valid target cannot be identified.</p>
+<figure>
+  <img src="../images/Pasted image 20260217084412.png" alt="Exhibit 3: PowerShell Payload Beginning of File" />
+  <figcaption>Exhibit 3: PowerShell Payload (Beginning of File)</figcaption>
+</figure>
+
+<p>The embedded payload is stored as a large Base64 blob, decoded and decrypted at
+runtime using the .NET cryptography framework. Decryption uses AES in CBC mode with
+PKCS7 padding. The encryption key is derived by computing the SHA-256 hash of a
+hardcoded passphrase, while the initialisation vector is statically defined and
+decoded from a Base64 string. Once decrypted, the resulting byte array represents
+raw executable code for in-memory execution.</p>
+<p>To execute this payload, the script dynamically compiles inline C# using <code>Add-Type</code>
+to expose native Windows API functions from <code>kernel32.dll</code>.</p>
+<figure>
+  <img src="../images/Pasted image 20260217084436.png" alt="Exhibit 4: Native API Injection Setup" />
+  <figcaption>Exhibit 4: Native API Injection Setup via Add-Type</figcaption>
+</figure>
+
+<p>The injection sequence uses <code>OpenProcess</code> to obtain a handle to <code>explorer.exe</code>,
+<code>VirtualAllocEx</code> to allocate remote memory, <code>WriteProcessMemory</code> to copy the decrypted
+payload, <code>VirtualProtectEx</code> to mark memory as executable, and <code>CreateRemoteThread</code> to
+transfer execution. The payload executes entirely within <code>explorer.exe</code>'s address
+space without ever being written to disk as a standalone executable.</p>
+<p>After successful injection, the script enters a persistent monitoring loop — if
+<code>explorer.exe</code> terminates or restarts, the script repeats the injection routine
+against the new instance, ensuring continued execution across process restarts.</p>
+<h2 id="third-stage-donut-shellcode-loader">Third Stage: Donut Shellcode Loader<a class="headerlink" href="#third-stage-donut-shellcode-loader" title="Permanent link">&para;</a></h2>
+<p>The decrypted payload injected into <code>explorer.exe</code> is position-independent shellcode
+generated using Donut version 0.9.2.<sup id="fnref2:3"><a class="footnote-ref" href="#fn:3">3</a></sup> This shellcode serves as the third stage
+and is responsible for unpacking and executing the final payload — a .NET assembly
+identified as Phantom Stealer.</p>
+<p>The AES key was derived from the SHA-256 hash of the passphrase <code>restore_31_phazzy Lee</code>,
+with the initialisation vector decoded from the embedded Base64 value
+<code>S+hKtckT2gd+1tyosBp/LA==</code>.</p>
+<figure>
+  <img src="../images/Pasted image 20260217084533.png" alt="Exhibit 5: Shellcode Donut Loader" />
+  <figcaption>Exhibit 5: Shellcode Donut Loader</figcaption>
+</figure>
+
+<p>The shellcode structure follows the documented Donut framework architecture. Execution
+begins with a relative CALL instruction at offset zero that jumps over approximately
+600 kilobytes of encrypted payload data to reach the unpacker stub at offset <code>0x9329D</code>.</p>
+<figure>
+  <img src="../images/Pasted image 20260217084551.png" alt="Exhibit 6: Donut Shellcode Entry Point" />
+  <figcaption>Exhibit 6: Donut Shellcode Entry Point</figcaption>
+</figure>
+
+<p>API resolution is performed entirely without import table entries through PEB
+traversal, matching the implementation in Donut's <code>/peb.c</code> source file. The function
+at offset <code>0x9612D</code> accesses the Thread Environment Block via the GS segment register,
+walks to the PEB loader data structures, and enumerates loaded modules to locate
+required DLLs.</p>
+<figure>
+  <img src="../images/Pasted image 20260217084609.png" alt="Exhibit 7: PEB Walking Function" />
+  <figcaption>Exhibit 7: PEB Walking Function</figcaption>
+</figure>
+
+<p>For each dependency, the loader parses the PE export directory and computes a hash
+of exported function names for comparison against precomputed values embedded in
+the shellcode configuration.</p>
+<figure>
+  <img src="../images/Pasted image 20260217084624.png" alt="Exhibit 8: PE Export Parser Function" />
+  <figcaption>Exhibit 8: PE Export Parser Function</figcaption>
+</figure>
+
+<figure>
+  <img src="../images/Pasted image 20260217084641.png" alt="Exhibit 9: DLL Extension Appending Logic" />
+  <figcaption>Exhibit 9: DLL Extension Appending Logic</figcaption>
+</figure>
+
+<h2 id="phantom-stealer-analysis">Phantom Stealer Analysis<a class="headerlink" href="#phantom-stealer-analysis" title="Permanent link">&para;</a></h2>
+<figure>
+  <img src="../images/Pasted image 20260217084703.png" alt="Exhibit 10: Phantom Stealer Advertised Offers" />
+  <figcaption>Exhibit 10: Phantom Stealer Advertised Offers</figcaption>
+</figure>
+
+<p>Beyond standard obfuscation, the analysed sample incorporates advanced runtime
+evasion that distinguishes it from typical commodity stealers. Static analysis of
+the extracted .NET assembly reveals a class named <code>HeavensGate</code> within the Stub
+namespace, indicating the malware implements architectural mode switching to
+circumvent endpoint security monitoring.</p>
+<h3 id="heavens-gate-architectural-mode-switching">Heaven's Gate: Architectural Mode Switching<a class="headerlink" href="#heavens-gate-architectural-mode-switching" title="Permanent link">&para;</a></h3>
+<p>The Heaven's Gate technique exploits the WoW64 compatibility layer to execute 64-bit
+code from within a 32-bit process. The fundamental principle relies on the fact that
+32-bit processes running under WoW64 are hosted within a native 64-bit process, with
+the 64-bit <code>ntdll.dll</code> loaded at initialisation. Security products that instrument
+only the 32-bit <code>ntdll.dll</code> remain blind to system calls issued directly through the
+64-bit layer.</p>
+<p>The <code>HeavensGate</code> class first verifies execution within a 32-bit process context,
+then resolves critical functions from the 64-bit <code>ntdll.dll</code> — including <code>LdrLoadDll</code>,
+<code>LdrUnloadDll</code>, <code>LdrGetDllHandle</code>, and <code>LdrGetProcedureAddress</code> — through custom PEB
+traversal routines implemented in the <code>Utils64</code> helper class. A static boolean field
+named <code>operational</code> gates all subsequent 64-bit execution attempts.</p>
+<figure>
+  <img src="../images/Pasted image 20260217084733.png" alt="Exhibit 11: Heaven's Gate Initialization Resolving 64-bit NTDLL Exports" />
+  <figcaption>Exhibit 11: Heaven's Gate Initialization Resolving 64-bit NTDLL Exports</figcaption>
+</figure>
+
+<p>The core implementation resides in the <code>Execute64</code> method and its associated shellcode
+stub stored in the <code>Wow64ExecuteShellCode</code> byte array.</p>
+<figure>
+  <img src="../images/Pasted image 20260217084748.png" alt="Exhibit 12: Shellcode Stub Performing x86 to x64 Code Segment Transition" />
+  <figcaption>Exhibit 12: Shellcode Stub Performing x86 to x64 Code Segment Transition</figcaption>
+</figure>
+
+<p>This shellcode performs the critical code segment register manipulation — switching
+from the 32-bit segment selector <code>0x23</code> to the 64-bit selector <code>0x33</code> through a far
+jump instruction, then transitioning back to 32-bit mode after execution completes.
+This allows Phantom Stealer to call 64-bit versions of <code>LoadLibrary</code> and
+<code>GetProcAddress</code>, loading and invoking functions from 64-bit DLLs while evading any
+monitoring hooks present in the 32-bit execution layer.</p>
+<figure>
+  <img src="../images/Pasted image 20260217084812.png" alt="Exhibit 13: Dynamic 64-bit Shellcode Generation" />
+  <figcaption>Exhibit 13: Dynamic 64-bit Shellcode Generation Following Windows x64 Calling Convention</figcaption>
+</figure>
+
+<h3 id="data-exfiltration-via-telegram-bot-api">Data Exfiltration via Telegram Bot API<a class="headerlink" href="#data-exfiltration-via-telegram-bot-api" title="Permanent link">&para;</a></h3>
+<p>Phantom Stealer uses the Telegram Bot API as its primary exfiltration channel — a
+technique increasingly favoured by commodity stealers due to its reliability,
+encryption in transit, and the difficulty defenders face in blocking legitimate
+Telegram infrastructure without disrupting business operations.</p>
+<p>The <code>TelegramSendLogs</code> class implements the complete exfiltration workflow. The
+<code>SendReportAsync</code> method orchestrates upload of harvested data files through the
+<code>UploadToTelegram</code> helper class before transmitting a formatted summary message.</p>
+<p>After upload, the malware attempts to delete local evidence — removing <code>.txt</code>,
+<code>.png</code>, and <code>.json</code> files from its working directory as a basic anti-forensics
+measure. The Telegram bot token and chat identifier are stored in the <code>Config</code> class
+and retrieved through <code>StringsCrypt.DecryptConfig</code>, which decrypts
+<code>ENCRYPTED:BncRbgTGet4L+mKqD8dz7h8EdEcrI2Pbm5InYO5Ff/I=</code> at runtime to reveal the
+base API endpoint.</p>
+<figure>
+  <img src="../images/Pasted image 20260217084839.png" alt="Exhibit 14: Telegram Exfiltration Workflow with Post-upload Evidence Deletion" />
+  <figcaption>Exhibit 14: Telegram Exfiltration Workflow with Post-upload Evidence Deletion</figcaption>
+</figure>
+
+<p>The <code>SendMessageInfoAsync</code> method constructs a detailed victim profile in Telegram's
+Markdown parsing mode, including Windows version, username, computer name, detected
+antivirus product, gateway IP, internal IP, and external IP. The report provides a
+statistical breakdown of harvested data by type — passwords, credit cards, cookies,
+browser wallet extensions, desktop cryptocurrency wallets, FTP credentials, VPN
+accounts, and session data from Outlook, FoxMail, Telegram, Discord, and WinScp.</p>
+<p>Configuration flags indicating whether persistence, keylogging, screenshot capture,
+clipboard hijacking, and file grabbing modules are active are appended, giving the
+operator full visibility of implant capabilities. Notably, the message footer
+contains direct attribution to the malware author via the Telegram handle
+<code>Oldphantomoftheopera</code> and the marketing website <code>phantomsoftwares[.]site</code>,
+confirming the stealer-as-a-service distribution model.</p>
+<figure>
+  <img src="../images/Pasted image 20260217084858.png" alt="Exhibit 15: Phantom Stealer Author Indicators Embedded in Exfiltration Payload" />
+  <figcaption>Exhibit 15: Phantom Stealer Author Indicators Embedded in Exfiltration Payload</figcaption>
+</figure>
+
+<h2 id="mitre-attck-mapping">MITRE ATT&amp;CK Mapping<a class="headerlink" href="#mitre-attck-mapping" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Tactic</th>
+<th>Technique</th>
+<th>ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Initial Access</td>
+<td>Phishing: Spearphishing Attachment</td>
+<td>T1566.001</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>Command and Scripting Interpreter: Windows Command Shell</td>
+<td>T1059.003</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>Command and Scripting Interpreter: PowerShell</td>
+<td>T1059.001</td>
+</tr>
+<tr>
+<td>Persistence</td>
+<td>Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder</td>
+<td>T1547.001</td>
+</tr>
+<tr>
+<td>Defense Evasion</td>
+<td>Obfuscated Files or Information</td>
+<td>T1027</td>
+</tr>
+<tr>
+<td>Defense Evasion</td>
+<td>Process Injection: Process Hollowing</td>
+<td>T1055.012</td>
+</tr>
+<tr>
+<td>Defense Evasion</td>
+<td>Virtualization / Sandbox Evasion: System Checks</td>
+<td>T1497.001</td>
+</tr>
+<tr>
+<td>Defense Evasion</td>
+<td>Subvert Trust Controls</td>
+<td>T1553</td>
+</tr>
+<tr>
+<td>Credential Access</td>
+<td>Credentials from Password Stores: Credentials from Web Browsers</td>
+<td>T1555.003</td>
+</tr>
+<tr>
+<td>Credential Access</td>
+<td>Steal Web Session Cookie</td>
+<td>T1539</td>
+</tr>
+<tr>
+<td>Collection</td>
+<td>Clipboard Data</td>
+<td>T1115</td>
+</tr>
+<tr>
+<td>Collection</td>
+<td>Screen Capture</td>
+<td>T1113</td>
+</tr>
+<tr>
+<td>Collection</td>
+<td>Input Capture: Keylogging</td>
+<td>T1056.001</td>
+</tr>
+<tr>
+<td>Exfiltration</td>
+<td>Exfiltration Over Web Service: Exfiltration to Code Repository</td>
+<td>T1567.001</td>
+</tr>
+<tr>
+<td>Exfiltration</td>
+<td>Automated Exfiltration</td>
+<td>T1020</td>
+</tr>
+</tbody>
+</table>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Proofpoint — <a href="https://www.proofpoint.com/us/blog/threat-insight/not-safe-work-tracking-and-investigating-stealerium-and-phantom-infostealers">Not Safe for Work: Tracking and Investigating Stealerium and Phantom Infostealers</a> (September 2025)&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>HP Threat Research — <a href="https://www.hp.com/us-en/newsroom/press-releases/2025/hp-december-2025-threat-report.html">HP December 2025 Threat Insights Report</a> (December 2025)&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p>Donut — <a href="https://github.com/TheWover/donut">Open-source shellcode generation framework</a> (GitHub)&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:4">
+<p>Fortinet FortiGuard Labs — <a href="https://www.fortinet.com/blog/threat-research/infostealer-malware-formbook-spread-via-phishing-campaign">Infostealer Malware FormBook Spread via Phishing Campaign</a> (May 2025)&#160;<a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:5">
+<p>ASEC AhnLab — <a href="https://asec.ahnlab.com/en/89033/">June 2025 Infostealer Trend Report</a> (September 2025)&#160;<a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn:6">
+<p>Seqrite — <a href="https://www.seqrite.com/blog/operation-moneymount-iso-deploying-phantom-stealer-via-iso-mounted-executables/">Operation MoneyMount-ISO: Deploying Phantom Stealer via ISO Mounted Executables</a>&#160;<a class="footnote-backref" href="#fnref:6" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../muddywater-word-macros-ghostfetch/" class="md-footer__link md-footer__link--prev" aria-label="Previous: MuddyWater Weaponizes Word Macros in Targeted Campaign Delivering GhostFetch">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                MuddyWater Weaponizes Word Macros in Targeted Campaign Delivering GhostFetch
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/V0lundr" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/fix.js"></script>
+      
+    
+  </body>
+</html>

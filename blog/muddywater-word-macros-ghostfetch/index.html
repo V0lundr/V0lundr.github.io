@@ -1,0 +1,1177 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Threat intelligence and malware analysis research">
+      
+      
+        <meta name="author" content="V0lundr">
+      
+      
+        <link rel="canonical" href="https://v0lundr.github.io/blog/muddywater-word-macros-ghostfetch/">
+      
+      
+        <link rel="prev" href="../unc5342-refines-ottercookie-delivery-chain-with-jsonsilo-infrastructure/">
+      
+      
+        <link rel="next" href="../invoice-lure-phantom-stealer-donut-heavens-gate/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>MuddyWater Weaponizes Word Macros in Targeted Campaign Delivering GhostFetch - V0lundr</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#muddywater-weaponises-word-macros-in-targeted-campaign-delivering-ghostfetch" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+<header class="site-header">
+  <div class="site-header__inner">
+
+    <!-- Left: handle -->
+    <a href="https://v0lundr.github.io/" class="site-header__logo">
+      // V0lundr
+    </a>
+
+    <!-- Centre: nav links -->
+    <nav class="site-header__nav">
+      <a href="https://v0lundr.github.io/" class="site-header__link ">Home</a>
+      <a href="https://v0lundr.github.io/about/" class="site-header__link ">About</a>
+    </nav>
+
+    <!-- Right: search -->
+    <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+</header>
+
+<style>
+  /* ── KILL DEFAULT HEADER & TABS ─────────────────────────── */
+  .md-header { display: none !important; }
+  .md-tabs   { display: none !important; }
+
+  /* ── CUSTOM HEADER ──────────────────────────────────────── */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,9,15,0.95);
+    border-bottom: 1px solid #1e2535;
+    backdrop-filter: blur(12px);
+  }
+
+  .site-header__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  /* Handle / logo */
+  .site-header__logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: #e8a84c;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Nav links */
+  .site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  .site-header__link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8898b0;
+    text-decoration: none;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .site-header__link:hover {
+    color: #e8a84c;
+    background: rgba(232,168,76,0.06);
+  }
+
+  .site-header__link.active {
+    color: #e8a84c;
+  }
+
+  /* Search — override Material defaults to fit our bar */
+  .md-search {
+    flex-shrink: 0;
+  }
+
+  .md-search__form {
+    background: #0d1119 !important;
+    border: 1px solid #1e2535 !important;
+    border-radius: 2px !important;
+    height: 32px !important;
+    width: 200px !important;
+  }
+
+  .md-search__form:focus-within {
+    border-color: #e8a84c !important;
+    width: 280px !important;
+    transition: width 0.2s ease;
+  }
+
+  .md-search__input {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.75rem !important;
+    color: #c8d0de !important;
+  }
+
+  .md-search__input::placeholder {
+    color: #5a6478 !important;
+  }
+
+  .md-search__icon {
+    color: #5a6478 !important;
+  }
+
+  /* Offset page content so sticky header doesn't overlap */
+  .md-main {
+    padding-top: 0 !important;
+  }
+
+  @media (max-width: 600px) {
+    .site-header__logo { display: none; }
+    .md-search__form { width: 140px !important; }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("a").forEach(function (link) {
+      if (link.textContent.trim() === "Back to index") {
+        link.setAttribute("href", "/");
+      }
+    });
+  });
+</script>
+
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="V0lundr" class="md-nav__button md-logo" aria-label="V0lundr" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    V0lundr
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muddywater-weaponises-word-macros-in-targeted-campaign-delivering-ghostfetch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MuddyWater Weaponises Word Macros in Targeted Campaign Delivering GhostFetch
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Background
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reservation-document-lure-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reservation Document Lure Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vba-macro-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VBA Macro Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ghostfetch-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GhostFetch Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GhostFetch Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#anti-analysis-anti-debugging-vm-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-Analysis / Anti-Debugging / VM Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mouse-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mouse Logging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c2-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C2 Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mitre-attck-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MITRE ATT&amp;CK Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/V0lundr.png" alt="V0lundr">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          V0lundr
+                        
+                      </strong>
+                      <br>
+                      Threat Intelligence Researcher
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-02-17 00:00:00+00:00" class="md-ellipsis">2026-02-17</time>
+                      </div>
+                    </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              10 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+
+  <h1>MuddyWater Weaponizes Word Macros in Targeted Campaign Delivering GhostFetch</h1>
+
+<h2 id="muddywater-weaponises-word-macros-in-targeted-campaign-delivering-ghostfetch">MuddyWater Weaponises Word Macros in Targeted Campaign Delivering GhostFetch<a class="headerlink" href="#muddywater-weaponises-word-macros-in-targeted-campaign-delivering-ghostfetch" title="Permanent link">&para;</a></h2>
+<p>In February 2026, I identified a new phishing campaign associated with MuddyWater,
+framed as a travel reservation from Air Arabia. When recipients enable the document's
+embedded macro, it installs and executes the GhostFetch loader. This post analyses
+the campaign's lure design, delivery mechanism, and GhostFetch behaviour, and
+provides practical guidance for defenders.</p>
+<!-- more -->
+
+<h2 id="background">Background<a class="headerlink" href="#background" title="Permanent link">&para;</a></h2>
+<p><strong>MuddyWater</strong> (also tracked as UNC5667, Earth Vetala, Mango Sandstorm, MUDDYCOAST,
+Seedworm, and TA450) is an Iranian state-aligned APT group operating on behalf of
+Iran's Ministry of Intelligence and Security (MOIS). Active since at least 2017, the
+group primarily targets government, telecommunications, energy, and financial sector
+organisations across the Middle East, North Africa, and South Asia.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> MuddyWater
+consistently relies on macro-enabled Office documents as initial access vectors,
+combined with staged payload reconstruction and business-themed lures tailored to
+regional targets.</p>
+<p><strong>GhostFetch</strong> is a first-stage downloader attributed to MuddyWater, publicly
+documented by Group-IB as part of Operation Olalampo — a campaign first observed
+on 26 January 2026 targeting organisations across the MENA region.<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup> GhostFetch
+performs environmental evasion checks before fetching and reflectively loading
+secondary payloads in memory, ultimately delivering <strong>GhostBackDoor</strong> — a second-stage
+implant that provides interactive shell access, file manipulation, and AES-encrypted
+C2 communications through French-named API endpoints.<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup> The analysis here was
+conducted independently and predates Group-IB's public reporting, allowing for
+cross-referencing against their findings on the delivered GhostBackDoor implant.</p>
+<h2 id="reservation-document-lure-analysis">Reservation Document Lure Analysis<a class="headerlink" href="#reservation-document-lure-analysis" title="Permanent link">&para;</a></h2>
+<p>I identified a malicious Word document associated with MuddyWater uploaded to
+VirusTotal from the UAE on 30 January 2026. The file, titled
+"Sajeev Saliha Beevi.doc," masquerades as a legitimate Air Arabia reservation
+itinerary. The document embeds detailed booking information, including the reservation
+number, flight routes between Abu Dhabi (AUH) and Thiruvananthapuram (TRV), passenger
+details, and travel agent information. Its professional formatting and realistic travel
+metadata indicate that the lure was crafted to appear operationally authentic.</p>
+<p>Although the original delivery mechanism remains unknown, the content suggests
+MuddyWater aimed this document at individuals or organisations with ties to the UAE
+travel corridor — including corporate travel coordinators, finance departments, and
+business travelers.</p>
+<figure>
+  <img src="../images/Pasted image 20260223145923.png" alt="Exhibit 1: Weaponised Lure Word Document" />
+  <figcaption>Exhibit 1: Weaponised Lure Word Document</figcaption>
+</figure>
+
+<p>The document's metadata further supports attribution to MuddyWater and aligns with
+the group's established operational practices. The file lists "DontAsk" as the author
+and "FireToRain" as the last saving user, with Microsoft Office Word as the originating
+application. The document contains 10 recorded revisions with an approximate total
+editing time of six minutes. The "Content created" timestamp of 25 January 2026 at
+12:52 AM and "Date last saved" timestamp of 26 January 2026 at 11:55 AM indicate a
+compressed preparation window of roughly 24–72 hours before deployment.</p>
+<p>This pattern is consistent with MuddyWater operational workflows observed across
+multiple campaigns. Earlier reporting identified lure documents authored on Windows
+systems and saved under operator-associated usernames including "jojo" and "phoenix".
+Taken together, the metadata artefacts, lure construction, and macro-based execution
+workflow support a moderate to high confidence assessment that the document reflects
+established MuddyWater tradecraft.</p>
+<figure>
+  <img src="../images/Pasted image 20260223145930.png" alt="Exhibit 2: Weaponised Lure Word Document Metadata" />
+  <figcaption>Exhibit 2: Weaponised Lure Word Document Metadata</figcaption>
+</figure>
+
+<p>While the document appears benign to the end user, technical analysis reveals embedded
+VBA macros configured to execute automatically when the file opens. The macro functions
+as a first-stage dropper — it reconstructs an encoded Windows PE file embedded within
+a "UserForm" object, writes the payload to disk, and executes it.</p>
+<h2 id="vba-macro-analysis">VBA Macro Analysis<a class="headerlink" href="#vba-macro-analysis" title="Permanent link">&para;</a></h2>
+<p>The macro is designed to execute when the document opens in Microsoft Word with macros
+permitted — either through explicit user consent or in environments where macro security
+controls are disabled or insufficiently enforced.</p>
+<p>Once triggered, the macro initiates a staged execution sequence that reconstructs and
+deploys a concealed second-stage payload embedded within the document. The malicious
+logic resides entirely within the VBA project. When opened in the Word VBA editor,
+the VBA project appears password protected.</p>
+<figure>
+  <img src="../images/Pasted image 20260223145937.png" alt="Exhibit 3: Password Protected VBA Project" />
+  <figcaption>Exhibit 3: Password Protected VBA Project</figcaption>
+</figure>
+
+<p>However, extraction of the VBA streams confirms that the primary execution logic
+resides within the "ThisDocument" class module.</p>
+<figure>
+  <img src="../images/Pasted image 20260223145944.png" alt="Exhibit 4: Word Document Stream Dump" />
+  <figcaption>Exhibit 4: Word Document Stream Dump</figcaption>
+</figure>
+
+<p>The macro implements a staged workflow. It first calls a delay function (<code>wait()</code>),
+likely to impede automated analysis. It then retrieves a numerically encoded string
+from <code>UserForm1.TextBox1.Text</code> and decodes it in three-digit increments to reconstruct
+a Windows Portable Executable (PE) payload.</p>
+<p>If the payload does not already exist on disk, the macro writes the decoded content
+to <code>C:\Users\Public\Documents\MicrosoftWordUser.log</code>, renames it to
+<code>MicrosoftWordUser.exe</code>, and executes it via <code>ShellExecute</code>. This sequence functions
+as a self-contained dropper that reconstructs and launches the embedded second-stage
+payload.</p>
+<figure>
+  <img src="../images/Pasted image 20260223145952.png" alt="Exhibit 5: Staged Macro Dropper" />
+  <figcaption>Exhibit 5: Staged Macro Dropper</figcaption>
+</figure>
+
+<p>The numerically encoded string retrieved from <code>UserForm1.TextBox1.Text</code> serves as
+the embedded payload container. The associated <code>UserForm1/o</code> stream contains a large
+sequence of decimal values.</p>
+<figure>
+  <img src="../images/Pasted image 20260223145958.png" alt="Exhibit 6: UserForm1/o Stream Content" />
+  <figcaption>Exhibit 6: UserForm1/o Stream Content</figcaption>
+</figure>
+
+<p>The macro's decoding routine processes this string in three-character increments,
+converting each three-digit value into its corresponding ASCII byte to reconstruct
+the raw binary payload in memory.</p>
+<figure>
+  <img src="../images/Pasted image 20260223150005.png" alt="Exhibit 7: Staged Macro Dropper Decoding Routine" />
+  <figcaption>Exhibit 7: Staged Macro Dropper Decoding Routine</figcaption>
+</figure>
+
+<figure>
+  <img src="../images/Pasted image 20260223150012.png" alt="Exhibit 8: MZ Signature Identifying a Windows PE File" />
+  <figcaption>Exhibit 8: "MZ" Signature that Identifies a Windows Portable Executable (PE) File</figcaption>
+</figure>
+
+<p>Before writing and executing the reconstructed executable, the macro checks for
+the presence of <code>MicrosoftWordUser.exe</code> using the <code>Dir()</code> function, preventing
+redundant deployment. It writes the payload as <code>MicrosoftWordUser.log</code>, renames it
+to <code>MicrosoftWordUser.exe</code>, then instantiates the <code>Shell.Application</code> COM object and
+invokes <code>ShellExecute</code> to launch the renamed executable.</p>
+<figure>
+  <img src="../images/Pasted image 20260223150034.png" alt="Exhibit 9: Conditional File Write and Execution Logic" />
+  <figcaption>Exhibit 9: Conditional File Write and Execution Logic</figcaption>
+</figure>
+
+<p>In summary: when <code>Document_Open()</code> triggers, the macro introduces artificial delays,
+decodes the numerically encoded payload from a UserForm stream, writes it to
+<code>C:\Users\Public\Documents\MicrosoftWordUser.log</code>, renames it to
+<code>MicrosoftWordUser.exe</code>, and executes it via <code>Shell.Application</code>.</p>
+<h2 id="ghostfetch-analysis">GhostFetch Analysis<a class="headerlink" href="#ghostfetch-analysis" title="Permanent link">&para;</a></h2>
+<p>The executable dropped by the VBA macro is GhostFetch — the first-stage downloader
+documented by Group-IB as part of Operation Olalampo.<sup id="fnref2:2"><a class="footnote-ref" href="#fn:2">2</a></sup> Unlike the macro, which
+functions solely as a delivery mechanism, GhostFetch implements a multi-stage execution
+flow covering environmental evasion, persistence installation, and encrypted C2
+communication. Static analysis identifies it as a 64-bit Windows PE compiled using
+Microsoft Visual C++.</p>
+<figure>
+  <img src="../images/Pasted image 20260223150705.png" alt="Exhibit 10: DIE Static Analysis Metadata Output" />
+  <figcaption>Exhibit 10: DIE (Detect it Easy) Static Analysis Metadata Output</figcaption>
+</figure>
+
+<h3 id="anti-analysis-anti-debugging-vm-detection">Anti-Analysis / Anti-Debugging / VM Detection<a class="headerlink" href="#anti-analysis-anti-debugging-vm-detection" title="Permanent link">&para;</a></h3>
+<p>Before any persistence or network activity begins, GhostFetch runs an anti-debugging
+check at <code>FUN_140006080</code>. It first inspects the Process Environment Block (PEB),
+checking the <code>BeingDebugged</code> flag and <code>NtGlobalFlag</code>. If either indicates a debugger
+is present, GhostFetch immediately exits.</p>
+<figure>
+  <img src="../images/Pasted image 20260223150713.png" alt="Exhibit 11: PEB Checks and NtQueryInformationProcess Resolution" />
+  <figcaption>Exhibit 11: PEB Checks and NtQueryInformationProcess Resolution</figcaption>
+</figure>
+
+<p>GhostFetch performs a screen resolution check at <code>FUN_140004190</code> as an additional
+sandbox and VM detection layer. The function calls <code>GetMonitorInfoW</code> to retrieve
+display dimensions, then compares them against a hardcoded whitelist of width and
+height combinations. Valid widths are 1440, 1920, and 2560 pixels; valid heights are
+900, 1080, 1200, and 1600 pixels. If the detected resolution does not match any
+expected combination, GhostFetch sets an abort flag — sandbox environments and VMs
+commonly run at atypical resolutions such as 800×600 or 1024×768.</p>
+<figure>
+  <img src="../images/Pasted image 20260223150727.png" alt="Exhibit 12: Screen Resolution Check" />
+  <figcaption>Exhibit 12: Screen Resolution Check</figcaption>
+</figure>
+
+<figure>
+  <img src="../images/Pasted image 20260223150732.png" alt="Exhibit 13: GetMonitorInfoW Function Call" />
+  <figcaption>Exhibit 13: GetMonitorInfoW Function Call</figcaption>
+</figure>
+
+<figure>
+  <img src="../images/Pasted image 20260223150741.png" alt="Exhibit 14: Screen Resolution Detection Validation Logic" />
+  <figcaption>Exhibit 14: Screen Resolution Detection Validation Logic</figcaption>
+</figure>
+
+<p>GhostFetch also implements a composite sandbox detection routine at <code>FUN_140004260</code>,
+invoked only if the screen resolution check has already flagged the environment as
+suspicious. Rather than relying on a single indicator, the function combines three
+independent hardware checks and returns 1 to trigger abort only if all three conditions
+are simultaneously true — minimising false positives on real endpoints.</p>
+<figure>
+  <img src="../images/Pasted image 20260223150754.png" alt="Exhibit 15: Conditional Execution Chain" />
+  <figcaption>Exhibit 15: Conditional Execution Chain</figcaption>
+</figure>
+
+<p>The three checks are: logical processor count (fewer than two CPUs flags as sandbox),
+total physical RAM (less than 2 GB flags as sandbox), and USB device history via the
+Windows registry (fewer than two historically connected devices flags as sandbox).</p>
+<figure>
+  <img src="../images/Pasted image 20260223150801.png" alt="Exhibit 16: Sandbox Fingerprinting Logic" />
+  <figcaption>Exhibit 16: Sandbox Fingerprinting Logic</figcaption>
+</figure>
+
+<figure>
+  <img src="../images/Pasted image 20260223150808.png" alt="Exhibit 17: Composite Return Logic" />
+  <figcaption>Exhibit 17: Composite Return Logic</figcaption>
+</figure>
+
+<p>GhostFetch enumerates all running processes and compares them against a hardcoded
+list of security tools and analysis frameworks. If any listed process is detected,
+execution aborts immediately. The enumeration operates in two phases: a targeted
+check for antivirus product processes, followed by runtime decoding of obfuscated
+analysis tool names.</p>
+<figure>
+  <img src="../images/Pasted image 20260223150819.png" alt="Exhibit 18: AV Detection (avp.exe - Kaspersky)" />
+  <figcaption>Exhibit 18: AV Detection ("avp.exe" — Kaspersky Anti-Virus process)</figcaption>
+</figure>
+
+<p>The complete list of targeted processes covers every major category of analysis
+tooling — debuggers (<code>ollydbg.exe</code>, <code>immunitydebugger.exe</code>, <code>windbg.exe</code>,
+<code>x32dbg.exe</code>, <code>x64dbg.exe</code>), disassemblers (<code>ida.exe</code>, <code>ida64.exe</code>, <code>idaq.exe</code>,
+<code>ida664.exe</code>, <code>pestudio.exe</code>), dynamic instrumentation (<code>frida-helper-32.exe</code>,
+<code>frida-helper-64.exe</code>), process inspection tools (<code>processhacker.exe</code>, <code>procexp.exe</code>,
+<code>procmon.exe</code>), network analysis tools (<code>wireshark.exe</code>, <code>fiddler.exe</code>,
+<code>httpdebugger.exe</code>), and sandbox platforms (<code>joeboxcontrol.exe</code>,
+<code>joeboxserver.exe</code>).</p>
+<figure>
+  <img src="../images/Pasted image 20260223151043.png" alt="Exhibit 19: Runtime Decoding of Obfuscated Process Name (ollydbg.exe)" />
+  <figcaption>Exhibit 19: Example Runtime Decoding of Obfuscated Process Name ("ollydbg.exe")</figcaption>
+</figure>
+
+<h3 id="mouse-logging">Mouse Logging<a class="headerlink" href="#mouse-logging" title="Permanent link">&para;</a></h3>
+<p>GhostFetch implements a system-wide mouse logging capability at <code>FUN_1400040c0</code>.
+The function installs a low-level mouse hook using <code>SetWindowsHookExW</code> with hook type
+<code>0xE</code> (WH_MOUSE_LL), intercepting all mouse events system-wide — clicks, movements,
+and scroll wheel input — before they reach any application.</p>
+<figure>
+  <img src="../images/Pasted image 20260223151059.png" alt="Exhibit 20: Mouse Hook via SetWindowsHookExW" />
+  <figcaption>Exhibit 20: Mouse Hook via SetWindowsHookExW</figcaption>
+</figure>
+
+<figure>
+  <img src="../images/Pasted image 20260223151107.png" alt="Exhibit 21: GetMessageW Message Pump Loop" />
+  <figcaption>Exhibit 21: GetMessageW Message Pump Loop Maintaining the Mouse Hook</figcaption>
+</figure>
+
+<figure>
+  <img src="../images/Pasted image 20260223151112.png" alt="Exhibit 22: DefWindowProcW Message Pump Loop" />
+  <figcaption>Exhibit 22: DefWindowProcW Message Pump Loop Maintaining the Mouse Hook</figcaption>
+</figure>
+
+<h3 id="persistence">Persistence<a class="headerlink" href="#persistence" title="Permanent link">&para;</a></h3>
+<p>After successful execution, GhostFetch installs a persistent copy of itself at
+<code>%LOCALAPPDATA%\Microsoft\Windows\BurnUtill\burn.exe</code>. Both the directory name and
+subdirectory structure are reconstructed at runtime from obfuscated short arrays
+decoded through a per-position subtraction scheme. The self-copy logic first decodes
+the target directory path, creates it if absent, opens the running executable for
+reading, copies the PE image into a heap-allocated buffer, and writes the result to
+the decoded destination path.</p>
+<figure>
+  <img src="../images/Pasted image 20260223151124.png" alt="Exhibit 23: Runtime Construction of burn.exe Destination Path" />
+  <figcaption>Exhibit 23: Runtime Construction of the "burn.exe" Destination Path</figcaption>
+</figure>
+
+<h3 id="c2-infrastructure">C2 Infrastructure<a class="headerlink" href="#c2-infrastructure" title="Permanent link">&para;</a></h3>
+<p>The analysed sample maintains a hardcoded list of 20 C2 hosts. The primary entry,
+<code>promoverse[.]org</code>, is stored in plaintext and embedded directly in the binary as raw
+character bytes with no obfuscation.</p>
+<figure>
+  <img src="../images/Pasted image 20260223151130.png" alt="Exhibit 24: C2 Domain (promoverse[.]org)" />
+  <figcaption>Exhibit 24: C2 Domain (promoverse[.]org)</figcaption>
+</figure>
+
+<p>The full C2 request URL <code>hxxps://promoverse[.]org/api/debut</code> is assembled at runtime
+from three components stored separately in the binary. The host appears as raw
+character bytes; the URL path <code>/api/debut</code> is stored as an encoded short integer array
+decoded using the same XOR-based decoder used for other obfuscated strings. All three
+components are passed to <code>WinHttpOpenRequest</code> at runtime.</p>
+<figure>
+  <img src="../images/Pasted image 20260223151136.png" alt="Exhibit 25: /api/debut URL Path" />
+  <figcaption>Exhibit 25: "/api/debut" URL Path</figcaption>
+</figure>
+
+<p>The remaining 19 C2 entries are lightly encoded — each stored as a byte sequence
+recovered at runtime by adding a fixed numeric offset. In the analysed sample, all 19
+decode to invalid placeholder strings following the pattern <code>999.999.999.999x</code>,
+counting down from 9998 to 9980. This is inconsistent with real operator infrastructure
+and strongly suggests the binary was compiled with generated placeholder values. The
+slots can hold up to 16-character strings, and the presence of <code>promoverse[.]org</code> in
+slot zero confirms the mechanism can store domain names.</p>
+<figure>
+  <img src="../images/Pasted image 20260223151142.png" alt="Exhibit 26: Decoded C2 / Placeholder Entries" />
+  <figcaption>Exhibit 26: Decoded C2 / Placeholder Entries</figcaption>
+</figure>
+
+<p>As this analysis was being finalised, Group-IB published their Operation Olalampo
+report independently documenting the same loader and including a retrieval of the
+encrypted second-stage payload from <code>promoverse[.]org</code>.<sup id="fnref3:2"><a class="footnote-ref" href="#fn:2">2</a></sup> This timing allowed
+cross-referencing their findings on the delivered GhostBackDoor implant against
+static analysis, filling the one gap that could not be resolved from the binary alone.</p>
+<p>According to Group-IB, GhostBackDoor functions as a second-stage implant that adapts
+its persistence mechanism based on available system privileges — often masquerading
+as the Windows Recycle Bin ClassID or establishing itself as a service named
+<code>MicrosoftVersionUpdater</code>. Once reflectively loaded into memory, the backdoor
+facilitates interactive shell access and file manipulation through AES-encrypted
+communications with French-named API endpoints, purposefully fragmenting network
+traffic into separate requests to evade behavioural detection.<sup id="fnref2:3"><a class="footnote-ref" href="#fn:3">3</a></sup></p>
+<h2 id="mitre-attck-mapping">MITRE ATT&amp;CK Mapping<a class="headerlink" href="#mitre-attck-mapping" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Tactic</th>
+<th>Technique</th>
+<th>ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Initial Access</td>
+<td>Phishing: Spearphishing Attachment</td>
+<td>T1566.001</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>User Execution: Malicious File</td>
+<td>T1204.002</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>Command and Scripting Interpreter: Visual Basic</td>
+<td>T1059.005</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>System Services: Service Execution</td>
+<td>T1569.002</td>
+</tr>
+<tr>
+<td>Persistence</td>
+<td>Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder</td>
+<td>T1547.001</td>
+</tr>
+<tr>
+<td>Defense Evasion</td>
+<td>Obfuscated Files or Information</td>
+<td>T1027</td>
+</tr>
+<tr>
+<td>Defense Evasion</td>
+<td>Virtualization / Sandbox Evasion: System Checks</td>
+<td>T1497.001</td>
+</tr>
+<tr>
+<td>Defense Evasion</td>
+<td>Debugger Evasion</td>
+<td>T1622</td>
+</tr>
+<tr>
+<td>Defense Evasion</td>
+<td>Process Injection: Reflective DLL Injection</td>
+<td>T1055.001</td>
+</tr>
+<tr>
+<td>Discovery</td>
+<td>Process Discovery</td>
+<td>T1057</td>
+</tr>
+<tr>
+<td>Discovery</td>
+<td>System Information Discovery</td>
+<td>T1082</td>
+</tr>
+<tr>
+<td>Collection</td>
+<td>Input Capture: Keylogging</td>
+<td>T1056.001</td>
+</tr>
+<tr>
+<td>Command and Control</td>
+<td>Encrypted Channel: Symmetric Cryptography</td>
+<td>T1573.001</td>
+</tr>
+<tr>
+<td>Command and Control</td>
+<td>Application Layer Protocol: Web Protocols</td>
+<td>T1071.001</td>
+</tr>
+</tbody>
+</table>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>MITRE ATT&amp;CK — <a href="https://attack.mitre.org/groups/G0069/">Group G0069: MuddyWater</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Group-IB — <a href="https://www.group-ib.com/blog/muddywater-operation-olalampo/">Operation Olalampo: Inside MuddyWater's Latest Campaign</a> (February 2026)&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p>The Hacker News — <a href="https://thehackernews.com/2026/02/muddywater-targets-mena-organizations.html">MuddyWater Targets MENA Organizations with GhostFetch, CHAR, and HTTP_VIP</a> (February 2026)&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../unc5342-refines-ottercookie-delivery-chain-with-jsonsilo-infrastructure/" class="md-footer__link md-footer__link--prev" aria-label="Previous: UNC5342 Refines OtterCookie Delivery Chain with JsonSilo Infrastructure">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                UNC5342 Refines OtterCookie Delivery Chain with JsonSilo Infrastructure
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../invoice-lure-phantom-stealer-donut-heavens-gate/" class="md-footer__link md-footer__link--next" aria-label="Next: From Invoice Lure to In-Memory Injection: Phantom Stealer via Donut and Heaven&#39;s Gate">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                From Invoice Lure to In-Memory Injection: Phantom Stealer via Donut and Heaven's Gate
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/V0lundr" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/fix.js"></script>
+      
+    
+  </body>
+</html>
