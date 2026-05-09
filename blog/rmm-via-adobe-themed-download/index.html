@@ -1,0 +1,1424 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Threat intelligence and malware analysis research">
+      
+      
+        <meta name="author" content="V0lundr">
+      
+      
+        <link rel="canonical" href="https://v0lundr.github.io/blog/rmm-via-adobe-themed-download/">
+      
+      
+        <link rel="prev" href="../invoice-lure-phantom-stealer-donut-heavens-gate/">
+      
+      
+      
+        
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Malicious Distribution of RMM Tools via Adobe-Themed Download Infrastructure - V0lundr</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#malicious-distribution-of-rmm-tools-via-adobe-themed-download-infrastructure" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+<header class="site-header">
+  <div class="site-header__inner">
+
+    <!-- Left: handle -->
+    <a href="https://v0lundr.github.io/" class="site-header__logo">
+      // theUnattributed
+    </a>
+
+    <!-- Centre: nav links -->
+    <nav class="site-header__nav">
+      <a href="https://v0lundr.github.io/" class="site-header__link ">Home</a>
+      <a href="https://v0lundr.github.io/about/" class="site-header__link ">About</a>
+    </nav>
+
+    <!-- Right: search -->
+    <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+</header>
+
+<style>
+  /* ── KILL DEFAULT HEADER & TABS ─────────────────────────── */
+  .md-header { display: none !important; }
+  .md-tabs   { display: none !important; }
+
+  /* ── CUSTOM HEADER ──────────────────────────────────────── */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,9,15,0.95);
+    border-bottom: 1px solid #1e2535;
+    backdrop-filter: blur(12px);
+  }
+
+  .site-header__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  /* Handle / logo */
+  .site-header__logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: #e8a84c;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Nav links */
+  .site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  .site-header__link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8898b0;
+    text-decoration: none;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .site-header__link:hover {
+    color: #e8a84c;
+    background: rgba(232,168,76,0.06);
+  }
+
+  .site-header__link.active {
+    color: #e8a84c;
+  }
+
+  /* Search — override Material defaults to fit our bar */
+  .md-search {
+    flex-shrink: 0;
+  }
+
+  .md-search__form {
+    background: #0d1119 !important;
+    border: 1px solid #1e2535 !important;
+    border-radius: 2px !important;
+    height: 32px !important;
+    width: 200px !important;
+  }
+
+  .md-search__form:focus-within {
+    border-color: #e8a84c !important;
+    width: 280px !important;
+    transition: width 0.2s ease;
+  }
+
+  .md-search__input {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.75rem !important;
+    color: #c8d0de !important;
+  }
+
+  .md-search__input::placeholder {
+    color: #5a6478 !important;
+  }
+
+  .md-search__icon {
+    color: #5a6478 !important;
+  }
+
+  /* Offset page content so sticky header doesn't overlap */
+  .md-main {
+    padding-top: 0 !important;
+  }
+
+  @media (max-width: 600px) {
+    .site-header__logo { display: none; }
+    .md-search__form { width: 140px !important; }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("a").forEach(function (link) {
+      if (link.textContent.trim() === "Back to index") {
+        link.setAttribute("href", "/");
+      }
+    });
+  });
+</script>
+
+
+<footer class="site-footer-custom">
+  <div class="site-footer-inner">
+    <span class="footer-note">v0lundr.github.io · TLP:WHITE</span>
+    <div class="footer-links">
+      <a href="https://github.com/V0lundr" target="_blank" rel="noopener">GitHub</a>
+      <a href="/feed_rss_created.xml" target="_blank" rel="noopener">RSS</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Hide default Material footer */
+  .md-footer { display: none !important; }
+
+  .site-footer-custom {
+    border-top: 1px solid #1e2535;
+    background: #07090f;
+    padding: 1.5rem 0;
+  }
+
+  .site-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: #5a6478;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5a6478;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover { color: #e8a84c; }
+</style>
+
+
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="V0lundr" class="md-nav__button md-logo" aria-label="V0lundr" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    V0lundr
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#initial-access-phishing-email-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial Access: Phishing Email Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delivery-fake-adobe-download-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delivery: Fake Adobe Download Page
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#payload-superops-rmm-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payload: SuperOps RMM Agent
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Payload: SuperOps RMM Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#msi-payload-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MSI Payload Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MSI Payload Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#certificate-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Certificate Details
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tenant-authentication-via-filename" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tenant Authentication via Filename
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c2-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C2 Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#abuse-of-rmm-tools-in-the-wild" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abuse of RMM Tools in the Wild
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discovery-of-the-phishing-page-source-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discovery of the Phishing Page Source Code
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Discovery of the Phishing Page Source Code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#additional-iocs-infrastructure-pivoting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional IoCs (Infrastructure Pivoting)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phishing-kit-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phishing Kit Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#telegram-operator-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Telegram Operator Notifications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#log-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Log Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additional-findings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Findings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discovery-of-a-microsoft-teams-themed-phishing-kit-delivering-datto-rmm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discovery of a Microsoft Teams-Themed Phishing Kit Delivering Datto RMM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Discovery of a Microsoft Teams-Themed Phishing Kit Delivering Datto RMM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shared-htaccess-configuration-as-an-attribution-anchor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shared .htaccess Configuration as an Attribution Anchor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#social-engineering-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Social Engineering Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payload-datto-rmm-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payload: Datto RMM Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dual-notification-channels-telegram-and-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dual Notification Channels: Telegram and Email
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operator-opsec-failures-revealing-kit-lineage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operator OPSEC Failures Revealing Kit Lineage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telegram-bot-osint-and-operator-attribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Telegram Bot OSINT and Operator Attribution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Telegram Bot OSINT and Operator Attribution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#telegram-getupdates-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Telegram getUpdates Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#breachforums-activity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BreachForums Activity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attribution-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attribution Assessment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extended-threat-actor-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extended Threat Actor History
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extended Threat Actor History">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phishing-kit-development-on-the-altenen-forum-september-2022" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phishing Kit Development on the Altenen Forum (September 2022)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-platform-account-linkage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Platform Account Linkage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/V0lundr.png" alt="V0lundr">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          V0lundr
+                        
+                      </strong>
+                      <br>
+                      Threat Intelligence Researcher
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-05-09 00:00:00+00:00" class="md-ellipsis">2026-05-09</time>
+                      </div>
+                    </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              16 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+
+<h1 id="malicious-distribution-of-rmm-tools-via-adobe-themed-download-infrastructure">Malicious Distribution of RMM Tools via Adobe-Themed Download Infrastructure<a class="headerlink" href="#malicious-distribution-of-rmm-tools-via-adobe-themed-download-infrastructure" title="Permanent link">&para;</a></h1>
+<p>In April 2026, I observed a some spearphishing samples that were most likely a part of a phishing campaign targeting financial departments in Europe and across multiple sectors. The campaign directed victims to previously compromised websites hosting fake Adobe software that deployed Remote Monitoring and Management (RMM) tools to establish access to victim systems. In one observed case, the phishing email, purporting to be a document pending to be signed, was delivered to the victim mailbox, passing email security filters (Exhibit 1).</p>
+<!-- more -->
+
+<p><img alt="Pasted image 20260317153057.png" src="../images/Pasted%20image%2020260317153057.png" /></p>
+<blockquote>
+<p><strong>Exhibit 1:</strong> Phishing Email Received by the Victim</p>
+</blockquote>
+<h2 id="initial-access-phishing-email-analysis">Initial Access: Phishing Email Analysis<a class="headerlink" href="#initial-access-phishing-email-analysis" title="Permanent link">&para;</a></h2>
+<p>The email contained a hyperlink purporting to direct the recipient to an Adobe document awaiting signature, with the sender impersonating "Adobe Acrobat Sign." The message leveraged Adobe trademarks and branding elements, increasing the likelihood that the email would appear legitimate to recipients.</p>
+<p>Looking at the raw email headers, the sender domain <code>hpgrp[.]com</code> was spoofed. The headers also expose <code>153.127.234[.]4</code> as part of the message delivery path — an IP I have observed in several phishing campaigns dating back to early 2025, suggesting the attacker reuses infrastructure across related operations.</p>
+<h2 id="delivery-fake-adobe-download-page">Delivery: Fake Adobe Download Page<a class="headerlink" href="#delivery-fake-adobe-download-page" title="Permanent link">&para;</a></h2>
+<p>Upon clicking the "Access your Complete Document" button, the victim is redirected to <code>echo-resorts[.]com/adobe/</code>, where a message claims that their Adobe version has expired (Exhibit 2). The page then triggers an automatic fake Adobe software download without requiring further user interaction (Exhibit 3).</p>
+<p><img alt="Pasted image 20260317153107.png" src="../images/Pasted%20image%2020260317153107.png" /></p>
+<blockquote>
+<p><strong>Exhibit 2:</strong> Fraudulent warning message</p>
+</blockquote>
+<p><img alt="Pasted image 20260317153113.png" src="../images/Pasted%20image%2020260317153113.png" /></p>
+<blockquote>
+<p><strong>Exhibit 3:</strong> Automatically Downloaded Fake Adobe Software</p>
+</blockquote>
+<h2 id="payload-superops-rmm-agent">Payload: SuperOps RMM Agent<a class="headerlink" href="#payload-superops-rmm-agent" title="Permanent link">&para;</a></h2>
+<p>On execution the file does not install any Adobe product. Instead it kicks off the setup wizard for SuperOps (Exhibit 4) — a legitimate RMM platform developed by Superops Inc. and designed for Managed Service Providers (MSPs) to remotely monitor, manage, and control client endpoints. SuperOps RMM gives the operator remote shell access, file transfer, arbitrary command execution, software deployment, and real-time system monitoring. While intended for legitimate IT administration, RMM tools have become an increasingly favoured vector for threat actors — full remote access through trusted, digitally signed binaries that endpoint security solutions tend to whitelist by default.</p>
+<p><img alt="Pasted image 20260317153119.png" src="../images/Pasted%20image%2020260317153119.png" /></p>
+<blockquote>
+<p><strong>Exhibit 4:</strong> SuperOps RMM setup wizard</p>
+</blockquote>
+<h3 id="msi-payload-analysis">MSI Payload Analysis<a class="headerlink" href="#msi-payload-analysis" title="Permanent link">&para;</a></h3>
+<p>I pulled the MSI apart and assess that the threat actor registered a SuperOps.ai RMM account, getting a tenant on the European production infrastructure. SuperOps offers a 14-day free trial that gives full agent generation, including the ability to download pre-configured MSI installers — no identity check, no payment. The MSI itself is a stock SuperOps build: legitimately signed with a valid Sectigo code signing certificate issued to Superops Inc. (Delaware, US), and no modifications in the agent binary itself (Exhibit 5).</p>
+<h4 id="certificate-details">Certificate Details<a class="headerlink" href="#certificate-details" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>Superops Inc.</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Valid</td>
+</tr>
+<tr>
+<td>Issuer</td>
+<td>Sectigo Public Code Signing CA R36</td>
+</tr>
+<tr>
+<td>Valid From</td>
+<td>12:00 AM 04/14/2023</td>
+</tr>
+<tr>
+<td>Valid To</td>
+<td>11:59 PM 07/13/2026</td>
+</tr>
+<tr>
+<td>Thumbprint</td>
+<td><code>CBF98AFF4D4BD00B83018D60ABE11DDF95C34664</code></td>
+</tr>
+<tr>
+<td>Serial Number</td>
+<td><code>3E 4F 07 83 9D 57 49 85 80 4D A5 5C 80 B5 D9 C0</code></td>
+</tr>
+<tr>
+<td>&gt; <strong>Exhibit 5:</strong> SuperOps RMM Certificate Details</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tenant-authentication-via-filename">Tenant Authentication via Filename<a class="headerlink" href="#tenant-authentication-via-filename" title="Permanent link">&para;</a></h3>
+<p>SuperOps embeds tenant authentication credentials directly in the MSI filename. When an MSP generates an agent installer from the SuperOps platform, the resulting filename follows the convention:</p>
+<div class="language-text highlight"><pre><span></span><code>&lt;prefix&gt;_&lt;tenantID_base36&gt;_&lt;siteID_base36&gt;_&lt;platform&gt;_&lt;architecture&gt;.msi
+</code></pre></div>
+<blockquote>
+<p><strong>Exhibit 6:</strong> SuperOps Application Naming Convention</p>
+</blockquote>
+<p>The MSI's internal "Custom Action" table confirms the installer reads its own filepath at execution time and extracts the filename to authenticate the installation to the correct tenant account. The MSI even enforces filename integrity with the warning: <em>"Please make sure the file name is not altered and used as it is downloaded from the site."</em> SuperOps' own documentation backs this up: <em>"Do not rename the .msi and .pkg agent files, as the system will not be able to recognize the installed agent"</em> (Exhibit 7).</p>
+<p><img alt="Pasted image 20260317153158.png" src="../images/Pasted%20image%2020260317153158.png" /></p>
+<blockquote>
+<p><strong>Exhibit 7:</strong> SuperOps Documentation Regarding TenantID and SessionID</p>
+</blockquote>
+<p>The catch is that the installer only actually validates the tenant and site ID positions within the filename (positions <code>[len-4]</code> and <code>[len-3]</code> from the underscore-delimited segments). The first segment — the prefix — is not validated and can be freely modified without breaking the installer. The threat actor abused this by replacing the default prefix with "Adobe", producing the filename <code>Adobe_1M021SDPX2OZK_19SI0B7FBSUF4_windows_x64.msi</code>.</p>
+<h3 id="execution-flow">Execution Flow<a class="headerlink" href="#execution-flow" title="Permanent link">&para;</a></h3>
+<p>On execution, the MSI's Custom Action DLL extracts the filename from the MSI's filepath on disk, then launches the embedded Go binary (<code>superopssetup.exe</code>) with the full filename passed as a command-line argument. The binary decodes the tenant and site IDs and registers the victim's machine with the attacker's SuperOps account.</p>
+<h3 id="c2-infrastructure">C2 Infrastructure<a class="headerlink" href="#c2-infrastructure" title="Permanent link">&para;</a></h3>
+<p>The binary's embedded configuration is <code>SERVER_LOCATION=EU</code> and <code>SERVER_TYPE=PROD</code>, targeting the European production C2 infrastructure. The C2 endpoints are:</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RMM Server</td>
+<td><code>euagent.superops[.]ai</code></td>
+</tr>
+<tr>
+<td>Lambda API</td>
+<td><code>lambdaapi.superopsmsp[.]com</code></td>
+</tr>
+<tr>
+<td>WebSocket</td>
+<td><code>ws.superopsmsp[.]com</code></td>
+</tr>
+<tr>
+<td>Registration Endpoint</td>
+<td><code>POST euagent.superops[.]ai/rmm-web/rmm/getInstallerInfoForRegAsset</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="abuse-of-rmm-tools-in-the-wild">Abuse of RMM Tools in the Wild<a class="headerlink" href="#abuse-of-rmm-tools-in-the-wild" title="Permanent link">&para;</a></h2>
+<p>The abuse of RMM tools by threat actors is well documented and growing. In January 2023 CISA, NSA, and MS-ISAC issued joint advisory AA23-025A specifically warning of the malicious use of legitimate RMM software delivered via phishing. SuperOps in particular has been linked to multiple campaigns:</p>
+<ul>
+<li>In May 2024, CERT-UA identified threat actor UAC-0188 delivering SuperOps RMM to financial institutions in the US and Europe via trojanised Minesweeper clones.</li>
+<li>In January 2026, ASEC documented ongoing campaigns distributing SuperOps, Syncro, NinjaOne, and ScreenConnect RMM tools disguised as PDF invoices, noting that these tools have been previously associated with ransomware operators including Chaos, Royal, ALPHV/BlackCat, Hive, and Lunar Spider, as well as the Iranian APT group MuddyWater.</li>
+<li>ThreatDown has identified SuperOps abuse by the CACTUS ransomware group.</li>
+<li>In December 2025, SuperOps published a statement acknowledging the misuse and confirming it originated from illegitimate accounts.</li>
+</ul>
+<p>At this stage I couldn't pin the activity on a specific actor based purely on the payload — the TTPs are consistent with the broader RMM abuse trend documented across multiple sources. So I went hunting on the infrastructure side instead.</p>
+<h2 id="discovery-of-the-phishing-page-source-code">Discovery of the Phishing Page Source Code<a class="headerlink" href="#discovery-of-the-phishing-page-source-code" title="Permanent link">&para;</a></h2>
+<p>I pivoted on the observed network infrastructure — suspicious download URLs, hosting patterns, and the Adobe-themed lure paths used to push the RMM agents — which surfaced a number of additional domains tied to the same delivery infrastructure.</p>
+<p>I also saw multiple RMM tools in play. On top of the SuperOps and ConnectWise observations, the broader infrastructure and lure patterns suggested distribution of other legitimate RMM software like ITarian, Atera, and SimpleHelp — which lines up with the wider trend of threat actors leaning on legitimate administrative tooling for remote access and persistence.</p>
+<h3 id="additional-iocs-infrastructure-pivoting">Additional IoCs (Infrastructure Pivoting)<a class="headerlink" href="#additional-iocs-infrastructure-pivoting" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Kipcarroll[.]com</code></td>
+</tr>
+<tr>
+<td><code>echo-resorts[.]com</code></td>
+</tr>
+<tr>
+<td><code>updatemsi[.]online</code></td>
+</tr>
+<tr>
+<td><code>shopnoshiribd[.]com</code></td>
+</tr>
+<tr>
+<td><code>akspolymers[.]com</code></td>
+</tr>
+<tr>
+<td><code>apnrmicrofinance[.]com</code></td>
+</tr>
+<tr>
+<td><code>avetmart[.]com</code></td>
+</tr>
+<tr>
+<td><code>idealtailorsbd[.]com</code></td>
+</tr>
+<tr>
+<td><code>ukslingandtackle[.]co[.]uk</code></td>
+</tr>
+<tr>
+<td><code>us06web[.]com</code></td>
+</tr>
+<tr>
+<td><code>virtualreader[.]top</code></td>
+</tr>
+<tr>
+<td><code>adobeacrowbat[.]com</code></td>
+</tr>
+<tr>
+<td><code>adobereaderportal[.]com</code></td>
+</tr>
+<tr>
+<td><code>adobereader[.]ink</code></td>
+</tr>
+<tr>
+<td><code>unaux[.]com</code></td>
+</tr>
+<tr>
+<td><code>adobesignupdate-adobeexpressazure[.]com</code></td>
+</tr>
+<tr>
+<td><code>adobesupdate[.]com</code></td>
+</tr>
+<tr>
+<td><code>workvenntures[.]com</code></td>
+</tr>
+<tr>
+<td><code>mafussa[.]net</code></td>
+</tr>
+<tr>
+<td><code>adobeclient[.]online</code></td>
+</tr>
+<tr>
+<td><code>cincyspinecare[.]com</code></td>
+</tr>
+<tr>
+<td><code>oticaprismajundiaicom[.]br</code></td>
+</tr>
+<tr>
+<td><code>gmqindustries[.]com</code></td>
+</tr>
+<tr>
+<td><code>us06net[.]com</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="phishing-kit-analysis">Phishing Kit Analysis<a class="headerlink" href="#phishing-kit-analysis" title="Permanent link">&para;</a></h3>
+<p>Pivoting further on the threat actor domains and hosting patterns, I managed to pull down the complete source code of the phishing page deployed on the compromised website (Exhibit 8). The PHP source files (<code>index.php</code>, <code>download.php</code>, <code>settings.php</code>) are a purpose-built phishing kit designed to impersonate an Adobe Reader update page and deliver the SuperOps RMM agent, with real-time operator visibility into victim interactions (Exhibit 9). The page presents a convincing Adobe-branded warning — <em>"Your Adobe Reader Version Has Expired"</em> — and includes a countdown timer that triggers an automatic download of the payload after a configurable delay (set to 10 seconds in this deployment). There's also a manual <em>"Download Update Now"</em> button. The downloaded file is served as <code>AdobeReaderDC.ClientSetup.exe</code> — not the MSI itself — suggesting the operator wraps or renames payloads depending on the delivery method.</p>
+<p><img alt="Pasted image 20260317153211.png" src="../images/Pasted%20image%2020260317153211.png" /></p>
+<blockquote>
+<p><strong>Exhibit 8:</strong> Adobe Phishing Page Source Code</p>
+</blockquote>
+<p><img alt="Pasted image 20260317153215.png" src="../images/Pasted%20image%2020260317153215.png" /></p>
+<blockquote>
+<p><strong>Exhibit 9:</strong> Fake Adobe Update Site Observed in Phishing Campaign</p>
+</blockquote>
+<h3 id="telegram-operator-notifications">Telegram Operator Notifications<a class="headerlink" href="#telegram-operator-notifications" title="Permanent link">&para;</a></h3>
+<p>The kit is configured to send real-time notifications to the operator via a Telegram bot (Exhibit 10).</p>
+<p><img alt="Pasted image 20260317153223.png" src="../images/Pasted%20image%2020260317153223.png" /></p>
+<blockquote>
+<p><strong>Exhibit 10:</strong> Telegram Notifications Logic</p>
+</blockquote>
+<p>Both page visits and file downloads trigger separate Telegram alerts containing detailed victim information: IP address, geolocation (resolved via the <code>ip-api.com</code> service), browser type, device type, ISP, referrer URL, and timestamp. That gives the operator immediate visibility into which targets clicked the phishing link and whether they downloaded the payload.</p>
+<h3 id="log-analysis">Log Analysis<a class="headerlink" href="#log-analysis" title="Permanent link">&para;</a></h3>
+<p>The <code>visits.log</code> and <code>downloads.log</code> files recovered alongside the phishing kit source code show activity going back to 13 April 2025. The logs record multiple IP addresses that interacted with the phishing page, including <code>191.96.207[.]10</code> (geolocated to Kerkrade, the Netherlands) and <code>102.182.190[.]199</code> (geolocated to Cape Town, South Africa) — both appearing frequently across the entries. The provenance of the logs themselves can't be independently verified, so I can't tell with confidence whether these IPs represent threat actor infrastructure, testing activity, victims, or third-party researchers.</p>
+<h3 id="additional-findings">Additional Findings<a class="headerlink" href="#additional-findings" title="Permanent link">&para;</a></h3>
+<p>Two more findings from the recovered files.</p>
+<p><strong>ConnectWise ScreenConnect distribution:</strong> the executable hosted on the phishing page at the time of collection (<code>AdobeReaderDC.ClientSetup.exe</code>, SHA256 <code>47ccb2d4ebf50f962d89f7827316a10376377a86ba427279294bcec1326b0918</code>) was actually a ConnectWise ScreenConnect installer — not the SuperOps MSI delivered to the targeted user — which confirms that the same phishing infrastructure is used to push multiple RMM tools, swapping the payload depending on the campaign phase or target.</p>
+<p><strong>Anti-analysis <code>.htaccess</code> configuration:</strong> the <code>.htaccess</code> file (SHA256 <code>cf0a46f5b89ce3d7af6b7305a6d404526a4773445769ce67bcbf427aed30673d</code>) deployed alongside the kit shows real operational awareness from the operator. It blocks all mobile devices (the payload is Windows-only), search engine crawlers (Google, Bing, Yandex, Baidu, DuckDuckGo), SEO analysis tools (Ahrefs, SEMrush, Majestic), security scanners (Nessus, Nikto, Acunetix, Qualys, Nmap, SQLmap, Nuclei, WPScan), headless browsers and automation frameworks (Puppeteer, Selenium, PhantomJS, Playwright), social media crawlers (TelegramBot, Twitter, LinkedIn, Slack, Discord), command-line tools (curl, wget, python), and empty user agents.</p>
+<p>The interesting bit is that the <code>.htaccess</code> also blocks specific Google infrastructure IPs (<code>172.253.234[.]208</code>, <code>172.253.234[.]223</code>, <code>172.253.192[.]126</code>, <code>172.253.192[.]123</code>, <code>172.253.216[.]59</code>, <code>173.194.92[.]180</code>) that match entries in the recovered <code>downloads.log</code> — meaning the operator actively monitors traffic to the phishing page and reactively updates the blocklist as crawlers hit it (Exhibit 11).</p>
+<p><img alt="Pasted image 20260317153237.png" src="../images/Pasted%20image%2020260317153237.png" /></p>
+<blockquote>
+<p><strong>Exhibit 11:</strong> Content of ".htaccess" File</p>
+</blockquote>
+<h2 id="discovery-of-a-microsoft-teams-themed-phishing-kit-delivering-datto-rmm">Discovery of a Microsoft Teams-Themed Phishing Kit Delivering Datto RMM<a class="headerlink" href="#discovery-of-a-microsoft-teams-themed-phishing-kit-delivering-datto-rmm" title="Permanent link">&para;</a></h2>
+<p>Pivoting further on the <code>.htaccess</code> file (SHA256 <code>cf0a46f5b89ce3d7af6b7305a6d404526a4773445769ce67bcbf427aed30673d</code>), I recovered a second, distinct phishing kit from the same threat actor infrastructure (Exhibit 12). Where the first kit impersonated Adobe Reader and delivered SuperOps, this one impersonates Microsoft Teams and delivers a Datto RMM agent — confirming the operator runs multiple parallel campaigns with different social engineering themes and RMM payloads, all stitched together by the same tooling and tradecraft.</p>
+<p><img alt="Pasted image 20260317153249.png" src="../images/Pasted%20image%2020260317153249.png" /></p>
+<blockquote>
+<p><strong>Exhibit 12:</strong> Second Phishing Kit</p>
+</blockquote>
+<h3 id="shared-htaccess-configuration-as-an-attribution-anchor">Shared .htaccess Configuration as an Attribution Anchor<a class="headerlink" href="#shared-htaccess-configuration-as-an-attribution-anchor" title="Permanent link">&para;</a></h3>
+<p>The <code>.htaccess</code> deployed alongside the Teams-themed kit is near-identical to the one recovered from the Adobe-themed infrastructure. Both files block the same six specific Google infrastructure IPs (<code>172.253.234[.]208</code>, <code>172.253.234[.]223</code>, <code>172.253.192[.]126</code>, <code>172.253.192[.]123</code>, <code>172.253.216[.]59</code>, <code>173.194.92[.]180</code>), the same GoogleBot IP ranges (<code>66.249.64–79</code>), the same mobile UAs, search engine crawlers, SEO tools (Ahrefs, SEMrush, Majestic), security scanners (Nessus, Nikto, Acunetix, Qualys, Nmap, SQLmap, Nuclei, WPScan), headless browsers (Puppeteer, Selenium, PhantomJS, Playwright), social media crawlers (Telegram, Twitter, LinkedIn, Slack, Discord), command-line tools (curl, wget, python), and empty user agents. The identical reactive Google IP blocking — targeting the same six specific addresses previously observed in the Adobe campaign's <code>downloads.log</code> — is a high-confidence indicator that both kits are operated by the same actor or group sharing a common anti-detection template.</p>
+<h3 id="social-engineering-flow">Social Engineering Flow<a class="headerlink" href="#social-engineering-flow" title="Permanent link">&para;</a></h3>
+<p>The Teams-themed kit walks the victim through a multi-stage flow designed to look like a legitimate Microsoft software update:</p>
+<ol>
+<li><strong>Phishing link delivery</strong> — the victim receives a phishing link.</li>
+<li><strong>Device filtering</strong> — <code>index.php</code> routes through <code>invite.php</code>, which performs server-side device detection via user-agent analysis. Only Windows devices are allowed through to the main lure page; everything else (iPhone, Android, iPad, Mac, BlackBerry) is redirected to <code>Device-error.php</code>, which displays a Microsoft-branded message stating <em>"This application is only available on Windows devices."</em> The kit also includes a localhost bypass (<code>127.0.0.1</code> / <code>::1</code>) for operator testing.</li>
+<li><strong>Fake update page</strong> — Windows visitors hit <code>main.php</code>, which presents a convincing Microsoft Teams-branded page claiming <em>"Your Microsoft Teams Client is Out of Date"</em> with a loading spinner and an automatic redirect to the fake Microsoft Store after a 1-second delay. This page also fires visit notifications to both the Telegram bot and the operator's email on load.</li>
+<li><strong>Fake Microsoft Store</strong> — <code>microsoft_store.php</code> is a polished replica of the Microsoft Store application page for Microsoft Teams. It includes a functional sidebar, search bar, Windows taskbar simulation, app screenshots, ratings (4.3 stars, 22K reviews), and a "Discover more" section featuring Zoom Workspace and Adobe Acrobat Reader DC — notably the same two application brands used across this actor's other phishing campaigns. When the victim clicks "Install" the page simulates a download progress bar (0–100%), then triggers the actual payload download and redirects to an installation guide.</li>
+<li><strong>Installation guide</strong> — <code>installation_guides.php</code> provides step-by-step instructions styled with Microsoft Teams branding, walking the victim through finding and executing <code>AgentSetup_Axon_Inc.exe</code> from their Downloads folder, with a direct re-download link for good measure.</li>
+</ol>
+<p><img alt="Pasted image 20260317153318.png" src="../images/Pasted%20image%2020260317153318.png" /></p>
+<blockquote>
+<p><strong>Exhibit 13:</strong> Additionally Discovered MS Teams Fake Website</p>
+</blockquote>
+<h3 id="payload-datto-rmm-agent">Payload: Datto RMM Agent<a class="headerlink" href="#payload-datto-rmm-agent" title="Permanent link">&para;</a></h3>
+<p>The payload here is a Datto RMM agent, downloaded directly from Datto's legitimate infrastructure at:</p>
+<div class="language-text highlight"><pre><span></span><code>hxxps://merlot.rmm.datto[.]com/download-agent/windows/6ebac777-206c-4a91-acdd-909a1828bbb2
+</code></pre></div>
+<p>Saved to disk as <code>AgentSetup_Axon_Inc.exe</code>. The <code>Axon_Inc</code> string in the filename and the UUID in the download URL correspond to a specific Datto RMM tenant account, following the same pattern as the SuperOps campaign — the actor registers (or compromises) an account on a legitimate RMM platform and generates an agent installer tied to their tenant. Datto RMM (formerly Autotask Endpoint Management / CentraStage), like SuperOps, gives the operator full remote access — shell, file transfer, arbitrary command execution, endpoint monitoring — through legitimately signed binaries.</p>
+<h3 id="dual-notification-channels-telegram-and-email">Dual Notification Channels: Telegram and Email<a class="headerlink" href="#dual-notification-channels-telegram-and-email" title="Permanent link">&para;</a></h3>
+<p>Unlike the Adobe-themed kit, which relied solely on Telegram, this one runs a dual-channel operator notification system:</p>
+<ul>
+<li><strong>Telegram notifications</strong> (<code>track_verification.php</code>) go to a different bot and chat ID than the Adobe campaign.</li>
+<li><strong>Email notifications</strong> (<code>send.php</code>) are handled via PHPMailer with the operator's email address configured in <code>ChangeMe.ini</code>.</li>
+</ul>
+<p><strong>Operator email:</strong> <code>Kharpercimra@protonmail[.]com</code></p>
+<p>Both channels capture the same victim telemetry on every page visit, download attempt, and verification event: IP address, geolocation, ISP, browser, OS, and timestamp. Activity is also logged locally to <code>./Guard/Audio/live.txt</code> (Exhibit 14).</p>
+<p><img alt="Pasted image 20260317153326.png" src="../images/Pasted%20image%2020260317153326.png" /></p>
+<blockquote>
+<p><strong>Exhibit 14:</strong> Content of "./Guard/Audio/live.txt" File</p>
+</blockquote>
+<h3 id="operator-opsec-failures-revealing-kit-lineage">Operator OPSEC Failures Revealing Kit Lineage<a class="headerlink" href="#operator-opsec-failures-revealing-kit-lineage" title="Permanent link">&para;</a></h3>
+<p>A few copy-paste artefacts in the kit's source code reveal the operator adapted this Microsoft Teams-themed kit from an earlier Zoom-themed variant:</p>
+<ul>
+<li>In <code>send.php</code>, the download notification email header reads "NEW ZOOM DOWNLOAD ATTEMPT" despite all other references in the file using "Teams" branding (Exhibit 15).</li>
+<li>The email notification sender name is hardcoded as "Zoom Monitoring".</li>
+<li>In <code>microsoft_store.php</code>, the JavaScript comment alongside the Datto RMM download URL reads <code>// Example Zoom download URL</code>.</li>
+</ul>
+<p><img alt="Pasted image 20260317153332.png" src="../images/Pasted%20image%2020260317153332.png" /></p>
+<blockquote>
+<p><strong>Exhibit 15:</strong> Content of "send.php" File</p>
+</blockquote>
+<p>These artefacts indicate the operator maintains a modular phishing kit framework that's re-skinned across multiple application brands — Adobe Reader, Zoom, and Microsoft Teams — while reusing the same backend notification infrastructure, anti-detection logic, and delivery mechanics. I'd expect more variants themed around other commonly targeted applications to exist within the same campaign infrastructure.</p>
+<h2 id="telegram-bot-osint-and-operator-attribution">Telegram Bot OSINT and Operator Attribution<a class="headerlink" href="#telegram-bot-osint-and-operator-attribution" title="Permanent link">&para;</a></h2>
+<p>The Telegram bot configured in the Teams-themed kit was queryable via Telegram's public Bot API. The <code>getMe</code> method returned the bot's identity (Exhibit 16):</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bot ID</td>
+<td><code>7669484417</code></td>
+</tr>
+<tr>
+<td>Bot Display Name</td>
+<td>Evilman_logs Receiver bot (Vip Hacker)</td>
+</tr>
+<tr>
+<td>Bot Username</td>
+<td><code>@bolexsss_bot</code></td>
+</tr>
+</tbody>
+</table>
+<p>The display name explicitly references "Evilman_logs" and "Vip Hacker", confirming the malicious purpose of the bot and suggesting the operator may be using a commercially available or shared cybercriminal toolset for credential logging.</p>
+<p><img alt="Pasted image 20260317153339.png" src="../images/Pasted%20image%2020260317153339.png" /></p>
+<blockquote>
+<p><strong>Exhibit 16:</strong> getMe Telegram Response</p>
+</blockquote>
+<h3 id="telegram-getupdates-analysis">Telegram getUpdates Analysis<a class="headerlink" href="#telegram-getupdates-analysis" title="Permanent link">&para;</a></h3>
+<p>Querying <code>getUpdates</code> returned recent messages sent to the bot. The most recent message, dated 16 March 2026 at 14:35 UTC, was a photo sent by a Telegram user with the following details (Exhibit 17):</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>User ID</td>
+<td><code>5090243433</code></td>
+</tr>
+<tr>
+<td>Display Name</td>
+<td>N00B Cyb0T</td>
+</tr>
+<tr>
+<td>Username</td>
+<td><code>@am*******</code></td>
+</tr>
+<tr>
+<td>Language Code</td>
+<td>English</td>
+</tr>
+<tr>
+<td>Telegram Premium</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>The timestamp confirms the bot was actively in use as recently as one day prior to collection, indicating the associated phishing infrastructure is still operationally active. Note that the user ID observed in the <code>getUpdates</code> response (<code>5090243433</code>) differs from the <code>chat_id</code> configured in the kit's <code>tele_settings.php</code> (<code>6573403598</code>). The kit is configured to deliver victim notifications to a separate account or group chat (<code>6573403598</code>), while <code>@am*******</code> is a distinct individual who has interacted directly with the bot.</p>
+<p><img alt="Pasted image 20260317153346.png" src="../images/Pasted%20image%2020260317153346.png" /></p>
+<blockquote>
+<p><strong>Exhibit 17:</strong> getUpdates Telegram Response</p>
+</blockquote>
+<h2 id="breachforums-activity">BreachForums Activity<a class="headerlink" href="#breachforums-activity" title="Permanent link">&para;</a></h2>
+<p>I went looking for the Telegram username <code>@am*******</code> elsewhere. The same handle is active on BreachForums (<code>breachforums[.]st</code>), a prominent English-language cybercriminal forum. The account <code>am*******</code> shows up in multiple threads, including a reply on 26 March 2025 to a thread distributing a 19,300-entry Algerian credential combolist, and — on the same date — a detailed review thread evaluating multiple carded credit card shops.</p>
+<p>The review thread, titled <em>"CC Stores review (DONT BUY ALL SCAM AND TRASH)"</em>, gives a first-person account of the author's experience purchasing stolen credit cards from six different underground shops (including briansclub, Gonzo, RealValid, and Fernandogoods), with detailed notes on card validity rates, pricing, refund policies, and operational frustrations. The post demonstrates an active and experienced involvement in credit card fraud.</p>
+<p>The interesting bit is the conclusion: the author states that purchasing cards from CC shops is unsustainable, and that it would be preferable to invest in <em>"sms/email/smtp sender and host and all these spamming tools and run my own spamming."</em></p>
+<p>That's a direct, dated statement of intent to pivot from carding to phishing infrastructure operations — and that's precisely the activity I have been documenting throughout this analysis: PHP-based phishing kits with PHPMailer integration, Telegram-based victim notification systems, and multi-brand social engineering lures delivering RMM agents.</p>
+<h2 id="attribution-assessment">Attribution Assessment<a class="headerlink" href="#attribution-assessment" title="Permanent link">&para;</a></h2>
+<p>I assess with high confidence that the Telegram account <code>@am*******</code> ("N00B Cyb0T"), the BreachForums account <code>am*******</code>, and the operator behind at least the Microsoft Teams-themed phishing kit are the same individual, or are closely affiliated. The reasoning:</p>
+<ol>
+<li>Identical username across both platforms.</li>
+<li>The BreachForums account's stated intent to transition from carding to phishing/spamming infrastructure aligns directly with the observed phishing kit operations.</li>
+<li>The Telegram account's direct interaction with <code>@bolexsss_bot</code> — the same bot configured in the kit's <code>tele_settings.php</code> to receive victim notifications.</li>
+<li>Timing: the BreachForums activity (March 2025) precedes the observed phishing infrastructure deployment (kit activity from April 2025 onwards).</li>
+<li>The English language setting on the Telegram account matching the English-language BreachForums posts.</li>
+</ol>
+<h2 id="extended-threat-actor-history">Extended Threat Actor History<a class="headerlink" href="#extended-threat-actor-history" title="Permanent link">&para;</a></h2>
+<h3 id="phishing-kit-development-on-the-altenen-forum-september-2022">Phishing Kit Development on the Altenen Forum (September 2022)<a class="headerlink" href="#phishing-kit-development-on-the-altenen-forum-september-2022" title="Permanent link">&para;</a></h3>
+<p>Digging further turned up corroborating activity that significantly strengthens the assessment. On the Altenen Forum, a long-standing cybercriminal marketplace, a post dated 29 September 2022 authored by user <code>aman**********</code> advertises a Netflix credential phishing kit ("scampage"). The post explicitly lists the Telegram contact <code>@am*******</code> with the display name <code>N00B Cyb0T</code> as the point of contact for the kit — directly linking the <code>aman**********</code> and <code>@am*******</code> identities through self-declaration within the post itself. The post also references a public GitHub repository at <code>github.com/AmanGcS***/Netflixphishingpage</code>, where the "Aman" prefix and "741" suffix match the naming pattern observed across all associated accounts.</p>
+<p>The advertised Netflix phishing kit shares direct architectural parallels with the Teams-themed and Adobe-themed kits recovered during this analysis. The Altenen post describes:</p>
+<ul>
+<li>Dual-channel exfiltration via Telegram API and email.</li>
+<li>Victim IP geolocation collection — country, city, region, ISP, timezone, user agent.</li>
+<li>Configurable operator settings via an editable PHP file (<code>email.php</code> for email and Telegram bot token / chat ID — directly analogous to the <code>tele_settings.php</code> and <code>ChangeMe.ini</code> files in the recovered Teams kit).</li>
+<li>Antibot protections (described in the post as <em>"strong antibots never got redpage"</em> — consistent with the <code>.htaccess</code>-based crawler blocking observed in the current campaign).</li>
+<li>A multi-stage social engineering flow walking victims through sequential pages before payload delivery.</li>
+</ul>
+<p>The consistency of this technical architecture across the 2022 Netflix kit and the 2025–2026 Adobe / Teams / RMM-delivery kits strongly suggests a single developer maintaining and evolving a phishing kit framework over multiple years, progressively adapting the same core infrastructure from consumer credential phishing to corporate-targeting RMM agent delivery.</p>
+<h3 id="cross-platform-account-linkage">Cross-Platform Account Linkage<a class="headerlink" href="#cross-platform-account-linkage" title="Permanent link">&para;</a></h3>
+<p>OSINT collection on both username variants (<code>aman**********</code> and <code>am*******</code>) surfaces a coherent set of accounts that pre-date the cybercriminal activity.</p>
+<p>Both usernames have HackerOne accounts — <code>aman**********</code> created on 21 December 2018 and <code>am*******</code> on 18 August 2024. Both HackerOne accounts are bound to a single verified real-world identity, which I've kept private here. The email <code>aman**********@gmail.com</code> links to a Freelancer profile registered in September 2017 with country code DZ (Algeria). A Chess.com account under <code>am*******</code> also lists country code DZ. A secondary email <code>aman**********@outlook.fr</code> is tied to a Pinterest account under the same username.</p>
+<p>The earliest accounts (Freelancer 2017, HackerOne 2018) are on legitimate platforms — freelance work and vulnerability disclosure — suggesting the individual initially explored legitimate technical career paths before transitioning to cybercriminal activity. The first observed malicious activity, the Netflix phishing kit posted on the Altenen Forum, dates to September 2022.</p>
+<p><img alt="Pasted image 20260317153402.png" src="../images/Pasted%20image%2020260317153402.png" /></p>
+<blockquote>
+<p><strong>Exhibit 18:</strong> aman<strong><em>*</em></strong>*** Profile on Altenen Forum</p>
+</blockquote>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+<footer class="site-footer-custom">
+  <div class="site-footer-inner">
+    <span class="footer-note">v0lundr.github.io · TLP:WHITE</span>
+    <div class="footer-links">
+      <a href="https://github.com/V0lundr" target="_blank" rel="noopener">GitHub</a>
+      <a href="/feed_rss_created.xml" target="_blank" rel="noopener">RSS</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Hide default Material footer */
+  .md-footer { display: none !important; }
+
+  .site-footer-custom {
+    border-top: 1px solid #1e2535;
+    background: #07090f;
+    padding: 1.5rem 0;
+  }
+
+  .site-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: #5a6478;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5a6478;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover { color: #e8a84c; }
+</style>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/fix.js"></script>
+      
+    
+  </body>
+</html>
