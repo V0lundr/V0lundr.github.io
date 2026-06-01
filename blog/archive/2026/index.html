@@ -506,6 +506,141 @@
     <div class="md-post__meta md-meta">
       <ul class="md-meta__list">
         <li class="md-meta__item">
+          <time datetime="2026-06-01 00:00:00+00:00">2026-06-01</time></li>
+        
+        
+          
+          <li class="md-meta__item">
+            
+              10 min read
+            
+          </li>
+        
+        
+      </ul>
+      
+    </div>
+  </header>
+  <div class="md-post__content md-typeset">
+    <h2 id="unc5342-blockchain-dead-drop-loader"><a class="toclink" href="../../unc5342-blockchain-dead-drop-loader/">UNC5342 Blockchain Dead-Drop Loader</a></h2>
+<h2 id="summary"><a class="toclink" href="../../unc5342-blockchain-dead-drop-loader/#summary">Summary</a></h2>
+<p>While tracking DPRK-nexus weaponised package activity, I pivoted from a Socket Threat Research report published on 31 May 2026 describing a UNC5342 (Famous Chollima) JavaScript loader appended to the development branch of a legitimate Packagist-listed PHP package.<sup id="fnref5:1"><a class="footnote-ref" href="../../unc5342-blockchain-dead-drop-loader/#fn:1">1</a></sup> Using the loader's distinctive in-file obfuscation stub as a VirusTotal Intelligence content selector, I identified a further sample sharing the same builder, injected into the codebase of an AI SaaS platform for padel in Spain.</p>
+<p>The loader is nearly identical across the observed samples: a JavaScript stage appended to an otherwise-legitimate file behind a large whitespace gap, executing within the Node.js runtime and resolving its second-stage payload from cryptocurrency blockchain infrastructure (TRON, Aptos, and BNB Smart Chain RPC services) used as a dead-drop resolver rather than a conventional command-and-control domain. Only a per-build campaign marker and the host file vary between samples (the obfuscation framework, decoder seed, and resolver design are constant).</p>
+<p>It is highly likely that the affected application is a legitimately-built commercial product compromised through injection rather than an actor-authored artefact, and as a realistic possibility that the compromised codebase is itself being repurposed as Contagious Interview lure material for subsequent developer victims. Family attribution to the UNC5342 cluster is assessed with high confidence on the basis of a shared loader builder and delivery tradecraft consistent with Socket's reporting.</p>
+<h2 id="background"><a class="toclink" href="../../unc5342-blockchain-dead-drop-loader/#background">Background</a></h2>
+<p>UNC5342 is a DPRK-nexus threat cluster that has targeted software developers since at least 2023 through fraudulent technical-interview and recruitment schemes, an activity set widely tracked as Contagious Interview. The cluster is reported under several overlapping vendor designations (including Famous Chollima, DeceptiveDevelopment, and Void Dokkaebi), and its operations are characterised by the distribution of malware through trojanised packages across multiple open-source ecosystems (npm, PyPI, Go, crates.io, and, more recently, Packagist), GitHub repositories, and coding-task assignments presented as part of a hiring process. Targeting has historically concentrated on developers in the cryptocurrency, blockchain, and financial-technology sectors, with the operational objective of harvesting developer secrets, source-control credentials, cloud and CI/CD tokens, and cryptocurrency wallet material from compromised workstations.</p>
+<p>On 31 May 2026, Socket Threat Research published an analysis of a UNC5342 loader injected into the development branch <code>dev-drewroberts/feature/test-case</code> of the legitimate Packagist-listed PHP package <code>roberts/leads</code>.<sup id="fnref6:1"><a class="footnote-ref" href="../../unc5342-blockchain-dead-drop-loader/#fn:1">1</a></sup> Socket assessed the activity as a likely repository or branch compromise, a poisoned-branch workflow consistent with a Contagious Interview lure, rather than a package authored as malicious from the outset; the package's stable release line did not exhibit the indicators. The malicious code was appended to the <code>tailwind.js</code> configuration file behind a large whitespace gap and, once deobfuscated, behaved as a JavaScript loader that resolved its payload from blockchain infrastructure (TRON and Aptos transaction data as payload pointers, BNB Smart Chain RPC transaction input as encrypted payload material), decrypted it with hardcoded XOR keys, executed it via <code>eval()</code>, and spawned a hidden detached <code>node -e</code> second stage. Public reporting attributes the downstream payloads of this loader to the InvisibleFerret and BeaverTail families.<sup id="fnref4:5"><a class="footnote-ref" href="../../unc5342-blockchain-dead-drop-loader/#fn:5">2</a></sup><sup id="fnref5:6"><a class="footnote-ref" href="../../unc5342-blockchain-dead-drop-loader/#fn:6">3</a></sup></p>
+<p>This note documents a pivot from that report. The in-file artefacts Socket described, principally the loader's obfuscation framework and decoder seed, provided durable, content-searchable selectors that proved to be shared across multiple samples and host files, enabling the identification of further victims beyond the originally reported PHP package.</p>
+<h2 id="pivot-methodology"><a class="toclink" href="../../unc5342-blockchain-dead-drop-loader/#pivot-methodology">Pivot Methodology</a></h2>
+<p>The pivot proceeded from content, not infrastructure. Socket's report did not publish a conventional command-and-control domain to track. The loader resolves its payload from blockchain RPC services rather than a fixed host, so the durable selectors were the loader's own in-file artefacts. Critically, Socket itself published these artefacts: its "Suggested local check" section provided a <code>grep</code> command intended for analysts to scan their own developer machines, listing the loader's distinctive strings, and its "Deobfuscation Findings" and "Indicators of Compromise" sections documented the same values.<sup id="fnref7:1"><a class="footnote-ref" href="../../unc5342-blockchain-dead-drop-loader/#fn:1">1</a></sup> Among the strings Socket published were the obfuscated decoder variable <code>_$_1e42</code>, the decoder seed <code>rmcej%otb%</code>, and the campaign marker <code>global['!']</code> (observed as <code>9-0264-2</code>, expanding to <code>A9-0264-2</code>).</p>
+<p>The initial selector for finding additional samples was the decoder stub variable <code>_$_1e42</code>, an unusual token unlikely to collide with legitimate code:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>content:&quot;_$_1e42&quot;
+</span></code></pre></div>
+<figure>
+  <img src="../images/Pasted image 20260601154445.png" alt="Figure 1: Discovered Sample on VirusTotal (SHA256: 05b051301006b6fbea788bde4014494ef979e06ff8e5d95c9f719258751ba6f4)" />
+  <figcaption>Figure 1: Discovered Sample on VirusTotal (SHA256: 05b051301006b6fbea788bde4014494ef979e06ff8e5d95c9f719258751ba6f4)</figcaption>
+</figure>
+
+<p>This returned files beyond Socket's original <code>roberts/leads</code> sample. Examination confirmed the hits shared the full obfuscation construction, not merely the variable name: the same decoder function fed the seed <code>rmcej%otb%</code> with the multiplier <code>2857687</code>, and the same <code>global[_$_1e42[0]]=require</code> reconstruction. The seed string was used as a corroborating second selector, being even less prone to coincidental collision:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>content:&quot;rmcej%otb%&quot;
+</span></code></pre></div>
+<figure>
+  <img src="../images/Pasted image 20260601151015.png" alt="Figure 2: Content of the Discovered Sample" />
+  <figcaption>Figure 2: Content of the Discovered Sample</figcaption>
+</figure>
+
+<p>The observed sample contained an injection into an application source file of the affected application; despite arriving in a different host-file type like in the Socket research, it carried an identical decoder stub. The differences were limited to the campaign marker (<code>9-0264-2</code> in Socket's case, <code>9-33</code> here) and the host file into which the loader was appended. The decoder framework, the <code>rmcej%otb%</code> seed, the multiplier, and the blockchain-resolver design were the same.</p>
+<h2 id="loader-family-analysis"><a class="toclink" href="../../unc5342-blockchain-dead-drop-loader/#loader-family-analysis">Loader Family Analysis</a></h2>
+<h3 id="naming-and-prior-reporting"><a class="toclink" href="../../unc5342-blockchain-dead-drop-loader/#naming-and-prior-reporting">Naming and Prior Reporting</a></h3>
+<p>The loader analysed here has been documented publicly under several names, reflecting different vendors and different scopes of the same activity. Google's Mandiant and Threat Intelligence Group, relayed by the Canadian Centre for Cyber Security, track the blockchain dead-drop technique as EtherHiding and the specific multi-stage downloader as jadesnow.<sup id="fnref2:4"><a class="footnote-ref" href="../../unc5342-blockchain-dead-drop-loader/#fn:4">4</a></sup><sup id="fnref5:5"><a class="footnote-ref" href="../../unc5342-blockchain-dead-drop-loader/#fn:5">2</a></sup> OpenSourceMalware track the obfuscator and an associated mass GitHub-injection campaign as PolinRider, documenting the identical decoder signature (<code>rmcej%otb%</code>, multiplier <code>2857687</code>, variable <code>_$_1e42</code>) and the same blockchain wallets and XOR keys recovered in this analysis.<sup id="fnref6:6"><a class="footnote-ref" href="../../unc5342-blockchain-dead-drop-loader/#fn:6">3</a></sup> Ransom-ISAC and Crystal Intelligence describe the same chain as Cross-Chain TxDataHiding.<sup id="fnref2:7"><a class="footnote-ref" href="../../unc5342-blockchain-dead-drop-loader/#fn:7">5</a></sup> Public reporting attributes the downstream payload to the InvisibleFerret and BeaverTail families.<sup id="fnref6:5"><a class="footnote-ref" href="../../unc5342-blockchain-dead-drop-loader/#fn:5">2</a></sup><sup id="fnref7:6"><a class="footnote-ref" href="../../unc5342-blockchain-dead-drop-loader/#fn:6">3</a></sup></p>
+<h3 id="obfuscation-structure"><a class="toclink" href="../../unc5342-blockchain-dead-drop-loader/#obfuscation-structure">Obfuscation Structure</a></h3>
+<p>The loader analysis showed that the appended stub was built from four nested decoding layers, each feeding the next:</p>
+<ol>
+<li>A first decoder, assigned to the variable <code>_$_1e42</code>, performs a seeded Fisher-Yates-style shuffle of the seed string <code>rmcej%otb%</code> with the multiplier <code>2857687</code>, followed by a character-substitution pass. It yields a small string table; the loader immediately uses it to reconstruct <code>global['r'] = require</code>, masking the <code>require</code> reference from naive static scanners.</li>
+<li>A second decoder, <code>sfL</code>, of the same shuffle design but different constants, expands two large encoded blobs: the first into a third decoder, and the second into the loader body.</li>
+<li>The third decoder is a dictionary or word-substitution decompressor that expands the loader body into readable JavaScript bearing a single remaining string table, <code>_$_ccfc</code>.</li>
+<li>A final decoder resolves <code>_$_ccfc</code> into the operational strings, the API paths, method names, cryptocurrency addresses, and XOR keys, on which the loader depends.</li>
+</ol>
+<p>The salient point for hunting is that the campaign marker (<code>global['!']</code>, here <code>9-33</code>) is the only element that meaningfully rotates between builds, alongside the host file. The decoder construction, the seed <code>rmcej%otb%</code>, and the multiplier are invariant across all examined samples, and are therefore the reliable family selectors. This is corroborated by OpenSourceMalware, who independently documented the same four-layer structure and the same <code>('rmcej%otb%', 2857687)</code> / <code>_$_1e42</code> signature across their campaign dataset.<sup id="fnref8:6"><a class="footnote-ref" href="../../unc5342-blockchain-dead-drop-loader/#fn:6">3</a></sup></p>
+<figure>
+  <img src="../images/Pasted image 20260601152713.png" alt="Figure 3: Fully deobfuscated `_$_ccfc` string table (indices 0–57) recovered statically from the 9-33 sample, showing the TRON wallets, Aptos accounts, BSC RPC hosts, and XOR keys in clear." />
+  <figcaption>Figure 3: Fully deobfuscated `_$_ccfc` string table (indices 0–57) recovered statically from the 9-33 sample, showing the TRON wallets, Aptos accounts, BSC RPC hosts, and XOR keys in clear.</figcaption>
+</figure>
+<h3 id="payload-resolution-a-blockchain-dead-drop"><a class="toclink" href="../../unc5342-blockchain-dead-drop-loader/#payload-resolution-a-blockchain-dead-drop">Payload Resolution: a Blockchain Dead-drop</a></h3>
+<p>Once decoded, the loader is an asynchronous function with no hardcoded command-and-control domain. Instead it resolves its payload through public cryptocurrency blockchain infrastructure used as a dead-drop, a design that places the controlling pointer and the payload body on immutable, high-availability public ledgers that are impractical to take down and that blend with legitimate blockchain traffic.</p>
+<p>The resolution proceeds in two stages, each independently parameterised with its own wallet, account, and decryption key:</p>
+<ul>
+<li>The loader first queries the TRON network via <code>api.trongrid.io</code>, retrieving the most recent outbound transaction for a hardcoded wallet and extracting a pointer from its <code>raw_data</code> field (hex-decoded, reversed, and reassembled). Should this fail, it falls back to the Aptos network via <code>fullnode.mainnet.aptoslabs.com</code>, reading the pointer from a hardcoded account's latest transaction <code>payload</code>.</li>
+<li>Using that pointer, the loader issues a JSON-RPC <code>eth_getTransactionByHash</code> request to BNB Smart Chain (<code>bsc-dataseed.binance.org</code>, falling back to <code>bsc-rpc.publicnode.com</code>) and reads the transaction's <code>input</code> field as the encrypted payload body. The body is then XOR-decrypted with a hardcoded repeating key.</li>
+</ul>
+<figure>
+  <img src="../images/Pasted image 20260601153539.png" alt="Figure 4: Deobfuscated, Annotated Loader Body Showing the Blockchain Dead-drop Resolution and Two-stage Execution" />
+  <figcaption>Figure 4: Deobfuscated, Annotated Loader Body Showing the Blockchain Dead-drop Resolution and Two-stage Execution</figcaption>
+</figure>
+<h3 id="execution-two-stages-and-a-hidden-child-process"><a class="toclink" href="../../unc5342-blockchain-dead-drop-loader/#execution-two-stages-and-a-hidden-child-process">Execution: Two Stages and a Hidden Child Process</a></h3>
+<p>The loader runs two payloads in sequence, each resolved through the mechanism above with a distinct wallet and key:</p>
+<ul>
+<li>The first payload is executed in-process via <code>eval()</code>.</li>
+<li>The second is executed by spawning a detached child process: <code>node -e &lt;payload&gt;</code>, with <code>detached: true</code>, <code>stdio: 'ignore'</code>, and <code>windowsHide: true</code>, so the second stage runs as an independent, windowless background process that survives the parent and produces no visible console. The campaign marker is propagated into the child through <code>global['_V']</code>, so the second stage inherits the build tag. An <code>eval()</code> of the same payload is retained as a fallback should the spawn fail.</li>
+</ul>
+<p>A thirty-second self-throttle (<code>global['_p_t']</code>, compared against <code>Date.getTime()</code>) prevents the loader re-running on rapid re-<code>require</code>, reducing duplicate execution and associated noise.</p>
+<p>The second-stage payloads themselves were not recovered. They do not reside in the file; they are retrieved at runtime from the blockchain, the payload pointer from a TRON transaction (Aptos as fallback) and the encrypted payload body from the referenced BNB Smart Chain transaction. Recovery therefore requires an on-chain retrieval of the relevant transactions followed by XOR decryption with the recovered keys, and is recorded as an outstanding task.</p>
+<figure>
+  <img src="../images/Pasted image 20260601154007.png" alt="Figure 5: Thirty-second Self-Throttle and Other Stages" />
+  <figcaption>Figure 5: Thirty-second Self-Throttle and Other Stages</figcaption>
+</figure>
+<h3 id="relationship-to-the-socket-reported-sample"><a class="toclink" href="../../unc5342-blockchain-dead-drop-loader/#relationship-to-the-socket-reported-sample">Relationship to the Socket-reported Sample</a></h3>
+<p>Deobfuscation of the <code>9-33</code> sample resolved the operational string table to indicators that are identical to those Socket published for the <code>roberts/leads</code> case: the same two TRON wallets, the same two Aptos accounts, the same two XOR keys, and the same RPC hosts.<sup id="fnref8:1"><a class="footnote-ref" href="../../unc5342-blockchain-dead-drop-loader/#fn:1">1</a></sup> The samples are therefore assessed with high confidence to originate from the same builder and to share the same staging infrastructure, not merely the same technique. They are not byte-identical: the campaign marker differs (<code>9-33</code> against <code>9-0264-2</code>), the host file differs (the application route module <code>AccountDataRoutes.js</code> against <code>tailwind.js</code>), and the per-build encoded inner strings differ.</p>
+<h2 id="the-affected-application"><a class="toclink" href="../../unc5342-blockchain-dead-drop-loader/#the-affected-application">The Affected Application</a></h2>
+<p>The host of the <code>9-33</code> sample appears to be a real commercial product: a multi-tenant SaaS platform for padel and tennis club management, built for the Spanish market by a third-party software vendor and marketed as an AI-assisted assistant for clubs. It's worth noting that the identifying details are masked throughout.</p>
+<p>The platform looks like a substantial build, not a thin shell: a Node.js, Express, and MySQL backend that integrates with established court-management platforms (Playtomic, Syltek, Taykus) as a complementary automation layer, with booking automation, Stripe subscription billing, WhatsApp Business messaging, MQTT venue and lighting control, and an energy-management integration. It is publicly documented as an associate member of an international padel industry body since February 2025, with a public website and social-media presence.</p>
+<h2 id="injection-footprint-and-deployment-path"><a class="toclink" href="../../unc5342-blockchain-dead-drop-loader/#injection-footprint-and-deployment-path">Injection Footprint and Deployment Path</a></h2>
+<p>Across the entire codebase, the loader was present in exactly one file: <code>AccountDataRoutes.js</code>, the Express route module handling account and Stripe billing data. Every other component, the services, controllers, middleware, scheduled jobs, utilities, the application entry point <code>app.js</code>, and the dependency manifests, was clean. The malicious JavaScript was appended after the file's legitimate <code>module.exports = router;</code> behind a large whitespace gap, the same parasitic-append pattern Socket documented for the <code>tailwind.js</code> case. The route is mounted in <code>app.js</code>, so the loader executes whenever the application loads that module.</p>
+<figure>
+  <img src="../images/Pasted image 20260601154655.png" alt="Figure 6: A Typical DPRK Whitespace Gap Followed by the Appended Loader" />
+  <figcaption>Figure 6: A Typical DPRK Whitespace Gap Followed by the Appended Loader</figcaption>
+</figure>
+
+<h2 id="references"><a class="toclink" href="../../unc5342-blockchain-dead-drop-loader/#references">References</a></h2>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Socket Threat Research, "Famous Chollima Targets PHP Developers Through Compromised Packagist Package", 31 May 2026. <code>hxxps://socket[.]dev/blog/famous-chollima-targets-php-developers-through-compromised-packagist-package</code>&#160;<a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref2:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref3:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref4:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref5:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref6:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref7:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref8:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:5">
+<p>Canadian Centre for Cyber Security, "EtherHiding: The trojan in your toolchain", 12 March 2026 (modified 31 March 2026). <code>hxxps://www[.]cyber[.]gc[.]ca/en/news-events/etherhiding-trojan-your-toolchain</code>&#160;<a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref:5" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref2:5" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref3:5" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref4:5" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref5:5" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref6:5" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:6">
+<p>OpenSourceMalware, "PolinRider: DPRK Threat Actor Implants Malware in Hundreds of GitHub Repos", 7 March 2026. <code>hxxps://github[.]com/OpenSourceMalware/PolinRider</code>&#160;<a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref:6" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref2:6" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref3:6" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref4:6" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref5:6" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref6:6" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref7:6" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref8:6" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:4">
+<p>Blas Kojusner et al., "DPRK Adopts EtherHiding: Nation-State Malware Hiding on Blockchains", Mandiant / Google Threat Intelligence Group, 16 October 2025.&#160;<a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref:4" title="Jump back to footnote 4 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref2:4" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:7">
+<p>Ellis Stannard, "Cross-Chain TxDataHiding Crypto Heist: A Very Chainful Process (Part 1)", Ransom-ISAC, 20 October 2025. <code>hxxps://ransom-isac[.]org/blog/cross-chain-txdatahiding-crypto-heist/</code>&#160;<a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref:7" title="Jump back to footnote 5 in the text">&#8617;</a><a class="footnote-backref" href="../../unc5342-blockchain-dead-drop-loader/#fnref2:7" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+    
+    
+  </div>
+</article>
+      
+        <article class="md-post md-post--excerpt">
+  <header class="md-post__header">
+    
+      <nav class="md-post__authors md-typeset">
+        
+          <span class="md-author">
+            <img src="https://github.com/V0lundr.png" alt="V0lundr">
+          </span>
+        
+      </nav>
+    
+    <div class="md-post__meta md-meta">
+      <ul class="md-meta__list">
+        <li class="md-meta__item">
           <time datetime="2026-05-29 00:00:00+00:00">2026-05-29</time></li>
         
         
