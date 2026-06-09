@@ -1,0 +1,515 @@
+/* ── GOOGLE FONTS ───────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=JetBrains+Mono:wght@300;400;500&display=swap');
+
+/* ── CORE PALETTE ───────────────────────────────────────────── */
+
+[data-md-color-scheme="slate"] {
+  --md-hue: 210;
+
+  --md-default-bg-color:           #07090f;
+  --md-default-bg-color--light:    #0d1119;
+  --md-default-bg-color--lighter:  #131824;
+  --md-default-bg-color--lightest: #1a2030;
+
+  --md-default-fg-color:           #c8d0de;
+  --md-default-fg-color--light:    #8898b0;
+  --md-default-fg-color--lighter:  #5a6478;
+  --md-default-fg-color--lightest: #2a3347;
+
+  --md-accent-fg-color:              #e8a84c;
+  --md-accent-fg-color--transparent: rgba(232,168,76,0.08);
+
+  --md-primary-fg-color:       #07090f;
+  --md-primary-fg-color--light:#0d1119;
+  --md-primary-fg-color--dark: #030507;
+  --md-primary-bg-color:       #c8d0de;
+
+  --md-code-bg-color:   #0d1119;
+  --md-code-fg-color:   #a8d0c0;
+  --md-code-hl-color:   rgba(232,168,76,0.15);
+
+  --md-code-hl-number-color:      #d4956a;
+  --md-code-hl-special-color:     #e8a84c;
+  --md-code-hl-function-color:    #7ab4e8;
+  --md-code-hl-constant-color:    #d45f5f;
+  --md-code-hl-keyword-color:     #c47ed4;
+  --md-code-hl-string-color:      #a8d0a0;
+  --md-code-hl-name-color:        #a8d0c0;
+  --md-code-hl-operator-color:    #8898b0;
+  --md-code-hl-punctuation-color: #5a6478;
+  --md-code-hl-comment-color:     #4a5568;
+  --md-code-hl-variable-color:    #a8c4e0;
+
+  --md-typeset-a-color: #5b8dd9;
+}
+
+/* ── GLOBAL BODY ────────────────────────────────────────────── */
+
+body {
+  font-family: 'Newsreader', Georgia, serif !important;
+  background-color: #07090f;
+  /* Subtle grid overlay matching original */
+  background-image:
+    linear-gradient(rgba(30,37,53,0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,37,53,0.5) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-attachment: fixed;
+}
+
+/* ── HEADER ─────────────────────────────────────────────────── */
+
+.md-header {
+  background-color: #07090f;
+  border-bottom: 1px solid #1e2535;
+  box-shadow: none;
+  backdrop-filter: blur(12px);
+}
+
+.md-header__title {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+}
+
+.md-header__button {
+  color: #8898b0;
+}
+
+/* ── TABS ───────────────────────────────────────────────────── */
+
+.md-tabs {
+  background-color: #0d1119;
+  border-bottom: 1px solid #1e2535;
+}
+
+.md-tabs__link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8898b0 !important;
+  opacity: 1 !important;
+}
+
+.md-tabs__link--active,
+.md-tabs__link:hover {
+  color: #e8a84c !important;
+}
+
+/* ── SIDEBAR ────────────────────────────────────────────────── */
+
+.md-sidebar {
+  background-color: #07090f;
+}
+
+.md-nav__title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #5a6478;
+}
+
+.md-nav__link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #8898b0;
+}
+
+.md-nav__link--active,
+.md-nav__link:hover {
+  color: #e8a84c !important;
+}
+
+/* ── MAIN CONTENT ───────────────────────────────────────────── */
+
+.md-main {
+  background-color: transparent;
+}
+
+.md-content {
+  background-color: transparent;
+}
+
+.md-content__inner {
+  padding-top: 2rem;
+}
+
+/* ── TYPOGRAPHY ─────────────────────────────────────────────── */
+
+.md-typeset {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  font-weight: 300;
+}
+
+.md-typeset h1 {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 300;
+  font-size: 2.4rem;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #dce4f0;
+  border-bottom: 1px solid #1e2535;
+  padding-bottom: 0.5rem;
+}
+
+.md-typeset h2 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #e8a84c;
+  border-bottom: 1px solid #1e2535;
+  padding-bottom: 0.5rem;
+  margin-top: 3rem;
+}
+
+.md-typeset h2::before {
+  content: "§ ";
+  color: #7a5520;
+}
+
+.md-typeset h3 {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #c8d8f0;
+}
+
+.md-typeset h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8898b0;
+}
+
+.md-typeset p {
+  font-weight: 300;
+}
+
+.md-typeset a {
+  color: #5b8dd9;
+  text-decoration-color: rgba(91,141,217,0.35);
+  text-underline-offset: 2px;
+}
+
+.md-typeset a:hover {
+  color: #e8a84c;
+}
+
+.md-typeset strong {
+  color: #d0daea;
+  font-weight: 500;
+}
+
+/* ── CODE ───────────────────────────────────────────────────── */
+
+.md-typeset code {
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #0d1119;
+  border: 1px solid #1e2535;
+  color: #a8d0c0;
+  font-size: 0.82em;
+  padding: 0.1em 0.4em;
+  border-radius: 2px;
+}
+
+.md-typeset pre {
+  background-color: #0d1119;
+  border: 1px solid #1e2535;
+  border-left: 3px solid #7a5520;
+  border-radius: 0 2px 2px 0;
+}
+
+.md-typeset pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #b8d4c8;
+}
+
+/* ── BLOG LISTING PAGE ──────────────────────────────────────── */
+
+/* Blog page title */
+.md-typeset .md-blog h1 {
+  font-family: 'Newsreader', Georgia, serif !important;
+  font-size: clamp(2rem, 4vw, 3rem) !important;
+  font-weight: 300 !important;
+  color: #dce4f0 !important;
+  border-bottom: 1px solid #1e2535 !important;
+}
+
+/* Each post card in the listing */
+.md-post {
+  border-bottom: 1px solid #1e2535;
+  padding: 2.5rem 0;
+}
+
+.md-post:first-child {
+  border-top: 1px solid #1e2535;
+}
+
+/* Post title on listing */
+.md-post__title {
+  font-family: 'Newsreader', Georgia, serif !important;
+  font-size: 1.4rem !important;
+  font-weight: 400 !important;
+  color: #d0daea !important;
+  line-height: 1.3 !important;
+  text-decoration: none !important;
+}
+
+.md-post__title:hover {
+  color: #e8a84c !important;
+}
+
+/* Post metadata row (date, author, read time) */
+.md-post__meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: #5a6478;
+  letter-spacing: 0.04em;
+}
+
+/* Category tags */
+.md-post__categories {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.md-post__categories a {
+  background: none !important;
+  border: none !important;
+  padding: 0 0.6rem 0 0 !important;
+  border-radius: 0 !important;
+  text-decoration: none !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.62rem !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: #5a6478 !important;
+  transition: color 0.15s ease;
+}
+
+.md-post__categories a::before { content: "// "; opacity: 0.55; }
+.md-post__categories a::after  { content: ""; }
+
+.md-post__categories a:hover { color: #e8a84c !important; }
+
+.md-post__categories a[href*="malware"]             { color: #d45f5f !important; }
+.md-post__categories a[href*="threat-intel"],
+.md-post__categories a[href*="threat-intelligence"] { color: #5b8dd9 !important; }
+.md-post__categories a[href*="detection"]           { color: #5ba88a !important; }
+.md-post__categories a[href*="reverse"]             { color: #c47ed4 !important; }
+
+/* Post excerpt */
+.md-post__excerpt {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 0.95rem;
+  color: #8898b0;
+  font-weight: 300;
+  line-height: 1.65;
+}
+
+/* ── INDIVIDUAL POST PAGE ───────────────────────────────────── */
+
+.md-post__content {
+  font-family: 'Newsreader', Georgia, serif;
+}
+
+/* Author chip */
+.md-author {
+  border: 1px solid #1e2535;
+  background: #0d1119;
+}
+
+/* Post date/meta bar at top of post */
+.md-post__header .md-post__meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: #5a6478;
+  border-bottom: 1px solid #1e2535;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* ── TABLES ─────────────────────────────────────────────────── */
+
+.md-typeset table:not([class]) {
+  border: 1px solid #1e2535;
+  font-size: 0.85rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: #0d1119;
+  color: #8898b0;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #2a3347;
+  font-weight: 500;
+}
+
+.md-typeset table:not([class]) td {
+  border-bottom: 1px solid #1e2535;
+  font-size: 0.78rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.md-typeset table:not([class]) tr:hover td {
+  background-color: #0d1119;
+}
+
+/* ── ADMONITIONS ────────────────────────────────────────────── */
+
+.md-typeset .admonition,
+.md-typeset details {
+  background-color: #0d1119;
+  border: 1px solid #1e2535;
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 0.95rem;
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: #131824 !important;
+}
+
+.md-typeset .note > .admonition-title  { color: #5b8dd9; }
+.md-typeset .warning > .admonition-title { color: #e8a84c; }
+.md-typeset .danger > .admonition-title  { color: #d45f5f; }
+.md-typeset .tip > .admonition-title     { color: #5ba88a; }
+
+/* ── TAGS ───────────────────────────────────────────────────── */
+
+.md-tag {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.62rem !important;
+  letter-spacing: 0.08em !important;
+  background: rgba(91,141,217,0.1) !important;
+  border: 1px solid rgba(91,141,217,0.2) !important;
+  color: #5b8dd9 !important;
+  border-radius: 2px !important;
+}
+
+/* ── SEARCH ─────────────────────────────────────────────────── */
+
+.md-search__form {
+  background-color: #0d1119;
+  border: 1px solid #1e2535;
+  border-radius: 2px;
+}
+
+.md-search__form:hover,
+.md-search__form:focus-within {
+  border-color: #e8a84c;
+}
+
+.md-search__input {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+}
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+
+.md-footer {
+  background-color: #07090f;
+  border-top: 1px solid #1e2535;
+}
+
+.md-footer-meta {
+  background-color: #03040a;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: #5a6478;
+}
+
+.md-footer__link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: #8898b0;
+}
+
+.md-footer__link:hover {
+  color: #e8a84c;
+}
+
+/* Tighten blog listing spacing */
+.md-blog {
+  padding-top: 1rem;
+}
+
+.md-blog__title {
+  margin-bottom: 0.5rem;
+}
+
+/* Remove gap between title and first post */
+.md-blog .md-post:first-child {
+  margin-top: 0;
+  padding-top: 1.5rem;
+}
+
+/* ── SCROLLBAR ──────────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #07090f; }
+::-webkit-scrollbar-thumb { background: #1e2535; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #2a3347; }
+
+/* ── FIGURE CAPTIONS ────────────────────────────────────────── */
+
+figure {
+  margin: 2rem 0;
+}
+
+figcaption {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: #5a6478;
+  letter-spacing: 0.06em;
+  margin-top: 0.5rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid #1e2535;
+}
+
+/* Redirect blog back-link to home */
+.md-post__nav-link[href="../"] {
+  display: none;
+}
+/* ── KILL CATEGORY TAG BOXES ───────────────────────────────── */
+.md-post__categories,
+.md-post__categories li,
+.md-post__categories .md-tag,
+.md-post__categories span {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin-right: 0.4rem !important;
+  box-shadow: none !important;
+}
+
+/* ── FORCE-FLATTEN CATEGORY TAGS (catch-all) ───────────────── */
+.md-post__categories *,
+[class*="md-post__categories"] {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
