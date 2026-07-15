@@ -1,0 +1,1173 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A 60 MB APPS.zip uploaded to VirusTotal turns out to be the web root of a Bharat Oman Refineries (BORL) ASP.NET application with three webshells added in the days before upload - a WSO-style manual operator shell and two Neo-reGeorg tunnelling shells. No public breach has been reported or confirmed by the company.">
+      
+      
+        <meta name="author" content="V0lundr">
+      
+      
+        <link rel="canonical" href="https://v0lundr.github.io/blog/borl-apps-zip-webshells/">
+      
+      
+        <link rel="prev" href="../trycloudflare-screenconnect-backdoor/">
+      
+      
+      
+        
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>APPS.zip: A Compromised BORL Web Application and Two Webshells - V0lundr</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#appszip-a-compromised-borl-web-application-and-two-webshells" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+<header class="site-header">
+  <div class="site-header__inner">
+
+    <!-- Left: handle -->
+    <a href="https://v0lundr.github.io/" class="site-header__logo">
+      // theUnattributed
+    </a>
+
+    <!-- Centre: nav links -->
+    <nav class="site-header__nav">
+      <a href="https://v0lundr.github.io/" class="site-header__link ">Home</a>
+      <a href="https://v0lundr.github.io/about/" class="site-header__link ">About</a>
+    </nav>
+
+    <!-- Right: search -->
+    <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+</header>
+
+<style>
+  /* ── KILL DEFAULT HEADER & TABS ─────────────────────────── */
+  .md-header { display: none !important; }
+  .md-tabs   { display: none !important; }
+
+  /* ── CUSTOM HEADER ──────────────────────────────────────── */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,9,15,0.95);
+    border-bottom: 1px solid #1e2535;
+    backdrop-filter: blur(12px);
+  }
+
+  .site-header__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  /* Handle / logo */
+  .site-header__logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: #e8a84c;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Nav links */
+  .site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  .site-header__link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8898b0;
+    text-decoration: none;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .site-header__link:hover {
+    color: #e8a84c;
+    background: rgba(232,168,76,0.06);
+  }
+
+  .site-header__link.active {
+    color: #e8a84c;
+  }
+
+  /* Search — override Material defaults to fit our bar */
+  .md-search {
+    flex-shrink: 0;
+  }
+
+  .md-search__form {
+    background: #0d1119 !important;
+    border: 1px solid #1e2535 !important;
+    border-radius: 2px !important;
+    height: 32px !important;
+    width: 200px !important;
+  }
+
+  .md-search__form:focus-within {
+    border-color: #e8a84c !important;
+    width: 280px !important;
+    transition: width 0.2s ease;
+  }
+
+  .md-search__input {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.75rem !important;
+    color: #c8d0de !important;
+  }
+
+  .md-search__input::placeholder {
+    color: #5a6478 !important;
+  }
+
+  .md-search__icon {
+    color: #5a6478 !important;
+  }
+
+  /* Offset page content so sticky header doesn't overlap */
+  .md-main {
+    padding-top: 0 !important;
+  }
+
+  @media (max-width: 600px) {
+    .site-header__logo { display: none; }
+    .md-search__form { width: 140px !important; }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("a").forEach(function (link) {
+      if (link.textContent.trim() === "Back to index") {
+        link.setAttribute("href", "/");
+      }
+    });
+  });
+</script>
+
+
+<footer class="site-footer-custom">
+  <div class="site-footer-inner">
+    <span class="footer-note">v0lundr.github.io · TLP:WHITE</span>
+    <div class="footer-links">
+      <a href="https://github.com/V0lundr" target="_blank" rel="noopener">GitHub</a>
+      <a href="/feed_rss_created.xml" target="_blank" rel="noopener">RSS</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Hide default Material footer */
+  .md-footer { display: none !important; }
+
+  .site-footer-custom {
+    border-top: 1px solid #1e2535;
+    background: #07090f;
+    padding: 1.5rem 0;
+  }
+
+  .site-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: #5a6478;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5a6478;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover { color: #e8a84c; }
+</style>
+
+
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="V0lundr" class="md-nav__button md-logo" aria-label="V0lundr" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    V0lundr
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Executive Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Background
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provenance-and-file-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provenance and File Metadata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#archive-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Archive Layout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#identifying-the-recently-added-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identifying the Recently-Added Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#borlapiaspx-manual-operator-wso-style-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        borlapi.aspx - Manual-Operator WSO-Style Shell
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="borlapi.aspx - Manual-Operator WSO-Style Shell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#borlapiaspx-targets-sql-server-specifically" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        borlapi.aspx Targets SQL Server Specifically
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#borelaspx-a-tunnelling-shell-structurally-consistent-with-neo-regeorg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        borel.aspx - A Tunnelling Shell Structurally Consistent with Neo-reGeorg
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="borel.aspx - A Tunnelling Shell Structurally Consistent with Neo-reGeorg">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-idle-page-banner-a-neo-regeorg-fingerprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Idle-Page Banner: A Neo-reGeorg Fingerprint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contentborelaspx-the-same-shell-but-renamed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Content/borel.aspx - The Same Shell, but Renamed
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attribution-what-the-tooling-suggests-and-what-it-does-not" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attribution - What the Tooling Suggests, and What It Does Not
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attribution - What the Tooling Suggests, and What It Does Not">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-china-hypothesis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The China hypothesis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-is-missing-to-raise-confidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Missing to Raise Confidence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-hypotheses-that-must-be-kept-alive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative Hypotheses that Must be Kept Alive
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confidence-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confidence statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-07-15 00:00:00+00:00" class="md-ellipsis">2026-07-15</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../category/malware-analysis/">Malware Analysis</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              13 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+
+<h1 id="appszip-a-compromised-borl-web-application-and-two-webshells">APPS.zip: A Compromised BORL Web Application and Two Webshells<a class="headerlink" href="#appszip-a-compromised-borl-web-application-and-two-webshells" title="Permanent link">&para;</a></h1>
+<h2 id="executive-summary">Executive Summary<a class="headerlink" href="#executive-summary" title="Permanent link">&para;</a></h2>
+<p>On 7 July 2026 a 60 MB ZIP archive was submitted to VirusTotal from a single unique source from India. The archive with a filename <code>APPS.zip</code>, contains what appears to be the on-disk web root of an ASP.NET application belonging to Bharat Oman Refineries Limited (BORL). BORL operates the Bina refinery in Madhya Pradesh and is a wholly-owned subsidiary of Bharat Petroleum Corporation Limited (BPCL), the Government-of-India-owned oil major into which it was amalgamated in 2022; ownership ultimately sits under the Ministry of Petroleum and Natural Gas. The application itself dates from roughly 2017-2024 and looks legitimate. However, three ASP.NET files added between 30 June and 3 July 2026, days before the archive was uploaded, are webshells - which opens up a lot of questions.</p>
+<p>As of the time of writing, I have found no public reporting of this intrusion, and neither BORL nor BPCL has publicly disclosed or confirmed a breach consistent with this activity. Everything below is derived solely from the archive submitted to VirusTotal.</p>
+<!-- more -->
+
+<p>After the analysis, the two distinct webshell families are:</p>
+<ol>
+<li>A full-featured manual-operator ASPX shell (<code>borlapi.aspx</code>) offering file browser, file editor, file uploader, <code>cmd</code> execution, and an SQL query manager, protected by the hard-coded password <code>Admin1234@_</code>.</li>
+<li>A socket-relay / tunnelling webshell (<code>borel.aspx</code>) whose protocol vocabulary (<code>CONNECT</code>, <code>FORWARD</code>, <code>READ</code>, <code>DISCONNECT</code>), 40-slot <code>object[]</code> info array, and per-request base64-plus-substitution encoding are structurally identical to the ASPX template shipped by Neo-reGeorg, a fork of SensePost's <code>reGeorg</code> maintained by a Chinese researcher (GitHub <code>L-codes</code>) and repeatedly attributed by commercial intelligence to China-nexus intrusion sets.</li>
+</ol>
+<h2 id="background">Background<a class="headerlink" href="#background" title="Permanent link">&para;</a></h2>
+<p>The two tunnelling shells in this archive belong to a well-known lineage. SensePost released <code>reGeorg</code>, the successor to their earlier <code>reDuh</code> tool, which turns a webshell on a bastion host into a SOCKS proxy so an operator can pivot into a network from a single foothold.<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">1</a></sup> A researcher publishing under the GitHub handle <code>L-codes</code> later released Neo-reGeorg, an aggressive refactor of <code>reGeorg</code> designed to be harder to fingerprint: it disguises its traffic as ordinary base64, wraps its data in a byte-length-value format, and can hide its idle response inside a decoy page such as a fake 404.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">2</a></sup> Neo-reGeorg is open-source and used by red teams worldwide, but it has also become a common post-exploitation tunnel in intrusions attributed to several China-nexus intrusion sets, which is what makes its appearance here relevant to the attribution question later in this post.</p>
+<p>The manual <code>borlapi.aspx</code> shell comes from a different and older tradition: the WSO / c99 family of administrative webshells that bundle a file browser, editor, uploader, command runner and database client behind a single password prompt. That lineage is commodity tooling, mirrored across dozens of public repositories, and carries little attribution weight on its own.</p>
+<h2 id="provenance-and-file-metadata">Provenance and File Metadata<a class="headerlink" href="#provenance-and-file-metadata" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Filename</td>
+<td><code>APPS.zip</code></td>
+</tr>
+<tr>
+<td>SHA-256</td>
+<td><code>52e613240ebaa85272e7fef5134f101a909ee7709e24dcb53f763462a436e49c</code></td>
+</tr>
+<tr>
+<td>SHA-1</td>
+<td><code>4708baba3d7a101c83ccb39e5688e5c5d1bce315</code></td>
+</tr>
+<tr>
+<td>MD5</td>
+<td><code>65628cd154e468a1848c0815e2c1b7c1</code></td>
+</tr>
+<tr>
+<td>Size</td>
+<td>62,617,816 bytes (59.72 MiB)</td>
+</tr>
+<tr>
+<td>VT first seen</td>
+<td>7 July 2026, 03:39 UTC</td>
+</tr>
+<tr>
+<td>VT submissions</td>
+<td>1 (single unique source)</td>
+</tr>
+<tr>
+<td>File uploaded from (VT enterprise UI)</td>
+<td>India</td>
+</tr>
+</tbody>
+</table>
+<p>The single-source, single-submission fingerprint and the archive password suggest either defensive triage or staged handoff between researchers. It does not look like automated malspam or wild collection.</p>
+<h2 id="archive-layout">Archive Layout<a class="headerlink" href="#archive-layout" title="Permanent link">&para;</a></h2>
+<p>Extracted, the ZIP expands to two sibling ASP.NET applications:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>APPS/
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── BORLAPI/    - ASP.NET Web API (.NET 4.6.1, EF6, AttributeRouting)
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>└── BORLCMMS/   - AngularJS front-end for a compliance/CMMS dashboard
+</span></code></pre></div>
+<p>Total: 1,799 files, 218 MB on disk. The application stack contains Antlr, Newtonsoft.Json, Linq-to-Excel, EF6, Angular 1.x, jQuery, moment.js. The <code>.exe</code> files inside (<code>csc.exe</code>, <code>csi.exe</code>, <code>vbc.exe</code>, <code>VBCSCompiler.exe</code>) are the standard Roslyn compilers shipped with ASP.NET and are not malicious.</p>
+<figure>
+  <img src="../images/Pasted image 20260715114051.png" alt="Top-level folder listing of the extracted APPS archive sorted by date">
+  <figcaption>Figure 1: Main folder sort.</figcaption>
+</figure>
+
+<h2 id="identifying-the-recently-added-files">Identifying the Recently-Added Files<a class="headerlink" href="#identifying-the-recently-added-files" title="Permanent link">&para;</a></h2>
+<p>The overwhelming majority of files in the archive carry mtimes between 2017 and 2024, which is plausible for a long-lived enterprise application. Filtering out static assets (<code>.cshtml</code>, <code>.js</code>, <code>.css</code>, fonts, images, maps) and looking only at code/config files modified in 2025 or later yields exactly three files, all under <code>BORLAPI/</code>:</p>
+<figure>
+  <img src="../images/Pasted image 20260715114554.png" alt="The three recently modified code files added to the APPS folder">
+  <figcaption>Figure 2: The newer files added to the APPS folder.</figcaption>
+</figure>
+
+<p>The three-day cadence of the drops (30 June -&gt; 2 July -&gt; 3 July) is suggestive of an operator iterating: dropping a manual shell first, then adding tunnelling capability, then dropping a second copy of the tunnelling shell into a less-attention-getting subdirectory (<code>Content/</code>, which normally holds CSS and images).</p>
+<h2 id="borlapiaspx-manual-operator-wso-style-shell">borlapi.aspx - Manual-Operator WSO-Style Shell<a class="headerlink" href="#borlapiaspx-manual-operator-wso-style-shell" title="Permanent link">&para;</a></h2>
+<p><code>borlapi.aspx</code> is a straightforward, unobfuscated ASP.NET Web-Forms page. Its <code>Page_Load</code> handler dispatches on a base64-encoded <code>act</code> query-string parameter to one of six operator features:</p>
+<figure>
+  <img src="../images/Pasted image 20260715145046.png" alt="Partial contents of the borlapi.aspx manual operator webshell">
+  <figcaption>Figure 3: Partial contents of borlapi.aspx.</figcaption>
+</figure>
+
+<p>The command tokens are only cosmetically hidden (base64 with the literal ASCII strings visible after one decode). The shell's cookie name for its working-directory state is <code>shell_path</code>. Password check is a plaintext comparison against the hard-coded <code>Admin1234@_</code>.</p>
+<p>Feature-wise this is a WSO (Web Shell by oRb) / c99-lineage administrative shell ported to ASP.NET - file browser + editor + uploader + shell command + SQL client + logout.<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup> The "dark" style constant and the modal layout in the HTML confirm the WSO visual heritage. Nothing in the code identifies a specific author or operator. In other words, the password is generic, no unique tag or version string, and no C2 callback. It is best treated as commodity tradecraft, the sort of thing an operator can grab from any of dozens of GitHub mirrors.</p>
+<figure>
+  <img src="../images/Pasted image 20260715115558.png" alt="The Page_Load dispatcher of borlapi.aspx">
+  <figcaption>Figure 4: The <code>Page_Load</code> dispatcher of borlapi.aspx.</figcaption>
+</figure>
+
+<p>Kaspersky's <code>Backdoor.ASP.Agent.co</code> verdict on the parent ZIP is consistent with this file being the primary trigger, but the more interesting artefact, from an attribution perspective, is <code>borel.aspx</code>.</p>
+<h3 id="borlapiaspx-targets-sql-server-specifically"><code>borlapi.aspx</code> Targets SQL Server Specifically<a class="headerlink" href="#borlapiaspx-targets-sql-server-specifically" title="Permanent link">&para;</a></h3>
+<p>Beyond the action tokens covered above, extracting the full set of base64 tokens embedded in the shell reveals hardcoded discovery queries:</p>
+<ul>
+<li><code>SELECT * FROM INFORMATION_SCHEMA.TABLES;</code></li>
+<li><code>SELECT name FROM master.dbo.sysdatabases</code></li>
+</ul>
+<p><code>master.dbo.sysdatabases</code> is a Microsoft SQL Server catalogue view. It does not exist on MySQL, PostgreSQL, or Oracle. As far as I could understand, it is present on SQL Server 2000 and later. The shell also emits IIS-specific server-variable lookups (<code>LOCAL_ADDR</code>, <code>SERVER_SOFTWARE</code>) rather than generic HTTP headers.</p>
+<p>Combined with the fact that the compromised application runs on Microsoft SQL Server, this is consistent with an operator who either knew the target stack in advance or was using a shell whose defaults happened to fit. It is a weak signal on its own, but it mildly favours a not-fully-blind attacker over a scanner dropping whatever landed first.</p>
+<p>The shell also supports finer-grained file operations than the top-level tokens suggest. Extracted sub-tokens include <code>fedit_read</code>, <code>fedit_write</code>, <code>fedit_mkdir</code>, <code>fedit_remove</code>, and <code>fedit_rename</code>, plus cookie state keys <code>shell_pass</code> and <code>shell_sql</code>, and the MIME type <code>application/force-download</code> for file exfiltration. In other words, <code>borlapi.aspx</code> is a full file-and-database administration console, not just a command runner.</p>
+<h2 id="borelaspx-a-tunnelling-shell-structurally-consistent-with-neo-regeorg">borel.aspx - A Tunnelling Shell Structurally Consistent with Neo-reGeorg<a class="headerlink" href="#borelaspx-a-tunnelling-shell-structurally-consistent-with-neo-regeorg" title="Permanent link">&para;</a></h2>
+<p><code>borel.aspx</code> at <code>BORLAPI/borel.aspx</code> is 19,937 bytes and aggressively obfuscated. The obfuscation is a stack of three techniques.</p>
+<ol>
+<li>C-style Unicode escape sequences in identifiers. Every identifier is written as a mix of ASCII characters and <code>\uXXXX</code> / <code>\UXXXXXXXX</code> escapes. In C# source these render as literal ASCII text of six or ten characters each. The C# compiler resolves them at compile time and treats the resulting identifiers as equivalent to their ASCII form. So <code>StrTr</code>, <code>\u0053trTr</code>, and <code>Str\u202aTr</code> all compile to the same symbol. A human reader sees noise. The compiler sees one identifier.</li>
+<li>Random noise comments. Every second line carries a 30-character base62 comment like <code>/*aMbi0gltl4OXlm6UJ0x5zHRIkjImRF*/</code>. These comments have no semantic content. They exist only to defeat naive string signatures.</li>
+<li>Dot-separator obfuscation on select string literals. The error strings returned by the <code>CONNECT</code> verb are written with periods between every character. Instead of <code>"Port close"</code> and <code>"Port filtered"</code>, the file contains <code>"P.o.r.t c.l.o.s.e"</code> and <code>"P.o.r.t f.i.l.t.e.r.e.d"</code>. This defeats simple <code>grep "Port close"</code> style detections. The strings still convey the same information to the operator, who reads them by eye rather than by regex.</li>
+</ol>
+<p>Normalising the file, resolving the escape sequences and stripping the noise comments, reveals a source that matches the ASP.NET template shipped by Neo-reGeorg (github.com/L-codes/Neo-reGeorg), a widely-used fork of SensePost's original <code>reGeorg</code>. Neo-reGeorg is maintained in a bilingual (Chinese/English) repository by an author who publishes primarily in Simplified Chinese and whose tooling has been observed in intrusions attributed to multiple China-nexus intrusion sets.</p>
+<div class="language-csharp highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// Substitution codec. Wire encoding is base64(payload) then StrTr(en -&gt; de).</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1">// The reader inverts with StrTr(de -&gt; en) then base64-decode.</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">StrTr</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">frm</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">to</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">input</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">frm</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="n">r</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">to</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">input</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">r</span><span class="p">;</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">}</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1">// Unpack a 40-slot object[] from a byte stream. Wire layout is a stream</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1">// of triples: (byte tag)(int32 BE length + K)(payload of length bytes),</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1">// where K = 68903463 is a fixed additive obfuscator both sides know.</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1">// Slots 2..9 are strings (see command constants below). Anything else</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1">// stays as a byte[].</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="k">public</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">Object</span><span class="p">[]</span><span class="w"> </span><span class="nf">blv_decode</span><span class="p">(</span><span class="kt">byte</span><span class="p">[]</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="n">Object</span><span class="p">[]</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Object</span><span class="p">[</span><span class="mi">40</span><span class="p">];</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">data_len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">Length</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="kt">byte</span><span class="p">[]</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">byte</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="n">MemoryStream</span><span class="w"> </span><span class="n">dataInput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MemoryStream</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">data_len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataInput</span><span class="p">.</span><span class="n">ReadByte</span><span class="p">();</span><span class="w">                       </span><span class="c1">// tag</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">        </span><span class="n">dataInput</span><span class="p">.</span><span class="n">Read</span><span class="p">(</span><span class="n">length</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span><span class="w">       </span><span class="c1">// length prefix</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bytesToInt</span><span class="p">(</span><span class="n">length</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">68903463</span><span class="p">;</span><span class="w">          </span><span class="c1">// subtract additive K</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">        </span><span class="kt">byte</span><span class="p">[]</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">byte</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">        </span><span class="n">dataInput</span><span class="p">.</span><span class="n">Read</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">        </span><span class="n">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">l</span><span class="p">);</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">        </span><span class="n">info</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">9</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">(</span><span class="kt">object</span><span class="p">)</span><span class="w"> </span><span class="n">Encoding</span><span class="p">.</span><span class="n">Default</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">                                    </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">object</span><span class="p">)</span><span class="w"> </span><span class="n">v</span><span class="p">;</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">info</span><span class="p">;</span>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="p">}</span>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="c1">// Pack a 40-slot object[] back into the byte-triple stream.</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="c1">// Slots 0 and 39 are stuffed with fresh random padding on every response</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="c1">// (5..20 bytes each) to break naive size fingerprinting.</span>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="k">public</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="kt">byte</span><span class="p">[]</span><span class="w"> </span><span class="nf">blv_encode</span><span class="p">(</span><span class="n">Object</span><span class="p">[]</span><span class="w"> </span><span class="n">info</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="w">    </span><span class="n">Random</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Random</span><span class="p">();</span>
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="w">    </span><span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">randBytes</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="w">    </span><span class="n">info</span><span class="p">[</span><span class="mi">39</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">randBytes</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="w">    </span><span class="n">MemoryStream</span><span class="w"> </span><span class="n">buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MemoryStream</span><span class="p">();</span>
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span><span class="w"> </span><span class="n">b</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">null</span><span class="p">)</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="w">        </span><span class="kt">byte</span><span class="p">[]</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">String</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">Encoding</span><span class="p">.</span><span class="n">Default</span><span class="p">.</span><span class="n">GetBytes</span><span class="p">((</span><span class="n">String</span><span class="p">)</span><span class="w"> </span><span class="n">info</span><span class="p">[</span><span class="n">b</span><span class="p">])</span>
+</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a><span class="w">                                       </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">byte</span><span class="p">[])</span><span class="w"> </span><span class="n">info</span><span class="p">[</span><span class="n">b</span><span class="p">];</span>
+</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="w">        </span><span class="n">buf</span><span class="p">.</span><span class="n">WriteByte</span><span class="p">((</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
+</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="w">        </span><span class="kt">byte</span><span class="p">[]</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intToBytes</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">Length</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">68903463</span><span class="p">);</span><span class="w">     </span><span class="c1">// add additive K</span>
+</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a><span class="w">        </span><span class="n">buf</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span>
+</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a><span class="w">        </span><span class="n">buf</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span>
+</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">buf</span><span class="p">.</span><span class="n">ToArray</span><span class="p">();</span>
+</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a><span class="p">}</span>
+</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>
+</span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="c1">// randBytes / intToBytes / bytesToInt: uninteresting helpers.</span>
+</span><span id="__span-1-56"><a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a><span class="c1">// bytesToInt is big-endian. intToBytes is its inverse.</span>
+</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>
+</span><span id="__span-1-58"><a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a><span class="c1">// Wire-protocol slot constants for the info[] array:</span>
+</span><span id="__span-1-59"><a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a><span class="kt">int</span><span class="w"> </span><span class="n">DATA</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">   </span><span class="c1">// payload bytes for FORWARD / READ</span>
+</span><span id="__span-1-60"><a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a><span class="kt">int</span><span class="w"> </span><span class="n">CMD</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">   </span><span class="c1">// &quot;CONNECT&quot; | &quot;DISCONNECT&quot; | &quot;FORWARD&quot; | &quot;READ&quot;</span>
+</span><span id="__span-1-61"><a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a><span class="kt">int</span><span class="w"> </span><span class="n">MARK</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">   </span><span class="c1">// operator-supplied session key (dictionary index)</span>
+</span><span id="__span-1-62"><a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a><span class="kt">int</span><span class="w"> </span><span class="n">STATUS</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w">   </span><span class="c1">// &quot;OK&quot; | &quot;FAIL&quot;</span>
+</span><span id="__span-1-63"><a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a><span class="kt">int</span><span class="w"> </span><span class="n">ERROR</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">   </span><span class="c1">// error text on FAIL</span>
+</span><span id="__span-1-64"><a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a><span class="kt">int</span><span class="w"> </span><span class="n">IP</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w">   </span><span class="c1">// target host for CONNECT (name or IP)</span>
+</span><span id="__span-1-65"><a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a><span class="kt">int</span><span class="w"> </span><span class="n">PORT</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w">   </span><span class="c1">// target port for CONNECT</span>
+</span><span id="__span-1-66"><a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a><span class="kt">int</span><span class="w"> </span><span class="n">REDIRECTURL</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w">   </span><span class="c1">// optional. re-issue whole request to another URL</span>
+</span><span id="__span-1-67"><a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a><span class="kt">int</span><span class="w"> </span><span class="n">FORCEREDIRECT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span>
+</span><span id="__span-1-68"><a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a>
+</span><span id="__span-1-69"><a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a><span class="c1">// Idle-response banner. See the Idle-Page Banner subsection below.</span>
+</span><span id="__span-1-70"><a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a><span class="n">String</span><span class="w"> </span><span class="n">GeorgHello</span><span class="w"> </span><span class="o">=</span>
+</span><span id="__span-1-71"><a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a><span class="w">    </span><span class="s">&quot;lyhRqWcEQZ3WvWREPi2aWQpnM0YYxnX8GjceQFXl3gKDAijmvFpqDbXEsLpfALkaMh2fsZmcM1YM70hgWiVaTy1Rl/==&quot;</span><span class="p">;</span>
+</span><span id="__span-1-72"><a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a>
+</span><span id="__span-1-73"><a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a><span class="c1">// The two runtime substitution alphabets. &#39;en&#39; is the standard base64</span>
+</span><span id="__span-1-74"><a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a><span class="c1">// alphabet. &#39;de&#39; is a permutation of it. StrTr swaps between them.</span>
+</span><span id="__span-1-75"><a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a><span class="n">String</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span><span class="p">;</span>
+</span><span id="__span-1-76"><a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a><span class="n">String</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;kcyZh0ntTpDqM3ElAPWFzjQLvmx7IsG4/X+w6VC89Yor2RuSfegb1Uia5dBNOKHJ&quot;</span><span class="p">;</span>
+</span><span id="__span-1-77"><a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a>
+</span><span id="__span-1-78"><a id="__codelineno-1-78" name="__codelineno-1-78" href="#__codelineno-1-78"></a><span class="c1">// Entry point:  Read POST body, substitution-decode, unpack info[],</span>
+</span><span id="__span-1-79"><a id="__codelineno-1-79" name="__codelineno-1-79" href="#__codelineno-1-79"></a><span class="c1">//               dispatch on info[CMD], pack response, substitution-encode, Write.</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th><code>info[CMD]</code></th>
+<th>Preconditions</th>
+<th>What the shell does</th>
+<th>Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CONNECT</code></td>
+<td><code>info[IP]</code>, <code>info[PORT]</code> set</td>
+<td>Open a TCP <code>Socket</code> to <code>IP:PORT</code>. Store it in <code>Application[MARK]</code>. Set the socket non-blocking with a 2-second connect timeout.</td>
+<td><code>STATUS="OK"</code>, or <code>STATUS="FAIL"</code> with <code>ERROR</code> set to <code>"Port close"</code> or <code>"Port filtered"</code></td>
+</tr>
+<tr>
+<td><code>FORWARD</code></td>
+<td><code>Application[MARK]</code> exists</td>
+<td><code>s.Send(info[DATA])</code>. Write operator bytes to the tunnelled socket.</td>
+<td><code>STATUS="OK"</code> or <code>STATUS="FAIL"</code></td>
+</tr>
+<tr>
+<td><code>READ</code></td>
+<td><code>Application[MARK]</code> exists</td>
+<td>Loop <code>s.Receive()</code> into a <code>MemoryStream</code> up to 512 KiB or until short read. Return via <code>info[DATA]</code>.</td>
+<td><code>STATUS="OK"</code>, <code>info[DATA] = &lt;bytes&gt;</code></td>
+</tr>
+<tr>
+<td><code>DISCONNECT</code></td>
+<td><code>Application[MARK]</code> exists</td>
+<td><code>s.Close()</code>. <code>Application.Remove(MARK)</code>.</td>
+<td>(silent, no encoded response body)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-idle-page-banner-a-neo-regeorg-fingerprint">The Idle-Page Banner: A Neo-reGeorg Fingerprint<a class="headerlink" href="#the-idle-page-banner-a-neo-regeorg-fingerprint" title="Permanent link">&para;</a></h3>
+<p>The most attribution-relevant string in the file is the <code>GeorgHello</code> constant. It is what an unauthenticated outside probe sees when it GETs <code>/borel.aspx</code> with no body. The shell writes <code>StrTr(GeorgHello, de -&gt; en)</code> and base64-decodes it before returning the result to the caller. Running that inverse reveals the plaintext.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Obfuscated banner constant:
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    lyhRqWcEQZ3WvWREPi2aWQpnM0YYxnX8GjceQFXl3gKDAijmvFpqDbXEsLpfALkaMh2fsZmcM1YM70hgWiVaTy1Rl/==
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>After StrTr(de -&gt; en):
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    PCEtLSBOWDNSYStOR2s3SWJGMFppaGhneVBxWThPNy9KQ2VZYTJLKzhOdXJwQXA3MEswdDZBM0pMbFEyS2l3IC0tPg==
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>After base64-decode:
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    &lt;!-- NX3Ra+NGk7IbF0ZihhgyPqY8O7/JCeYa2K+8NurpAp70K0t6A3JLlQ2Kiw --&gt;
+</span></code></pre></div>
+<p>The HTML-comment-wrapped random token is the canonical <code>Neo-reGeorg</code> idle-page response. The original SensePost <code>reGeorg</code> used a plaintext greeting of the form <code>Georg says, 'All seems fine'</code>. The L-codes fork changed it to an HTML-comment token so the response can be embedded inside a decoy HTML wrapper page without breaking rendering. The token between <code>&lt;!--</code> and <code>--&gt;</code> is what the Neo-reGeorg client extracts and uses as the per-deployment session key that seeds <code>StrTr</code>.</p>
+<h2 id="contentborelaspx-the-same-shell-but-renamed">Content/borel.aspx - The Same Shell, but Renamed<a class="headerlink" href="#contentborelaspx-the-same-shell-but-renamed" title="Permanent link">&para;</a></h2>
+<p>The second copy of the tunnelling shell, dropped one day later into <code>BORLAPI/Content/</code>, is only 8,390 bytes and carries none of the Unicode obfuscation. Every identifier has been mechanically renamed to placeholders of the form <code>X&lt;n&gt;</code>, spanning at least <code>X1</code> through <code>X71</code>. The renaming is not a simple sequence. <code>X8</code> is <code>blv_decode</code>, <code>X19</code> is <code>blv_encode</code>, <code>X22</code> is <code>randBytes</code>, <code>X17</code> is <code>bytesToInt</code>, <code>X1</code> is <code>StrTr</code>, and the command verb variable is <code>X71</code>. The gaps suggest a name-scrambling pass rather than a linear rename.</p>
+<p>Structurally the two files are the same webshell. After normalisation, every structural marker matches: same six functions with the same signatures and roles, same four verb dispatch (<code>CONNECT</code>, <code>DISCONNECT</code>, <code>FORWARD</code>, <code>READ</code>), same 40-slot <code>object[]</code> info layout with slots 0 and 39 reserved for random padding, same slot semantics for indices 1 through 9, same optional HTTP-proxy branch on <code>REDIRECTURL</code>, same <code>Application[MARK]</code>-persisted socket, same 2-second <code>BeginConnect</code> timeout, and same 512 KiB <code>READ</code> cap. Renaming the <code>X&lt;n&gt;</code> placeholders back to their file 2 equivalents and diffing structural tokens against file 2 yields an empty diff. No code path exists in one file that is absent from the other.</p>
+<p>The two files are not byte-copies of each other. They differ in three specific ways, all of which are per-build values that Neo-reGeorg's generator randomises on each run:</p>
+<ul>
+<li>The additive constant <code>K</code> is <code>68903463</code> in file 2 and <code>1699217646</code> in file 3.</li>
+<li>The <code>de</code> substitution alphabet is a different 64-character permutation in each file.</li>
+<li>The <code>GeorgHello</code> banner decodes to a different <code>&lt;!-- &lt;random&gt; --&gt;</code> token in each file (<code>&lt;!-- NX3Ra+NGk7Ib... --&gt;</code> versus <code>&lt;!-- w75n/40s0sJS... --&gt;</code>).</li>
+</ul>
+<p>It is highly likely both came from the same operator toolkit or the public Neo-reGeorg repo. The simplest interpretation is that the operator ran <code>neoreg.py generate</code> twice, producing two independent builds, then applied a different post-processing pipeline to each. File 2 was obfuscated with three techniques (Unicode escapes in identifiers, random noise comments, and dot-separator obfuscation on error strings). File 3 was mechanically renamed to <code>X&lt;n&gt;</code> placeholders and left otherwise clean. Neither file is a fallback derived from the other. They are two separate Neo-reGeorg endpoints planted on the same host across two consecutive days.</p>
+<h2 id="attribution-what-the-tooling-suggests-and-what-it-does-not">Attribution - What the Tooling Suggests, and What It Does Not<a class="headerlink" href="#attribution-what-the-tooling-suggests-and-what-it-does-not" title="Permanent link">&para;</a></h2>
+<p>We now turn to the harder question: who dropped these files? The honest answer is that this artefact alone does not settle it. What follows is a hypothesis with its evidence and its caveats.</p>
+<h3 id="the-china-hypothesis">The China hypothesis<a class="headerlink" href="#the-china-hypothesis" title="Permanent link">&para;</a></h3>
+<p>Working hypothesis (low confidence): the intrusion sits inside the broad envelope of China-nexus targeting of Indian critical infrastructure, most plausibly by an intrusion set that habitually uses Neo-reGeorg as a post-exploitation tunnel.</p>
+<p>The supporting evidence is twofold:</p>
+<ul>
+<li>Tooling - <code>borel.aspx</code> and <code>Content/borel.aspx</code> reproduce, function-for-function, the ASP.NET template of <code>L-codes/Neo-reGeorg</code>, whose author publishes in Simplified Chinese. Neo-reGeorg is by no means China-exclusive, and it is open-source, mirrored widely, and used by red teams globally, but it is the standard tunnelling implant used in China-nexus intrusions across various security vendor datasets.</li>
+<li>Target - BORL is a wholly-owned subsidiary of BPCL, a Government-of-India-owned refiner. Indian downstream oil-and-gas is a documented targeting priority for multiple China-nexus intrusion sets, coinciding with Chinese-state strategic interest in South Asian energy logistics and Indian Ocean supply chains. The shell's hardcoded SQL Server catalogue queries (see the <code>borlapi.aspx</code> targets SQL Server subsection) suggest the operator either knew or had scanned enough to know that the target stack was IIS plus MSSQL. This is a soft signal and should not be leaned on for attribution, but it mildly disfavours the fully opportunistic reading in which the operator drops a shell and only afterwards discovers what the box is running.</li>
+</ul>
+<h3 id="what-is-missing-to-raise-confidence">What is Missing to Raise Confidence<a class="headerlink" href="#what-is-missing-to-raise-confidence" title="Permanent link">&para;</a></h3>
+<p>The following items are absent from this sample:</p>
+<ul>
+<li>No Chinese-language artefacts:<ul>
+<li>Zero CJK code points in any of the three ASPX files, no <code>gb2312</code>/<code>gbk</code> charset references, no Chinese-language comments.</li>
+</ul>
+</li>
+<li>No unique operator infrastructure:<ul>
+<li>No hard-coded C2 domain or IP, no key material tying to a known cluster, no user-agent string, no cookie name that resembles previously-published Neo-reGeorg configuration in the wild.</li>
+</ul>
+</li>
+<li>No hash overlap:<ul>
+<li>Neither the archive nor any of the three shells matches a known tracked indicator. In addition, VT lists no similar samples beyond another submission of the same file.</li>
+</ul>
+</li>
+<li>No knowledge of initial access:<ul>
+<li>We can see the shells but not the initial access. The archive does not include IIS logs, <code>w3wp.exe</code> process traces, or a captured exploit request.</li>
+</ul>
+</li>
+</ul>
+<h3 id="alternative-hypotheses-that-must-be-kept-alive">Alternative Hypotheses that Must be Kept Alive<a class="headerlink" href="#alternative-hypotheses-that-must-be-kept-alive" title="Permanent link">&para;</a></h3>
+<p>Two other reasonable readings of the evidence deserve to remain on the board:</p>
+<ul>
+<li>Opportunistic eCrime<ul>
+<li>The manual <code>borlapi.aspx</code> shell is generic WSO-lineage tooling routinely dropped by broad-scope scanning crews.</li>
+</ul>
+</li>
+<li>Iran-nexus opportunism<ul>
+<li>ASPX-shell activity against Indian entities has also been linked to Iran-nexus intrusion sets that pair IIS webshells with privilege-escalation tooling such as JuicyPotato (Fox Kitten). Nothing in the sample rules this reading out.</li>
+</ul>
+</li>
+</ul>
+<p>The archive as it stands is insufficient to distinguish these hypotheses. The tooling leans China-nexus and the sparse tradecraft is compatible with any of the three.</p>
+<h3 id="confidence-statement">Confidence statement<a class="headerlink" href="#confidence-statement" title="Permanent link">&para;</a></h3>
+<p>Working theory, held with low confidence: a China-nexus operator found an internet-facing BORL or BPCL host, exploited it, and dropped Neo-reGeorg on top to relay traffic back through the compromised server. This is the reading that requires the fewest assumptions. It is not the only reading that fits the evidence, and the artefact alone cannot rule out an eCrime crew or an Iran-linked one using the same open-source tooling.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:2">
+<p>SensePost, "reGeorg," GitHub. <a href="https://github.com/sensepost/reGeorg">https://github.com/sensepost/reGeorg</a>&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:1">
+<p>L-codes, "Neo-reGeorg," GitHub. <a href="https://github.com/L-codes/Neo-reGeorg">https://github.com/L-codes/Neo-reGeorg</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p>Analysis of the WSO 4.2.3 web shell, Medium. <a href="https://lylc-spearandshield.medium.com/web-shell-wso-4-2-3-740665a4e33a">https://lylc-spearandshield.medium.com/web-shell-wso-4-2-3-740665a4e33a</a>&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+<footer class="site-footer-custom">
+  <div class="site-footer-inner">
+    <span class="footer-note">v0lundr.github.io · TLP:WHITE</span>
+    <div class="footer-links">
+      <a href="https://github.com/V0lundr" target="_blank" rel="noopener">GitHub</a>
+      <a href="/feed_rss_created.xml" target="_blank" rel="noopener">RSS</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Hide default Material footer */
+  .md-footer { display: none !important; }
+
+  .site-footer-custom {
+    border-top: 1px solid #1e2535;
+    background: #07090f;
+    padding: 1.5rem 0;
+  }
+
+  .site-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: #5a6478;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5a6478;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover { color: #e8a84c; }
+</style>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/fix.js"></script>
+      
+    
+  </body>
+</html>
