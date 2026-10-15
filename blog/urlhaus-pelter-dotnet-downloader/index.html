@@ -713,7 +713,7 @@
 
 <h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Despite the filebame, this is not a loader in the usual sense: it had no selected payload, no C2, and no staging logic. The sample reads abuse.ch's own live-URL geed and runs every matching entry indisriminately - a mass detonator, not a staged loader. A single run on a current Windows host will download and execute every binary - or scriopt-type URL that abuse.ch is tracking at that moment.</li>
+<li>Despite the filename, this is not a loader in the usual sense since it had no selected payload, no C2, and no staging logic. The sample reads abuse.ch's own live-URL feed and runs every matching entry indisriminately - a mass detonator, not a staged loader. A single run on a current Windows host will download and execute every binary - or script-type URL that abuse.ch is tracking at that moment.</li>
 <li>The pattern is at least two and a half years old. Internal datestamps in the parent ZIP place the source at May 2023, and a simpler sibling variant is dated June 2023. The compiled 2026 sample is byte-identical to the May 2023 source.</li>
 <li>The documented delivery pattern on VirusTotal is a ~1 KB ZIP with <code>compile.bat</code> + <code>loader.txt</code> that compiles the C# source on the victim using Microsoft's own <code>csc.exe</code>.<sup id="fnref3:1"><a class="footnote-ref" href="#fn:1">2</a></sup> The ZIP pattern is one confirmed pathway. I do not have provenance for how any specific operator actually seeds the compiled binary onto a target.</li>
 </ul>
