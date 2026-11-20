@@ -1,0 +1,1593 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An open directory on 45.251.240.174 exposed a Chinese-speaking e-crime operator's full Cobalt Strike 4.9 teamserver data directory. Inside the serialised beacon, session, and archive databases were thirteen live beacons, one of which sits on a Microsoft IIS server fronting a Vietnamese government survey platform. This is the walkthrough of how I read those files and independently confirmed every claim before notifying VNCERT and CERT.br.">
+      
+      
+        <meta name="author" content="V0lundr">
+      
+      
+        <link rel="canonical" href="https://v0lundr.github.io/blog/teamserver-that-served-itself-cobalt-strike-opendir/">
+      
+      
+        <link rel="prev" href="../urlhaus-pelter-dotnet-downloader/">
+      
+      
+      
+        
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>The Teamserver That Served Itself: Reading a Cobalt Strike Operator's Own C Drive - V0lundr</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-teamserver-that-served-itself-reading-a-cobalt-strike-operators-own-c-drive" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+<header class="site-header">
+  <div class="site-header__inner">
+
+    <!-- Left: handle -->
+    <a href="https://v0lundr.github.io/" class="site-header__logo">
+      // theUnattributed
+    </a>
+
+    <!-- Centre: nav links -->
+    <nav class="site-header__nav">
+      <a href="https://v0lundr.github.io/" class="site-header__link ">Home</a>
+      <a href="https://v0lundr.github.io/about/" class="site-header__link ">About</a>
+    </nav>
+
+    <!-- Right: search -->
+    <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+</header>
+
+<style>
+  /* ── KILL DEFAULT HEADER & TABS ─────────────────────────── */
+  .md-header { display: none !important; }
+  .md-tabs   { display: none !important; }
+
+  /* ── CUSTOM HEADER ──────────────────────────────────────── */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,9,15,0.95);
+    border-bottom: 1px solid #1e2535;
+    backdrop-filter: blur(12px);
+  }
+
+  .site-header__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  /* Handle / logo */
+  .site-header__logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: #e8a84c;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Nav links */
+  .site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  .site-header__link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8898b0;
+    text-decoration: none;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .site-header__link:hover {
+    color: #e8a84c;
+    background: rgba(232,168,76,0.06);
+  }
+
+  .site-header__link.active {
+    color: #e8a84c;
+  }
+
+  /* Search — override Material defaults to fit our bar */
+  .md-search {
+    flex-shrink: 0;
+  }
+
+  .md-search__form {
+    background: #0d1119 !important;
+    border: 1px solid #1e2535 !important;
+    border-radius: 2px !important;
+    height: 32px !important;
+    width: 200px !important;
+  }
+
+  .md-search__form:focus-within {
+    border-color: #e8a84c !important;
+    width: 280px !important;
+    transition: width 0.2s ease;
+  }
+
+  .md-search__input {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.75rem !important;
+    color: #c8d0de !important;
+  }
+
+  .md-search__input::placeholder {
+    color: #5a6478 !important;
+  }
+
+  .md-search__icon {
+    color: #5a6478 !important;
+  }
+
+  /* Offset page content so sticky header doesn't overlap */
+  .md-main {
+    padding-top: 0 !important;
+  }
+
+  @media (max-width: 600px) {
+    .site-header__logo { display: none; }
+    .md-search__form { width: 140px !important; }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("a").forEach(function (link) {
+      if (link.textContent.trim() === "Back to index") {
+        link.setAttribute("href", "/");
+      }
+    });
+  });
+</script>
+
+
+<footer class="site-footer-custom">
+  <div class="site-footer-inner">
+    <span class="footer-note">v0lundr.github.io · TLP:WHITE</span>
+    <div class="footer-links">
+      <a href="https://github.com/V0lundr" target="_blank" rel="noopener">GitHub</a>
+      <a href="/feed_rss_created.xml" target="_blank" rel="noopener">RSS</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Hide default Material footer */
+  .md-footer { display: none !important; }
+
+  .site-footer-custom {
+    border-top: 1px solid #1e2535;
+    background: #07090f;
+    padding: 1.5rem 0;
+  }
+
+  .site-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: #5a6478;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5a6478;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover { color: #e8a84c; }
+</style>
+
+
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="V0lundr" class="md-nav__button md-logo" aria-label="V0lundr" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    V0lundr
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Background
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-files-that-make-up-a-cobalt-strike-teamservers-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Files That Make Up a Cobalt Strike Teamserver's Memory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beaconsbin-who-is-in-the-roster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        beacons.bin: Who Is in the Roster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#addnotescna-the-operators-own-compromise-inventory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        addnotes.cna: The Operator's Own Compromise Inventory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oneprofile-the-malleable-c2-fingerprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        one.profile: The Malleable C2 Fingerprint
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ts2log-the-teamservers-own-startup-words" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ts2.log: The Teamserver's Own Startup Words
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-one-that-mattered-a-vietnamese-government-portal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The One That Mattered: a Vietnamese Government Portal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verifying-the-government-compromise-passively" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verifying the Government Compromise Passively
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verifying the Government Compromise Passively">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-confirm-the-ip-really-serves-the-government-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Confirm the IP Really Serves the Government Form
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-confirm-the-body-is-the-form-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Confirm the Body is the Form Frontend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-confirm-the-attacker-side-tls-fingerprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Confirm the Attacker-side TLS Fingerprint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-other-beacons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Other Beacons
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operator-growth-follow-up-pulls-2026-11-18-to-2026-11-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operator Growth: Follow-up Pulls (2026-11-18 to 2026-11-20)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attribution-brief" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attribution (Brief)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operator-geolocation-what-the-terminalservices-log-burned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operator Geolocation: What the TerminalServices Log Burned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indicators-of-compromise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indicators of Compromise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/V0lundr.png" alt="V0lundr">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          V0lundr
+                        
+                      </strong>
+                      <br>
+                      Threat Intelligence Researcher
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-11-19 00:00:00+00:00" class="md-ellipsis">2026-11-19</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../category/malware-analysis/">Malware Analysis</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              16 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+
+<h1 id="the-teamserver-that-served-itself-reading-a-cobalt-strike-operators-own-c-drive">The Teamserver That Served Itself: Reading a Cobalt Strike Operator's Own C Drive<a class="headerlink" href="#the-teamserver-that-served-itself-reading-a-cobalt-strike-operators-own-c-drive" title="Permanent link">&para;</a></h1>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>In November 2026 I came across an open directory on <code>45.251.240[.]174:8080</code> most likely published by a Chinese-speaking e-crime operator who had bound a Python <code>http.server</code> to the root of their own Windows C drive. The directory served the complete working set of a live Cobalt Strike 4.9 teamserver, including its <code>data/</code> subdirectory with the serialised beacon, session, archive, listener, and target databases. Reading those files from the outside, without ever touching the teamserver, gave me a complete inventory of the operator's arsenal. One of those beacons sits on a Microsoft IIS 10 server fronting a Vietnamese government survey platform. This note is the technical walkthrough of how I found the open directory, how I read each teamserver database, how I decoded the beacon metadata, and how I independently confirmed the Vietnamese government compromise before notifying VNCERT and CERT.br.</p>
+<!-- more -->
+
+<h2 id="background">Background<a class="headerlink" href="#background" title="Permanent link">&para;</a></h2>
+<p>Cobalt Strike is a commercial red-team platform sold by Fortra, and the single most common post-exploitation framework in both state-nexus and criminal intrusions worldwide.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> Cracked builds circulate widely, and the specific image this operator runs, Cobalt Strike 4.9 released October 2023, has been mirrored on Chinese security forums since shortly after its release. The teamserver component (the Java process the operator connects to from the client GUI) holds its complete working memory (beacons, sessions, listeners, archives, task output) in a <code>data/</code> subdirectory next to the installation. Anyone who can read those files reads everything the operator sees.</p>
+<p>Windows Subsystem for Linux mounts the Windows filesystem under <code>/mnt/c</code>, and under an elevated shell gives Linux processes NTFS read against it. Python's built-in <code>http.server</code> auto-indexes every directory under its root. Binding one to the other, as this operator did, publishes the entire C drive as a clickable directory listing. The teamserver's <code>data/</code> happens to sit under that root, which is why the rest of this note is possible.</p>
+<p>The target set is consistent with the Chinese-language 黑灰产 (<em>hēihuīchǎn</em>, "black-grey industry") ecosystem that runs illegal online gambling and the associated cash-out operations. The operator's own archive is literally named <code>ARTEX菠菜专武（带武器库）.7z</code>, "ARTEX gambling-industry special-weapon (with weapons library)", where 菠菜 (bōcài, "spinach") is the standard slang homophone for 博彩 (bócǎi, "gambling") used across these forums. This is e-crime infrastructure, not state-nexus.</p>
+<h2 id="the-files-that-make-up-a-cobalt-strike-teamservers-memory">The Files That Make Up a Cobalt Strike Teamserver's Memory<a class="headerlink" href="#the-files-that-make-up-a-cobalt-strike-teamservers-memory" title="Permanent link">&para;</a></h2>
+<p>The opendir was created by a single operator script, <code>rep8080[.]sh</code>, that bound Python's <code>http.server</code> to the WSL mount <code>/mnt/c</code>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>#!/bin/bash
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pkill -f &quot;http.server&quot; 2&gt;/dev/null
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>setsid nohup python3 -m http.server 8080 --directory /mnt/c &gt;/dev/null 2&gt;&amp;1 &lt; /dev/null &amp;
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>sleep 2
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>ss -tln 2&gt;/dev/null | grep 8080 || netstat -tln 2&gt;/dev/null | grep 8080
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>echo done
+</span></code></pre></div>
+<p>Because WSL under an elevated shell gives a Linux process Administrator-level NTFS read, and because <code>python -m http.server</code> auto-indexes every directory under its root while following reparse points, binding to <code>/mnt/c</code> published the entire Windows C drive on port 8080 with a clickable directory listing. The operator probably wanted a quick way to serve freshly-generated beacons out of <code>C:\qlkh.elf</code>, <code>C:\beacon.dll</code>, or similar, and ended up with a full file-browser of their own operational workbench.</p>
+<p>The part of that workbench that matters here is the Cobalt Strike installation at <code>OneCS/OneCS-49_尊享版/</code>, and inside it the <code>data/</code> subdirectory where CS 4.9 persists everything the operator sees in the client GUI.</p>
+<figure>
+  <img src="../images/Pasted image 20261120142045.png" alt="Cobalt Strike installation at OneCS/OneCS-49_尊享版/ on the operator's C drive">
+  <figcaption>Figure 1: Cobalt Strike installation at `OneCS/OneCS-49_尊享版/` on the operator's C drive.</figcaption>
+</figure>
+
+<h2 id="beaconsbin-who-is-in-the-roster">beacons.bin: Who Is in the Roster<a class="headerlink" href="#beaconsbin-who-is-in-the-roster" title="Permanent link">&para;</a></h2>
+<figure>
+  <img src="../images/Pasted image 20261120144224.png" alt="beacons.bin disclosing the operator's active Cobalt Strike roster">
+  <figcaption>Figure 2: `beacons.bin` disclosing the operator's active Cobalt Strike roster.</figcaption>
+</figure>
+
+<p>A full roster extracted by iterating every <code>BeaconEntry</code> boundary:</p>
+<table>
+<thead>
+<tr>
+<th>Hostname</th>
+<th>External IP</th>
+<th>Internal IP</th>
+<th>Listener</th>
+<th>Process</th>
+<th>User</th>
+<th>Codepage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ATM-REDACTED-01(55662)</code></td>
+<td><code>27.71.x.241</code></td>
+<td></td>
+<td><code>https443</code></td>
+<td></td>
+<td><code>www-data</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>WIN-REDACTED(10640)</code></td>
+<td><code>123.25.x.41</code></td>
+<td></td>
+<td><code>http5985</code></td>
+<td><code>rundll32.exe</code></td>
+<td><code>SYSTEM *</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>clousREDACTED(19068)</code></td>
+<td><code>103.121.x.249</code></td>
+<td></td>
+<td><code>testhttps</code></td>
+<td></td>
+<td><code>qlkh_REDACTED_usr</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>WIN-REDACTED</code></td>
+<td><code>125.212.x.93</code></td>
+<td><code>10.10.103.22</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>WINDOWSSERVER20</code></td>
+<td><code>14.225.x.27</code></td>
+<td></td>
+<td><code>http5985</code></td>
+<td><code>rundll32.exe</code></td>
+<td><code>SYSTEM *</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SERVIDOR13149</code></td>
+<td><code>45.163.x.11</code></td>
+<td><code>192.168.1.99</code></td>
+<td><code>http5985</code></td>
+<td><code>powershell.exe</code></td>
+<td><code>SISTEMA *</code></td>
+<td><code>windows-1252</code></td>
+</tr>
+<tr>
+<td><code>SERVIDOR</code></td>
+<td><code>186.200.x.82</code></td>
+<td><code>192.168.0.3</code></td>
+<td></td>
+<td><code>rundll32.exe</code></td>
+<td><code>SISTEMA *</code></td>
+<td><code>windows-1252</code></td>
+</tr>
+<tr>
+<td><code>SERVIDOR</code></td>
+<td><code>45.231.x.126</code></td>
+<td><code>10.0.0.2</code></td>
+<td><code>http5985</code></td>
+<td><code>rundll32.exe</code></td>
+<td><code>SISTEMA *</code></td>
+<td><code>windows-1252</code></td>
+</tr>
+<tr>
+<td><code>SERVIDOR</code></td>
+<td><code>177.129.x.200</code></td>
+<td><code>10.0.0.2</code></td>
+<td></td>
+<td><code>powershell.exe</code></td>
+<td><code>SISTEMA *</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SERVIDOR</code></td>
+<td><code>177.54.x.8</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td><code>SISTEMA *</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>DBS</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><code>SISTEMA *</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>REDACTED-70365F34C</code></td>
+<td><code>195.239.x.123</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td><code>nikitin *</code></td>
+<td><code>x-mswin-936</code></td>
+</tr>
+<tr>
+<td><code>REDACTED-325FB69655</code></td>
+<td><code>195.239.x.123</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td><code>maksimov *</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>C20261112159977</code></td>
+<td><code>45.251.x.174</code></td>
+<td></td>
+<td></td>
+<td><code>rundll32.exe</code></td>
+<td><code>Administrator *</code></td>
+<td><code>x-mswin-936</code></td>
+</tr>
+</tbody>
+</table>
+<p>Fifteen rows, thirteen beacons: <code>C20261112159977</code> is the operator's own teamserver box (self-beacon for loop testing, not a victim), and two of the <code>SERVIDOR</code> entries share an external IP block (SIPWEB-hosted Brazilian municipalities) but represent distinct beacons. The <code>nikitin</code> and <code>maksimov</code> pair share an external NAT at <code>195.239.x.123</code> and, as the 24-hour follow-up below shows, actually sit inside the operator's own egress infrastructure rather than being residential victims.</p>
+<p>The <code>windows-1252</code> codepage on the Brazilian beacons confirms Portuguese Windows. The <code>x-mswin-936</code> codepage on the Russian and operator rows is <strong>Simplified Chinese</strong>, so either the Russian victims have Chinese locale installed (unusual), or the operator connected to those beacons from a Chinese-locale CS client and the charset got captured at interact-time rather than at check-in-time.</p>
+<h2 id="addnotescna-the-operators-own-compromise-inventory">addnotes.cna: The Operator's Own Compromise Inventory<a class="headerlink" href="#addnotescna-the-operators-own-compromise-inventory" title="Permanent link">&para;</a></h2>
+<p>The single clearest piece of attribution and intent on the whole box is a Cobalt Strike Aggressor script called <code>addnotes.cna</code>. It documents every active beacon in the operator's teamserver roster with a short reminder of where they got in, what webshell lets them back in, and where the beacon lives on disk. It lives at the root of the opendir, served as plain text.</p>
+<figure>
+  <img src="../images/Pasted image 20261120145448.png" alt="addnotes.cna content, the operator's own per-beacon re-entry notes">
+  <figcaption>Figure 3: `addnotes.cna` content, the operator's own per-beacon re-entry notes.</figcaption>
+</figure>
+
+<h2 id="oneprofile-the-malleable-c2-fingerprint">one.profile: The Malleable C2 Fingerprint<a class="headerlink" href="#oneprofile-the-malleable-c2-fingerprint" title="Permanent link">&para;</a></h2>
+<p>Any Cobalt Strike teamserver is only as unique as its malleable C2 profile, and this one is in the clear at <code>OneCS-49_尊享版/one.profile</code>. The fingerprint card:</p>
+<figure>
+  <img src="../images/Pasted image 20261120145633.png" alt="Fingerprintable Fields in one.profile File">
+  <figcaption>Figure 4: Fingerprintable Fields in `one.profile` File.</figcaption>
+</figure>
+
+<p>Beacon callbacks go to <code>/api/v1/get</code> for check-in and <code>/api/v1/post</code> for data. The SSL certificate is self-signed with subject <code>CN=Google Spider, O=Alphabet Inc, L=Sacramento, ST=California, C=US</code> and SHA-256 fingerprint <code>5f217b0f96c1e5f32a796dde0de01e87c30ff52ec343636c08a7d2efee8ab405</code>. Every HTTP response on an unknown URI carries <code>Server: nginx</code> and the beacon callback's <code>Accept-Language</code> header is hard-coded to <code>zh-CN,zh;q=0.9,en;q=0.8</code>. The last one is the hunt signal worth emphasising: a request from any workstation whose users are not Chinese-reading, carrying that exact Accept-Language, is essentially never benign.</p>
+<h2 id="ts2log-the-teamservers-own-startup-words">ts2.log: The Teamserver's Own Startup Words<a class="headerlink" href="#ts2log-the-teamservers-own-startup-words" title="Permanent link">&para;</a></h2>
+<p>The CS teamserver prints a verbose stdout banner at startup, and the operator captured it via the WSL-side <code>startts*.sh</code> wrapper into <code>/mnt/c/ts2.log</code>, which the opendir then publishes. The relevant lines:</p>
+<figure>
+  <img src="../images/Pasted image 20261120145909.png" alt="ts2.log content">
+  <figcaption>Figure 5: `ts2.log` content.</figcaption>
+</figure>
+
+<p>Two things this one file corroborates without any binary parsing: the teamserver loaded 13 beacons, and the SSL cert SHA-256 matches the one we would independently observe from the outside on port 443. That second claim is the one the next section walks through.</p>
+<h2 id="the-one-that-mattered-a-vietnamese-government-portal">The One That Mattered: a Vietnamese Government Portal<a class="headerlink" href="#the-one-that-mattered-a-vietnamese-government-portal" title="Permanent link">&para;</a></h2>
+<p>Of all the analysed beacons on the roster, one is on a Microsoft IIS 10 server fronting a Vietnamese government survey platform. The relevant row from the roster:</p>
+<table>
+<thead>
+<tr>
+<th>Hostname</th>
+<th>External IP</th>
+<th>Listener</th>
+<th>Process</th>
+<th>User</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WIN-REDACTED(10640)</code></td>
+<td><code>123.25.x.41</code></td>
+<td><code>http5985</code></td>
+<td><code>rundll32.exe</code></td>
+<td><code>SYSTEM *</code></td>
+</tr>
+</tbody>
+</table>
+<p>Operator's own note from <code>addnotes.cna</code>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>else if (indexOf($comp, &quot;WIN-REDACTED&quot;) &gt; -1) {
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  $note = &quot;REDACTED.gov.vn (123.25.x.41) | webshell: POST https://REDACTED.gov.vn/artxd/fe.aspx/x.txt cmd=&lt;cmd&gt; |
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>           beacon: C:\\Windows\\Temp\\artxd\\d4.exe (wmic起)&quot;;
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>}
+</span></code></pre></div>
+<p>The operator's own words: this beacon is on <code>REDACTED.REDACTED.vn</code> at <code>123.25.x.41</code>, the re-entry webshell is <code>POST https://REDACTED.REDACTED.vn/artxd/fe.aspx/x.txt</code> with body <code>cmd=&lt;shell command&gt;</code>, the on-disk implant is <code>C:\Windows\Temp\artxd\d4.exe</code>, and it is launched via <code>wmic</code>.</p>
+<h2 id="verifying-the-government-compromise-passively">Verifying the Government Compromise Passively<a class="headerlink" href="#verifying-the-government-compromise-passively" title="Permanent link">&para;</a></h2>
+<p>I did not interact with the webshell, and never ran the operator's own re-entry command. That left me with several independent ways to confirm the claim without touching anything that would change the victim's state.</p>
+<h3 id="step-1-confirm-the-ip-really-serves-the-government-form">Step 1: Confirm the IP Really Serves the Government Form<a class="headerlink" href="#step-1-confirm-the-ip-really-serves-the-government-form" title="Permanent link">&para;</a></h3>
+<p>A single HTTP HEAD with a <code>Host:</code> header rewrite reaches the IIS box directly rather than the public Nuxt frontend DNS currently points at. No parameters, no path beyond <code>/</code>, no state-changing method:</p>
+<figure>
+  <img src="../images/Pasted image 20261120150541.png" alt="Web Server Resource Check">
+  <figcaption>Figure 6: Web Server Resource Check.</figcaption>
+</figure>
+
+<p>Microsoft IIS/10 and ASP.NET, with a <code>Last-Modified</code> dated several hours before the probe. The box is alive, maintained, and serving the Vietnamese government survey platform.</p>
+<h3 id="step-2-confirm-the-body-is-the-form-frontend">Step 2: Confirm the Body is the Form Frontend<a class="headerlink" href="#step-2-confirm-the-body-is-the-form-frontend" title="Permanent link">&para;</a></h3>
+<p>A plain GET of the same resource returns an HTML page. The Nuxt configuration embedded inside the page gives the platform name and its internal stack:</p>
+<figure>
+  <img src="../images/Pasted image 20261120150938.png" alt="Web Page Source Check">
+  <figcaption>Figure 7: Web Page Source Check.</figcaption>
+</figure>
+<h3 id="step-3-confirm-the-attacker-side-tls-fingerprint">Step 3: Confirm the Attacker-side TLS Fingerprint<a class="headerlink" href="#step-3-confirm-the-attacker-side-tls-fingerprint" title="Permanent link">&para;</a></h3>
+<p>The teamserver's own <code>ts2.log</code> recorded its SSL cert SHA-256 as <code>5f217b0f96c1e5f32a796dde0de01e87c30ff52ec343636c08a7d2efee8ab405</code>. A direct TLS handshake to port 443 on the same IP, from outside, returns this:</p>
+<figure>
+  <img src="../images/Pasted image 20261120151520.png" alt="TLS Handshake Check">
+  <figcaption>Figure 8: TLS Handshake Check.</figcaption>
+</figure>
+
+<p>Byte-for-byte match between the teamserver's self-recorded fingerprint on the opendir and the live cert on the IP's HTTPS port. The CS listeners on 5985 and 5986 return the same <code>HTTP/1.1 404 Not Found</code> with <code>Server: nginx</code> body that the malleable C2 profile specifies, further corroborating.</p>
+<p>This confirms that the teamserver at <code>45.251.240.174:443</code> is the one whose data directory I mirrored, and that teamserver's own records say <code>WIN-REDACTED</code> is the Government form site.</p>
+<h2 id="the-other-beacons">The Other Beacons<a class="headerlink" href="#the-other-beacons" title="Permanent link">&para;</a></h2>
+<p>The attribution and detection sections treat the Vietnamese government victim as the headline, but notification of VNCERT would be irresponsible without also flagging CERT.br.</p>
+<table>
+<thead>
+<tr>
+<th>Cluster</th>
+<th>Host</th>
+<th>External IP</th>
+<th>Access vector</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vietnamese universities / Plesk</td>
+<td><code>ATM-REDACTED-01(55662)</code></td>
+<td><code>27.71.x.241</code></td>
+<td>WordPress shell on <code>plREDACTED.org</code> / <code>utm.REDACTED.vn</code>, Linux implant <code>/var/tmp/.svc</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>clouREDACTED(19068)</code></td>
+<td><code>103.121.x.249</code></td>
+<td>PHP shell on <code>qlkh.REDACTED.vn</code> (Foreign Trade Univ), Linux implant <code>/var/tmp/.vps-agent</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>WIN-REDACTED</code></td>
+<td><code>125.212.x.93</code></td>
+<td>ASPX shell on <code>apishop.REDACTED.xyz</code> (multi-tenant Plesk), PS loader <code>C:\Users\Public\Downloads\ldn.ps1</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>WINDOWSSERVER20</code></td>
+<td><code>14.225.x.27</code></td>
+<td>Two ASPX shells (<code>tckREDACTED.vn/sysshell.aspx</code>, <code>api.REDACTED.com/Upload/Images/*.cshtml</code>), payload <code>C:\Inetpub\s2n.bin</code> + <code>lnb.ps1</code></td>
+</tr>
+<tr>
+<td>Brazilian municipal SIPWEB</td>
+<td><code>SERVIDOR13149</code></td>
+<td><code>45.163.x.11</code></td>
+<td>JSP shell <code>/glx/glx.jsp</code> on port 5661, payload <code>C:\ProgramData\s2n.bin</code> + <code>ln.ps1</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>SERVIDOR</code></td>
+<td><code>186.200.x.82</code></td>
+<td>Same pattern, <code>cmd.exe</code> blocked so operator uses <code>powershell -enc</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>SERVIDOR</code></td>
+<td><code>45.231.x.126</code></td>
+<td><code>/sipweb/glx.jsp</code> on port 8089</td>
+</tr>
+<tr>
+<td></td>
+<td><code>SERVIDOR</code></td>
+<td><code>177.129.x.200</code></td>
+<td><code>/sipweb/glx.jsp</code> on port 8089</td>
+</tr>
+<tr>
+<td></td>
+<td><code>SERVIDOR</code></td>
+<td><code>177.54.x.8</code></td>
+<td><code>:8089/sipweb/glx.jsp</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>DBS</code></td>
+<td>(SIPWEB)</td>
+<td><code>:8089/sipweb/glx.jsp</code></td>
+</tr>
+<tr>
+<td>Operator test / shared exit</td>
+<td><code>KRYLOV-REDACTED</code> (user <code>nikitin</code>)</td>
+<td><code>195.239.x.123</code></td>
+<td>not annotated by operator, sits inside operator's own 195.239.x.0/24 egress range</td>
+</tr>
+<tr>
+<td></td>
+<td><code>MAKSIMOV-REDACTED</code> (user <code>maksimov</code>)</td>
+<td><code>195.239.x.123</code></td>
+<td>not annotated, same NAT as above</td>
+</tr>
+<tr>
+<td>Operator self-beacon</td>
+<td><code>C20261112159977</code></td>
+<td><code>45.251.x.174</code></td>
+<td>not a victim, the teamserver box itself</td>
+</tr>
+</tbody>
+</table>
+<p>Three observations. First, the Portuguese user <code>SISTEMA</code> plus the <code>Prefeitura</code> annotation the operator applied to the Brazilian cluster confirms those are municipal governments, compromised via a common JSP webshell deployed inside the SIPWEB municipal-administration product. Five city halls on one shell path. Second, the Vietnamese cluster contains at least three universities and two government services, suggesting the operator has a working toolchain for the <code>.gov.vn</code> / <code>.edu.vn</code> Plesk ecosystem that goes beyond gov.vn sites. Third, the pair at <code>195.239.x.123</code> is not opportunistic residential infection. The 24-hour follow-up below shows the operator's own teamserver-side logs carry fresh beacons appearing from that same /24, so the <code>nikitin</code> and <code>maksimov</code> boxes are more credibly operator test machines or shared-VPN exits than compromised victims.</p>
+<h2 id="operator-growth-follow-up-pulls-2026-11-18-to-2026-11-20">Operator Growth: Follow-up Pulls (2026-11-18 to 2026-11-20)<a class="headerlink" href="#operator-growth-follow-up-pulls-2026-11-18-to-2026-11-20" title="Permanent link">&para;</a></h2>
+<p>I re-pulled the opendir in follow-up windows to see whether the teamserver was still live and whether its databases had grown. All five operational <code>.bin</code> files were flushed again at <code>2026-11-20 13:04-13:23 UTC</code>, with substantial growth.</p>
+<p>Five new beacons appeared on the roster across those follow-up pulls:</p>
+<table>
+<thead>
+<tr>
+<th>Hostname</th>
+<th>External IP</th>
+<th>Internal IP</th>
+<th>User</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VM-REDACTED</code></td>
+<td><code>171.244.x.93</code> (VN)</td>
+<td><code>10.4.1.200</code></td>
+<td><code>REDACTED.REDACTED.gov.vn</code></td>
+<td>Vietnamese Disaster Management Policy and Technology Center (DMPTC) - public-service unit under the Vietnam Disaster Management Authority. First callback 2026-11-18 18:26 CST. See paragraph below.</td>
+</tr>
+<tr>
+<td><code>ASILIY-REDACTED</code></td>
+<td><code>86.9.x.49</code> (UK)</td>
+<td></td>
+<td><code>gerasimov *</code></td>
+<td>Public BT-range IP; teamserver sees the box arriving via <code>213.33.x.110</code> and <code>213.33.x.179</code></td>
+</tr>
+<tr>
+<td><code>WIN-REDACTED</code></td>
+<td></td>
+<td><code>10.125.x.146</code></td>
+<td><code>veAwnrNF *</code></td>
+<td>RFC1918 pivot, process <code>cs_beacon_84b6962107…</code>; seen via <code>213.33.x.179</code> and <code>195.239.x.29</code></td>
+</tr>
+<tr>
+<td><code>DESKTOP-REDACTED-GU</code></td>
+<td></td>
+<td><code>10.154.x.80</code></td>
+<td><code>mdxpjLWNYkW *</code></td>
+<td>RFC1918 pivot</td>
+</tr>
+<tr>
+<td><code>DESKTOP-REDACTED-AA</code></td>
+<td></td>
+<td><code>10.200.x.37</code></td>
+<td><code>LAwUhGemxs *</code></td>
+<td>RFC1918 pivot</td>
+</tr>
+</tbody>
+</table>
+<p>The DMPTC callback is the headline of the follow-up. <code>satlo.REDACTED.gov.vn</code> sits on a Vietnamese government domain belonging to the <strong>Vietnam Disaster Management Policy and Technology Center</strong>, a public service unit under the Vietnam Disaster Management Authority (VNDMA), tracing structurally up to the Ministry of Agriculture and Environment. Public descriptions of DMPTC name its work as satellite data exchange during disasters, remote sensing and GIS for disaster prevention, and DRR (disaster risk reduction) project databases. The subdomain <code>satlo</code> fits the satellite-logging / location activity named in their public profile. The compromised host runs <code>runner2.exe</code> under a Windows account named with the box's own FQDN, and carries a <code>VM-</code> prefixed hostname - suggesting a CI runner or build-agent VM inside the DMPTC network. This is a second Vietnamese government victim, independent of the earlier finding, with materially higher sensitivity because the hosting agency operates emergency-response infrastructure. It should be added to the VNCERT notification.</p>
+<p>The UK box (<code>86.9.x.49</code>) checked in and had a new SSH session opened against it roughly every 30 minutes across the capture window, which is most likely a live interactive operator activity. The three RFC1918 hosts are all internal pivots reached from the same engagement. The user names are opaque eight-to-eleven-character random strings rather than realistic account names, consistent with scheduled-task service accounts the operator created after SYSTEM-level access.</p>
+<h2 id="attribution-brief">Attribution (Brief)<a class="headerlink" href="#attribution-brief" title="Permanent link">&para;</a></h2>
+<p>Chinese-speaking e-crime crew, not state-nexus, on high confidence. The short-form evidence:</p>
+<ul>
+<li><code>Accept-Language: zh-CN,zh;q=0.9,en;q=0.8</code> hard-coded in the malleable profile</li>
+<li><code>.aggressor.prop</code> CS client preferences timestamped <code>Tue Nov 17 12:47:37 CST 2026</code> (Asia/Shanghai working hours)</li>
+<li>Operator notes, folder names, and PowerShell transcripts in Simplified Chinese</li>
+<li>Distribution archive literally named <code>ARTEX菠菜专武（带武器库）.7z</code>, meaning "ARTEX gambling-industry special-weapon (with weapons library)"</li>
+<li>The teamserver image is the public October 2023 Cobalt Strike 4.9 crack that has circulated on Chinese security forums since late 2023, not a bespoke build</li>
+<li>A dedicated <code>payout_analyst</code> AI agent in the ARTEX-SPIN fork (出金链路分析员, "cash-out chain analyst") designed to map TRC20 withdrawal paths of illegal gambling sites</li>
+<li>Teamserver-side logs for 2026-11-20 show beacon traffic arriving from <code>213.33.190[.]0/24</code> and <code>195.239.51[.]0/24</code>. The second /24 is the same block the <code>nikitin</code> and <code>maksimov</code> beacons sit in on the main roster, which reclassifies that pair from "Russia-geo residential victims" to operator-controlled test machines or a shared-VPN exit the operator uses alongside the primary <code>45.251.240[.]174</code> teamserver.</li>
+<li>The teamserver's own <code>events.log</code> catalogues at least <strong>17 named operator accounts</strong>. One (<code>neo</code>) is the human operator joined <code>2026-11-17 12:47:37 CST</code> and remained connected throughout capture, with no corresponding <code>has left</code> entry. The other 16 are headless <code>agscript</code> operator accounts, each tied to a specific Aggressor automation script: <code>tsop1</code> (polling / health-check, hundreds of 25-second joins over the capture window), <code>t5986</code> / <code>t5987</code> / <code>t443</code> (listener-test scripts), <code>g443</code> (payload generator, sibling of the <code>gen5985.cna</code> file on disk), <code>noteop1..9</code> + <code>noteadm</code> / <code>noteadm2..4</code> + <code>notefin</code> + <code>noteread</code> (fifteen beacon-note scripts corresponding to the operator's own <code>addnotes*.cna</code> / <code>batchnotes*.sh</code> files), plus <code>oneN</code> / <code>rdN</code> / <code>rdN2</code> / <code>finrd</code> (a paired loop batch). Automation infrastructure of this depth is uncommon in opportunistic e-crime. This is a production workbench maintained over time.</li>
+<li>Working-hours fingerprint from the <code>tsop1</code> polling script in <code>events.log</code>: continuous activity from <code>12:28</code> to <code>23:19</code> CST on 2026-11-17 (an eleven-hour noon-to-midnight day), followed by a midnight automation window (<code>00:09</code> to <code>01:09</code> CST on 2026-11-18) when the note-management scripts ran in sequence. Timing is consistent with the Shanghai-time locale already established in <code>.aggressor.prop</code>.</li>
+<li>Operator RDP source IPs geolocate to Guangdong province, China, with direct China Telecom / China Mobile broadband on 53 of ~55 sessions. See Operator Geolocation section below.</li>
+</ul>
+<h2 id="operator-geolocation-what-the-terminalservices-log-burned">Operator Geolocation: What the TerminalServices Log Burned<a class="headerlink" href="#operator-geolocation-what-the-terminalservices-log-burned" title="Permanent link">&para;</a></h2>
+<p>The teamserver host's own log was also published on the opendir. It records every session logon and reconnect with the source IP of the connecting party, exactly the artefact where this kind of operator most reliably slips. The log contains over 50 rows and one Chinese string <code>本地</code> ("Local") in the column header confirming that the system locale on the operator's box is Chinese.</p>
+<p>The very first session on this brand-new box:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>2026/11/12 21:32:10    21    C20261112159977\Administrator    113.89.x.1
+</span></code></pre></div>
+<p>Source IP <code>113.89.x.1</code> is in CHINANET-GD / China Telecom Guangdong (AS4134), Shenzhen residential. This is the first external connection the operator ever made to the teamserver box, minutes after provisioning it.</p>
+<p>Subsequent sessions cluster on Chinese ISPs in Guangdong province:</p>
+<table>
+<thead>
+<tr>
+<th>Source IP</th>
+<th>ASN / ISP</th>
+<th>Likely geography</th>
+<th>Sessions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>113.89.x.1</code>, <code>113.89.x.21</code></td>
+<td>China Telecom Guangdong (CHINANET-GD)</td>
+<td>Shenzhen</td>
+<td>2 (incl. first Event 21)</td>
+</tr>
+<tr>
+<td><code>14.155.x.{11, 88, 162, 179, 231, 236, 239}</code></td>
+<td>China Telecom Guangdong</td>
+<td>Shenzhen</td>
+<td>7</td>
+</tr>
+<tr>
+<td><code>14.153.x.{97, 173, 183}</code></td>
+<td>China Telecom Guangdong</td>
+<td>Guangzhou / Shenzhen</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>218.17.x.237</code></td>
+<td>China Telecom Guangdong</td>
+<td>Shenzhen</td>
+<td>2 (incl. a fresh Event 21)</td>
+</tr>
+<tr>
+<td><code>119.123.x.{19, 127}</code></td>
+<td>China Telecom Guangdong</td>
+<td>Shenzhen</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>152.104.x.251</code></td>
+<td>China Mobile Guangdong (CMNET-GD)</td>
+<td>Guangdong</td>
+<td>~12 (secondary stable source)</td>
+</tr>
+<tr>
+<td><code>103.135.x.236</code></td>
+<td>APNIC-allocated, stable across weeks</td>
+<td>likely VPN exit or fixed business line</td>
+<td>~15 (dominant source)</td>
+</tr>
+</tbody>
+</table>
+<p>What this closes:</p>
+<ul>
+<li>Operator geography - Guangdong province, China (high confidence). Specifically the Shenzhen area for the <code>14.155.*</code> and <code>113.89.*</code> ranges, which are CHINANET-GD netblocks allocated to that city's residential and mobile broadband pool.</li>
+<li><strong><code>103.135.x.236</code> is the operator's persistent IP fingerprint</strong> across the whole eight-day window - either their regular VPN exit or a fixed business line used as the primary access path. Either way, it's a durable IOC for this operator across any future infrastructure.</li>
+<li>The two historical <code>本地</code> ("Local") console logons from 2022-02-21 for <code>WIN-EUF48017S9U\Administrator</code> and <code>CLOUD\Administrator</code> are artefacts of the base Windows image this VPS was cloned from. Not the current operator.</li>
+</ul>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>An operator reflex, binding a quick file-serving script to the wrong directory, handed me the complete working memory of their Cobalt Strike 4.9 teamserver, their Sliver operator config, and the Aggressor script in which they had catalogued every active victim in their own shorthand. Thirteen beacons on the headline roster, two confirmed Vietnamese government victims, one cluster of five Brazilian municipal governments on a shared Fiorilli SIPWEB product. VNCERT and CERT.br were notified ahead of publication.</p>
+<h2 id="indicators-of-compromise">Indicators of Compromise<a class="headerlink" href="#indicators-of-compromise" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>45.251.240[.]174</code></td>
+<td>IPv4</td>
+<td>CS teamserver + Sliver + ARTEX-SPIN + open-directory (xTom JP, AS4785)</td>
+</tr>
+<tr>
+<td><code>45.251.240[.]174:443</code></td>
+<td>listener</td>
+<td><code>https443</code> HTTPS beacon, cert <code>Google Spider</code></td>
+</tr>
+<tr>
+<td><code>45.251.240[.]174:5985</code></td>
+<td>listener</td>
+<td><code>http5985</code> HTTP beacon (WinRM port blend-in)</td>
+</tr>
+<tr>
+<td><code>45.251.240[.]174:5986</code></td>
+<td>listener</td>
+<td><code>test5986</code> HTTP beacon</td>
+</tr>
+<tr>
+<td><code>45.251.240[.]174:5987</code></td>
+<td>listener</td>
+<td>HTTP beacon</td>
+</tr>
+<tr>
+<td><code>45.251.240[.]174:16337</code></td>
+<td>listener</td>
+<td>TCP beacon (per <code>one.profile</code>)</td>
+</tr>
+<tr>
+<td><code>45.251.240[.]174:31337</code></td>
+<td>listener</td>
+<td>Sliver mTLS operator port</td>
+</tr>
+<tr>
+<td><code>45.251.240[.]174:4446</code></td>
+<td>listener</td>
+<td>Sliver mTLS implant port</td>
+</tr>
+<tr>
+<td><code>45.251.240[.]174:8080</code></td>
+<td>listener</td>
+<td>Python <code>http.server</code> publishing <code>C:\</code></td>
+</tr>
+<tr>
+<td><code>213.33.190[.]0/24</code>, <code>195.239.51[.]0/24</code></td>
+<td>netblock</td>
+<td>Operator-side source netblocks observed in teamserver logs 2026-11-20</td>
+</tr>
+<tr>
+<td><code>103.135.x.236</code></td>
+<td>operator source IP</td>
+<td>Dominant RDP source across the capture window - operator's persistent access path</td>
+</tr>
+<tr>
+<td><code>152.104.x.251</code></td>
+<td>operator source IP</td>
+<td>Secondary stable RDP source - China Mobile Guangdong</td>
+</tr>
+<tr>
+<td>China Telecom Guangdong (<code>14.155.0.0/16</code>, <code>14.153.0.0/16</code>, <code>113.89.0.0/16</code>, <code>119.123.0.0/16</code>, <code>218.17.0.0/16</code>)</td>
+<td>operator source netblocks</td>
+<td>Direct-from-ISP RDP source IPs, high confidence operator is based in Guangdong / Shenzhen</td>
+</tr>
+<tr>
+<td><code>5f217b0f96c1e5f32a796dde0de01e87c30ff52ec343636c08a7d2efee8ab405</code></td>
+<td>SSL cert SHA-256</td>
+<td>CS teamserver self-signed <code>Google Spider / Alphabet Inc</code></td>
+</tr>
+<tr>
+<td><code>db921023bb3682408071790d789412107fa474ad722b94dbc8a99ea703a73d6f</code></td>
+<td>SHA-256</td>
+<td>Cobalt Strike 4.9 <code>TeamServerImage</code> (public October 2023 crack)</td>
+</tr>
+<tr>
+<td><code>cc0a6e3eed7b93e8d83dc785c5e2e50dc98a73317cc5de66c0fd537f98bc6aa6</code></td>
+<td>SHA-256</td>
+<td>CS beacon DLL <code>C:\Inetpub\libcurl.dll</code> (sideload, StartW export)</td>
+</tr>
+<tr>
+<td><code>0af1cacdfc1896d1cd444cedae2e19d67ed3dbb3c0c27f33a4e1c8985aa73635</code></td>
+<td>SHA-256</td>
+<td>CS beacon DLL <code>C:\Users\Administrator\Documents\libcurI.dll</code> (capital-I spoof)</td>
+</tr>
+<tr>
+<td><code>54451e2ce728f448e1dcfd2996f120bcf0f2911415973181504daabad1064ccb</code></td>
+<td>SHA-256</td>
+<td>Sliver Linux implant <code>qli.elf</code> (captured in VT 2026-11-17)</td>
+</tr>
+<tr>
+<td><code>4cd0f2afd76f74dafbe9fea9fc0c4d41fc0944de60a2b0cee9d4d2cc7394e141</code></td>
+<td>SHA-256</td>
+<td><code>.cobaltstrike.beacon_keys</code> (Java-serialised RSA keypair)</td>
+</tr>
+<tr>
+<td><code>/api/v1/get</code>, <code>/api/v1/post</code></td>
+<td>URI</td>
+<td>CS malleable C2 beacon URIs</td>
+</tr>
+<tr>
+<td><code>_UK=</code>, <code>_ZF=</code></td>
+<td>cookie</td>
+<td>CS beacon metadata / ID cookies</td>
+</tr>
+<tr>
+<td><code>Accept-Language: zh-CN,zh;q=0.9,en;q=0.8</code></td>
+<td>HTTP header</td>
+<td>Chinese-locale hard-coded on every beacon callback</td>
+</tr>
+<tr>
+<td><code>ProtectionManager_FTLM_##</code>, <code>WkSvcPipeMgr_OEJX##</code></td>
+<td>named pipe</td>
+<td>CS SMB session / stager pipe</td>
+</tr>
+<tr>
+<td><code>MicrosoftEdgeUpdateChecker</code></td>
+<td>scheduled task</td>
+<td>Persistence task name</td>
+</tr>
+<tr>
+<td><code>C:\ProgramData\MicrosoftUpdata\</code></td>
+<td>directory</td>
+<td>Persistence stash (typo of <em>Update</em>)</td>
+</tr>
+<tr>
+<td><code>C:\Inetpub\libcurl.dll</code></td>
+<td>file path</td>
+<td>Beacon loaded by <code>rundll32 … ,StartW</code></td>
+</tr>
+<tr>
+<td><code>C:\Windows\Temp\artxd\d4.exe</code></td>
+<td>file path</td>
+<td>Beacon on <code>REDACTED.gov.vn</code> victim</td>
+</tr>
+<tr>
+<td><code>C:\Users\Public\Downloads\ldn.ps1</code></td>
+<td>file path</td>
+<td>Loader on <code>apishop.REDACTED.xyz</code> victim</td>
+</tr>
+<tr>
+<td><code>C:\Inetpub\s2n.bin</code> + <code>lnb.ps1</code></td>
+<td>file path</td>
+<td>Loader on <code>WINDOWSSERVER20</code> Vietnamese Plesk victim</td>
+</tr>
+<tr>
+<td><code>C:\ProgramData\s2n.bin</code> + <code>ln.ps1</code></td>
+<td>file path</td>
+<td>Loader on Brazilian SIPWEB victims</td>
+</tr>
+<tr>
+<td><code>/var/tmp/.svc</code>, <code>/var/tmp/.vps-agent</code></td>
+<td>file path</td>
+<td>Linux implant drop paths on Vietnamese victims</td>
+</tr>
+<tr>
+<td><code>/sipweb/glx.jsp?c=&lt;cmd&gt;</code>, <code>/glx/glx.jsp?c=&lt;cmd&gt;</code></td>
+<td>URL path</td>
+<td>JSP webshell on Brazilian SIPWEB appliances</td>
+</tr>
+<tr>
+<td><code>/img_q2.php?cmd=&lt;cmd&gt;</code></td>
+<td>URL path</td>
+<td>PHP webshell on <code>qlkh.REDACTED.vn</code></td>
+</tr>
+<tr>
+<td><code>/wp-content/themes/mh-magazine-lite/404.php?z=&lt;cmd&gt;</code></td>
+<td>URL path</td>
+<td>PHP webshell on <code>plREDACTED.org</code></td>
+</tr>
+<tr>
+<td><code>/FileUploads/Chat/REDACTED-UUID.aspx?k=REDACTED&amp;a=c&amp;q=&lt;cmd&gt;</code></td>
+<td>URL path</td>
+<td>ASPX webshell on <code>apishop.REDACTED.xyz</code></td>
+</tr>
+<tr>
+<td><code>/artxd/fe.aspx/x.txt</code></td>
+<td>URL path</td>
+<td>ASPX webshell on <code>REDACTED.gov.vn</code> (currently masked by IIS URL Rewrite catch-all)</td>
+</tr>
+<tr>
+<td><code>/sysshell.aspx?c=&lt;cmd&gt;</code></td>
+<td>URL path</td>
+<td>ASPX webshell on <code>tckREDACTED.vn</code></td>
+</tr>
+</tbody>
+</table>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Fortra, "Cobalt Strike" (official product page). <a href="https://www.cobaltstrike.com/">https://www.cobaltstrike.com/</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+<footer class="site-footer-custom">
+  <div class="site-footer-inner">
+    <span class="footer-note">v0lundr.github.io · TLP:WHITE</span>
+    <div class="footer-links">
+      <a href="https://github.com/V0lundr" target="_blank" rel="noopener">GitHub</a>
+      <a href="/feed_rss_created.xml" target="_blank" rel="noopener">RSS</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Hide default Material footer */
+  .md-footer { display: none !important; }
+
+  .site-footer-custom {
+    border-top: 1px solid #1e2535;
+    background: #07090f;
+    padding: 1.5rem 0;
+  }
+
+  .site-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: #5a6478;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5a6478;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover { color: #e8a84c; }
+</style>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/fix.js"></script>
+      
+    
+  </body>
+</html>
